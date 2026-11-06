@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>北海道サウナ手帳 | サウナ検索・行った/行きたい・メモ (全500件フル版)</title>
-<meta name="description" content="北海道のサウナ施設全500件を検索。行った・行きたいの記録、個人メモ、Google口コミ傾向（高評価・気になる点）、現在地からの距離検索に対応。">
+<title>北海道サウナ手帳 | サウナ検索・行った/行きたい・メモ</title>
+<meta name="description" content="北海道のサウナ施設を検索。行った・行きたいの記録、個人メモ、現在地からの距離検索に対応。">
 <style>
 :root{--o:#f2682c;--o2:#ff8a4c;--bg:#f5f4f1;--t:#2a2320;--m:#7b726c;--l:#e8e4df;--g:#1f9d6b;--y:#d99a00;--r:#d6453d;--b:#2b7fb8}
 *{box-sizing:border-box}
@@ -13,6 +13,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
 header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--l);display:flex;align-items:center;gap:8px;padding:8px 14px}
 .logo{font-weight:800;color:var(--o);font-size:17px;white-space:nowrap}
+.logo .for{display:inline-block;margin-left:8px;padding:2px 9px;border-radius:10px;background:var(--o);color:#fff;font-size:11px;font-weight:800;letter-spacing:.12em;vertical-align:middle}
 .logo small{display:block;font-size:10px;color:var(--m);font-weight:500;line-height:1}
 nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto}
 nav button{border:0;background:none;padding:8px 11px;border-radius:20px;color:var(--m);font-weight:700;white-space:nowrap;font-size:14px}
@@ -47,6 +48,14 @@ select{border:1.5px solid var(--l);border-radius:10px;padding:5px 8px;background
 .cb h3{margin:0;font-size:16px;line-height:1.4;cursor:pointer}
 .cb h3:hover{color:var(--o)}
 .sub{font-size:12px;color:var(--m);margin:2px 0 10px}
+.price{display:flex;align-items:baseline;gap:6px;margin:0 0 10px}
+.price b{font-size:28px;line-height:1;font-weight:800;color:var(--o);letter-spacing:-.5px}
+.price b small{font-size:14px;font-weight:700;margin-left:1px}
+.price span{font-size:12px;color:var(--m)}
+.hrs{font-size:12px;color:var(--m);margin:0 0 8px;line-height:1.5}
+.det{font-size:12.5px;color:var(--m);line-height:1.7;margin:8px 0}
+.det b{color:var(--t,#2a2320)}
+.det a{word-break:break-all}
 .ind{display:flex;gap:6px}
 .ind div{flex:1;text-align:center;font-size:10px;color:var(--m)}
 .ind i{display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;margin:0 auto 2px;font-style:normal;font-weight:800;font-size:14px;border:3px solid var(--l);color:var(--t)}
@@ -83,19 +92,19 @@ a{color:var(--b)}
 </head>
 <body>
 <header>
-  <div class="logo">♨ 北海道サウナ手帳<small>HOKKAIDO SAUNA NOTE</small></div>
+  <div class="logo">♨ 北海道サウナ手帳<span class="for">FOR KINJI</span><small>HOKKAIDO SAUNA NOTE</small></div>
   <nav id="nav"></nav>
 </header>
 
 <div class="hero">
   <h1>北海道で、ととのう一軒を見つけよう。</h1>
-  <p>全500件収録 ・ 検索 ・ 行きたい/行った ・ 自分だけのサ活メモ ・ 現在地から近いサウナ</p>
+  <p id="hp">収録中 ・ 検索 ・ 行きたい/行った ・ 自分だけのサ活メモ ・ 現在地から近いサウナ</p>
 </div>
 
 <div class="wrap">
   <div class="panel" id="fp">
     <div class="sbox">
-      <input id="q" type="search" placeholder="施設名・地名・キーワードで検索（例：白老、函館、エスコン、モール温泉）">
+      <input id="q" type="search" placeholder="施設名・地名・キーワードで検索（例：白老、登別、ニセコ）">
       <button class="btn o" id="locb">📍 現在地から探す</button>
     </div>
     <div class="row" id="areas"><span class="lbl">エリア</span></div>
@@ -112,7 +121,8 @@ a{color:var(--b)}
   <div class="stats" id="stats"></div>
   <div class="bar"><span id="cnt"></span><button class="btn s o" id="mng">⚙ データ管理</button></div>
   <div class="grid" id="list"></div>
-  <p class="note">※ サウナ温度・水風呂温度・料金は目安です（時期や男女で異なります）。「行った」「行きたい」「メモ」はこの端末のブラウザ内に保存されます。</p>
+  <p class="note">※ サウナ温度・水風呂温度は、サウナイキタイの利用者投稿を参考にした目安です（時期や男女で異なります）。料金・営業時間も変更される場合があるため、訪問前に公式情報をご確認ください。「行った」「行きたい」「メモ」はこの端末のブラウザ内に保存されます。</p>
+  <p class="note" style="margin-top:-24px">地図データ © OpenStreetMap contributors（座標を使用する場合）</p>
 </div>
 
 <div class="mask" id="m1"><div class="modal" id="mb"></div></div>
@@ -120,126 +130,27 @@ a{color:var(--b)}
 <div class="toast" id="toast"></div>
 
 <script>
-/* ====== 北海道全500件フルデータセット生成スクリプト ====== */
-const CITIES = {
-  "道央": ["札幌市","小樽市","岩見沢市","恵庭市","北広島市","江別市","千歳市","石狩市","苫小牧市","登別市","室蘭市","伊達市","夕張市","美唄市","芦別市","赤平市","三笠市","滝川市","砂川市","歌志内市","深川市","当別町","新篠津村","南幌町","奈井江町","上砂川町","由仁町","長沼町","栗山町","月形町","浦臼町","新十津川町","妹背牛町","秩父別町","雨竜町","北竜町","沼田町","島牧村","寿都町","黒松内町","蘭越町","ニセコ町","真狩村","留寿都村","喜茂別町","京極町","倶知安町","共和町","岩内町","泊村","神恵内村","積丹町","古平町","仁木町","余市町","赤井川村","白老町","厚真町","安平町","むかわ町","日高町","平取町","新冠町","浦河町","様似町","えりも町","新ひだか町"],
-  "道南": ["函館市","北斗市","松前町","福島町","知内町","木古内町","七飯町","鹿部町","森町","八雲町","長万部町","江差町","上ノ国町","厚沢部町","乙部町","奥尻町","今金町","せたな町"],
-  "道北": ["旭川市","留萌市","稚内市","士別市","名寄市","鷹栖町","東神楽町","当麻町","比布町","愛別町","上川町","東川町","美瑛町","上富良野町","中富良野町","南富良野町","占冠村","和寒町","剣淵町","下川町","平取町","美深町","音威子府村","中川町","増毛町","小平町","苫前町","羽幌町","初山別村","遠別町","天塩町","猿払村","浜頓別町","中頓別町","枝幸町","豊富町","礼文町","利尻町","利尻富士町","幌延町"],
-  "道東": ["帯広市","釧路市","北見市","網走市","紋別市","音更町","士幌町","上士幌町","鹿追町","新得町","清水町","芽室町","中札内村","更別村","大樹町","広尾町","幕別町","池田町","豊頃町","本別町","足寄町","陸別町","浦幌町","釧路町","厚岸町","浜中町","標茶町","弟子屈町","鶴居村","白糠町","別海町","中標津町","標津町","羅臼町","美幌町","津別町","斜里町","清里町","小清水町","訓子府町","置戸町","佐呂間町","遠軽町","湧別町","滝上町","興部町","西興部村","雄武町"]
-};
-
-// ベースの象徴的施設リスト
-const BASE_SAUNAS = [
-  { id:1, name:"吹上温泉保養センター 白銀荘", area:"道北", city:"上富良野町", lat:43.4564, lng:142.4678, type:"温泉保養所", u:0, fee:700, sT:95, wT:10, g:1, l:1, inf:1, tat:1, quiet:"静か・ソロ推奨", url:"http://kamifurano-hokkaido.com/", revGood:"雪ダイブや山を見渡す極上の露天外気浴。天然湧水が最高。", revBad:"アクセスまでの山道運転が冬場厳しく混雑しやすい。", tags:"セルフロウリュ,天然雪ダイブ,コスパ最強,サウナの聖地" },
-  { id:2, name:"北のこぶし 知床 ホテル＆リゾート", area:"道東", city:"斜里町", lat:43.9108, lng:144.6625, type:"ホテル", u:0, fee:2200, sT:90, wT:14, g:1, l:1, inf:1, tat:0, quiet:"グループ・観光客多め", url:"https://www.shiretoko.co.jp/", revGood:"流氷が見える圧倒的パノラマウィンドウと最新セルフロウリュ。", revBad:"日帰り入浴料金が高めで受付時間が限定的。", tags:"流氷が見えるサウナ,UNEUNA,デザイナーズ" },
-  { id:3, name:"北海道ホテル", area:"道東", city:"帯広市", lat:42.9239, lng:143.1961, type:"ホテル", u:0, fee:1000, sT:90, wT:16, g:1, l:1, inf:1, tat:0, quiet:"落ち着いている", url:"https://www.hokkaidohotel.co.jp/", revGood:"ウォーリュとモール温泉モーリュが極上。清流伏流水風呂もすばらしい。", revBad:"サウナ人気のため入場制限がかかることがある。", tags:"モール温泉ロウリュ,ウォーリュ,ヴィヒタ" },
-  { id:4, name:"メープルロッジ", area:"道央", city:"岩見沢市", lat:43.1961, lng:141.7761, type:"ホテル", u:0, fee:800, sT:85, wT:14, g:1, l:1, inf:1, tat:0, quiet:"静か・ソロ推奨", url:"https://www.maplelodge.or.jp/", revGood:"ログハウス調の美しい本格フィンランドサウナ。地下水水風呂と森林浴。", revBad:"サウナ室の定員が小さめのため週末は待つことがある。", tags:"本格フィンランドサウナ,水風呂地下水,森林浴" },
-  { id:5, name:"定山渓温泉 鹿の湯", area:"道央", city:"札幌市", lat:42.9644, lng:141.1611, type:"ホテル", u:0, fee:1500, sT:100, wT:12, g:1, l:1, inf:1, tat:0, quiet:"サウナー集う", url:"https://shikanoyu.co.jp/", revGood:"「鹿の窯」オートロウリュと豊平川源流の沢水かけ流し水風呂。", revBad:"人気沸騰中のため日帰り時間帯はサウナ待ちが発生しやすい。", tags:"オートロウリュ,豊平川沢水風呂,定山渓" },
-  { id:6, name:"tower eleven onsen & sauna (エスコンフィールド)", area:"道央", city:"北広島市", lat:42.9900, lng:141.5540, type:"レジャー・スパ", u:0, fee:2500, sT:85, wT:16, g:1, l:0, inf:1, tat:0, quiet:"野球観戦・ユニーク", url:"https://www.hkdballpark.com/", revGood:"世界初の球場内サウナ！水着着用で試合観戦しながらととのう体験。", revBad:"試合開催日はチケットが必要で料金が高く、混雑しやすい。", tags:"エスコンフィールド,球場サウナ,野球観戦" },
-  { id:7, name:"ホテルいずみ (白老竹浦)", area:"道央", city:"白老町", lat:42.4950, lng:141.2180, type:"ホテル", u:0, fee:650, sT:102, wT:13, g:1, l:0, inf:1, tat:1, quiet:"太平洋一望・100℃超サウナ", url:"#", revGood:"100℃を超えるアツアツのサウナと太平洋を見下ろす絶景露天外気浴！", revBad:"サウナ室の座面がコンパクトで時間帯によって混雑する。", tags:"白老竹浦,100度超サウナ,太平洋一望" },
-  { id:8, name:"海の別邸 ふる川 (白老)", area:"道央", city:"白老町", lat:42.4960, lng:141.2130, type:"ホテル", u:2, fee:0, sT:38, wT:18, g:1, l:0, inf:1, tat:0, quiet:"完全静寂・海と一体化", url:"https://www.shiraoi-furukawa.com/", revGood:"太平洋と一体化するインフィニティ露天と心身を静かに休める低温瞑想サウナ。", revBad:"宿泊者限定の超人気宿のため日帰り利用は不可。", tags:"白老ふる川,インフィニティ露天,完全静寂" }
-];
-
-// 500件まで自動生成・拡張するアルゴリズム
-function generate500Seed() {
-  const seeds = [...BASE_SAUNAS];
-  let idCounter = 9;
-  
-  const types = ["温浴施設", "温泉ホテル", "日帰り温泉", "銭湯", "スパリゾート", "プライベートサウナ", "観光旅館"];
-  const prefixes = ["天然温泉", "湯処", "温泉リゾート", "サウナ＆スパ", "湯の香", "グランドスパ", "清流の湯", "湖畔サウナ", "天空の湯", "まちなか温泉"];
-  const revGoods = [
-    "源泉かけ流しの温泉と絶妙な温度のサウナで最高にととのいました。",
-    "外気浴スペースが広く、爽やかな北海道の風を感じながら休憩できます。",
-    "水風呂がキンキンに冷えており、サウナ室の湿度も高くしっかり汗が出ます。",
-    "地元の人々に愛される温かい雰囲気と清潔な設備が良かったです。",
-    "広々としたサウナ室で静かにじっくりと汗を流すことができました。"
-  ];
-  const revBads = [
-    "夕方の混雑時間帯は洗い場やサウナ待ちが発生することがあります。",
-    "サウナ室の定員が少し小さめで、混雑時は順番待ちが必要です。",
-    "設備にやや年季が入っていますが、お風呂自体の質は良いです。",
-    "アクセスに車が必須で、冬季のドライブには注意が必要です。",
-    "外気浴用の椅子がもう少し増えるとさらに嬉しいと感じました。"
-  ];
-  const tagPool = ["源泉かけ流し", "オートロウリュ", "セルフロウリュ", "外気浴充実", "高コスパ", "水風呂冷ため", "静寂空間", "絶景露天", "サ飯充実", "駅チカ"];
-
-  const areas = ["道央", "道南", "道北", "道東"];
-
-  while (seeds.length < 500) {
-    const area = areas[seeds.length % 4];
-    const cityList = CITIES[area];
-    const city = cityList[seeds.length % cityList.length];
-    const type = types[seeds.length % types.length];
-    const prefix = prefixes[seeds.length % prefixes.length];
-    
-    // 概算の座標（北海道内）
-    let baseLat = 43.0, baseLng = 141.3;
-    if (area === "道南") { baseLat = 41.8; baseLng = 140.7; }
-    if (area === "道北") { baseLat = 43.8; baseLng = 142.4; }
-    if (area === "道東") { baseLat = 43.0; baseLng = 143.5; }
-    
-    const lat = +(baseLat + (Math.sin(idCounter) * 0.8)).toFixed(4);
-    const lng = +(baseLng + (Math.cos(idCounter) * 0.9)).toFixed(4);
-
-    const sT = 82 + (idCounter % 23); // 82〜104℃
-    const wT = 10 + (idCounter % 8);  // 10〜17℃
-    const fee = 480 + ((idCounter * 70) % 1600);
-    const u = (idCounter % 15 === 0) ? 2 : ((idCounter % 7 === 0) ? 1 : 0);
-
-    seeds.push({
-      id: idCounter,
-      name: `${city} ${prefix} ${type}（No.${idCounter}）`,
-      area: area,
-      city: city,
-      lat: lat,
-      lng: lng,
-      type: type,
-      u: u,
-      fee: fee,
-      sT: sT,
-      wT: wT,
-      g: (idCounter % 4 !== 0) ? 1 : 0,
-      l: (idCounter % 3 === 0) ? 1 : 0,
-      inf: (idCounter % 5 === 0) ? 1 : 0,
-      tat: (idCounter % 6 === 0) ? 1 : 0,
-      quiet: (idCounter % 2 === 0) ? "静か・ソロ推奨" : "賑やか・ファミリー層多め",
-      url: "#",
-      revGood: revGoods[idCounter % revGoods.length],
-      revBad: revBads[idCounter % revBads.length],
-      tags: `${tagPool[idCounter % tagPool.length]},${tagPool[(idCounter+3) % tagPool.length]}`
-    });
-
-    idCounter++;
+/* ====== 施設データ（sauna_data.json を読み込み） ====== */
+let SEED=[];
+const toSeed=x=>({
+  id:x.id,name:x.name,area:x.area||'',city:x.city||'',
+  lat:x.lat==null?null:x.lat,lng:x.lng==null?null:x.lng,
+  type:x.type||'温浴施設',u:x.u??0,fee:x.fee??null,sT:x.sT??null,wT:x.wT??null,
+  g:x.g??null,l:x.l??null,inf:0,tat:0,quiet:'',url:'',revGood:'',revBad:'',
+  note:(x.note||'').split(',').map(s=>s.trim()).filter(s=>s&&s!=='宿泊者限定').join(','),
+  hours:x.hours||'',fee_note:x.fee_note||'',sT_note:x.sT_note||'',addr:x.addr||'',tel:x.tel||'',src:x.src||[]
+});
+async function loadData(){
+  try{
+    const r=await fetch('sauna_data.json',{cache:'no-cache'});
+    if(!r.ok)throw new Error('http '+r.status);
+    const j=await r.json();
+    SEED=(j.facilities||[]).map(toSeed);
+  }catch(e){
+    console.error(e);
+    setTimeout(()=>toast('施設データを読み込めませんでした'),300);
   }
-
-  return seeds;
 }
-
-const RAW_SEED = generate500Seed();
-
-const SEED = RAW_SEED.map(item => ({
-  id: 's' + item.id,
-  name: item.name,
-  area: item.area,
-  city: item.city,
-  lat: item.lat,
-  lng: item.lng,
-  type: item.type || '温泉施設',
-  u: item.u !== undefined ? item.u : 0,
-  fee: item.fee || null,
-  sT: item.sT || null,
-  wT: item.wT || null,
-  g: item.g !== undefined ? item.g : 1,
-  l: item.l !== undefined ? item.l : 0,
-  inf: item.inf || 0,
-  tat: item.tat || 0,
-  quiet: item.quiet || '',
-  url: item.url || '#',
-  revSum: item.revSum || '',
-  revGood: item.revGood || '',
-  revBad: item.revBad || '',
-  note: item.tags || ''
-}));
 
 /* ====== ストレージ保存 ====== */
 const KEY='hokkaidoSaunaNote.v500';
@@ -256,13 +167,13 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 let tab='all',q='',area='',fl=new Set(),sort='std',loc=null,nearN=12;
 const TABS=[['all','🔍 さがす'],['near','📍 近く'],['want','☆ 行きたい'],['done','✓ 行った']];
 const AREAS=['','道央','道南','道北','道東'];
-const CHIPS=[['g','外気浴あり'],['l','ロウリュあり'],['inf','インフィニティあり'],['tat','タトゥー可'],['d','日帰りOK'],['w16','水風呂16℃以下'],['f1','1,000円以下'],['m','メモあり']];
+const CHIPS=[['g','外気浴あり'],['l','ロウリュあり'],['d','日帰りOK'],['w16','水風呂16℃以下'],['f1','1,000円以下'],['m','メモあり']];
 
 const hav=(a,b)=>{const R=6371,r=x=>x*Math.PI/180,dl=r(b.lat-a.lat),dg=r(b.lng-a.lng);const h=Math.sin(dl/2)**2+Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(dg/2)**2;return 2*R*Math.asin(Math.sqrt(h))};
 const hasMemo=id=>{const m=D.memos[id];return m&&(m.t||m.r||m.d)};
 
 function build(){
-  let a=all().map(f=>({...f,dist:loc&&isFinite(f.lat)&&isFinite(f.lng)&&f.lat!==''?hav(loc,f):null}));
+  let a=all().map(f=>({...f,dist:loc&&f.lat!=null&&f.lng!=null&&isFinite(f.lat)&&isFinite(f.lng)?hav(loc,f):null}));
   if(tab==='want')a=a.filter(f=>D.flags[f.id]?.w);
   if(tab==='done')a=a.filter(f=>D.flags[f.id]?.v);
   if(q){const k=q.toLowerCase();a=a.filter(f=>[f.name,f.city,f.area,f.type,f.note,f.quiet,f.revGood,f.revBad].join(' ').toLowerCase().includes(k))}
@@ -307,10 +218,11 @@ function card(f){
   <div class="cb">
     <h3 data-a="memo">${esc(f.name)}</h3>
     <div class="sub">${esc(f.city||'')}${f.dist!=null?` ・ <b style="color:var(--o)">現在地から約${f.dist<10?f.dist.toFixed(1):Math.round(f.dist)}km</b>`:''}</div>
+    ${f.fee!=null?`<div class="price"><b>${f.fee.toLocaleString()}<small>円〜</small></b><span>${/未確認|要確認/.test(f.fee_note)?'入浴料の目安（未確認）':'入浴料の目安'}</span></div>`:''}
+    ${f.hours?`<div class="hrs">🕒 ${esc(f.hours)}</div>`:''}
     <div class="ind">${ind('サウナ',f.sT,'hot','℃')}${ind('水風呂',f.wT,'cold','℃')}${yn('外気浴',f.g)}${yn('ロウリュ',f.l)}</div>
     <div class="tags">
       <span class="tag ${U[0]}">${U[1]}</span>
-      ${f.fee!=null?`<span class="tag">${f.fee.toLocaleString()}円〜</span>`:''}
       ${f.inf?`<span class="tag y">#インフィニティ</span>`:''}
       ${f.tat?`<span class="tag r">#タトゥー可</span>`:''}
       ${tagList.map(t=>`<span class="tag">#${esc(t)}</span>`).join('')}
@@ -331,11 +243,13 @@ function render(){
   $('areas').innerHTML='<span class="lbl">エリア</span>'+AREAS.map(x=>`<button class="chip ${area===x?'on':''}" data-ar="${x}">${x||'すべて'}</button>`).join('');
   $('chips').innerHTML='<span class="lbl">こだわり</span>'+CHIPS.map(([k,l])=>`<button class="chip ${fl.has(k)?'on':''}" data-c="${k}">${l}</button>`).join('');
   const A=all(),n=k=>A.filter(f=>D.flags[f.id]?.[k]).length;
+  $('hp').textContent=`${A.length}件収録（順次追加中） ・ 検索 ・ 行きたい/行った ・ 自分だけのサ活メモ ・ 現在地から近いサウナ`;
   $('stats').innerHTML=`<div class="stat"><b>${A.length}</b>登録施設</div><div class="stat"><b>${n('v')}</b>行った</div><div class="stat"><b>${n('w')}</b>行きたい</div><div class="stat"><b>${A.filter(f=>hasMemo(f.id)).length}</b>メモ</div>`;
-  $('cnt').innerHTML=`該当 <b>${tab==='near'?a.length:total}</b> 件${tab==='near'?'（近い順）':''}`;
+  $('cnt').innerHTML=`該当 <b>${tab==='near'?a.length:total}</b> 件${tab==='near'?'（近い順）':''}${(tab==='near'||sort==='dist')?'<br><span style="font-size:11px">※ 現在地検索は、位置（座標）を登録済みの施設のみが対象です</span>':''}`;
   let h=a.map(card).join('');
   if(!a.length){
-    h=tab==='near'&&!loc?`<div class="empty">📍 現在地を取得すると、近いサウナを距離順に表示します。<br><br><button class="btn" data-loc>現在地を取得する</button></div>`
+    h=tab==='near'&&loc?`<div class="empty">座標を登録済みの施設がまだありません。<br>座標の追加後に、近い順で表示されます。</div>`
+     :tab==='near'&&!loc?`<div class="empty">📍 現在地を取得すると、近いサウナを距離順に表示します。<br><br><button class="btn" data-loc>現在地を取得する</button></div>`
      :tab==='want'?`<div class="empty">まだ「行きたい」はありません。<br>気になる施設の ☆ を押してみましょう。</div>`
      :tab==='done'?`<div class="empty">まだ「行った」はありません。<br>訪問したら ✓ を押して感想をメモしましょう。</div>`
      :`<div class="empty">条件に合う施設がありません。検索条件をゆるめてみてください。</div>`;
@@ -375,7 +289,7 @@ $('list').onclick=e=>{
 function openMemo(id){
   const f=all().find(x=>x.id===id);if(!f)return;
   const fg=D.flags[id]||{},m=D.memos[id]||{};
-  const map=f.lat&&f.lng?`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(f.name+' '+(f.city||''))}`:`https://www.google.com/maps/search/${encodeURIComponent(f.name)}`;
+  const map=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(f.name+' '+(f.addr||f.city||''))}`;
   
   let revDetail = '';
   if (f.revGood || f.revBad) {
@@ -387,6 +301,8 @@ function openMemo(id){
 
   $('mb').innerHTML=`<button class="x" data-x="m1">✕</button><h2>${esc(f.name)}</h2>
   <div class="sub">${esc(f.area)} ${esc(f.city||'')} ／ ${esc(f.type||'')} <a href="${map}" target="_blank" rel="noopener">Googleマップで開く ↗</a></div>
+  ${f.fee!=null?`<div class="price" style="margin-top:10px"><b>${f.fee.toLocaleString()}<small>円〜</small></b><span>入浴料の目安</span></div>`:''}
+  <div class="det">${f.fee_note?`<div><b>料金メモ：</b>${esc(f.fee_note)}</div>`:''}${f.hours?`<div><b>営業時間：</b>${esc(f.hours)}</div>`:''}${f.addr?`<div><b>住所：</b>${esc(f.addr)}</div>`:''}${f.tel?`<div><b>電話：</b>${esc(f.tel)}</div>`:''}${f.sT_note?`<div><b>サウナ温度：</b>${esc(f.sT_note)}</div>`:''}${(f.src&&f.src.length)?`<div><b>出典：</b>${f.src.map((u,i)=>`<a href="${esc(u)}" target="_blank" rel="noopener">[${i+1}]</a>`).join(' ')}</div>`:''}</div>
   <div class="row" style="margin-top:6px"><button class="chip ${fg.w?'on':''}" data-f="w">${fg.w?'★ 行きたい':'☆ 行きたい'}</button><button class="chip ${fg.v?'on':''}" data-f="v">✓ 行った</button></div>
   ${revDetail}
   <label>自分の評価</label><div class="stars" id="st">${[1,2,3,4,5].map(i=>`<button data-r="${i}" class="${(m.r||0)>=i?'on':''}">★</button>`).join('')}</div>
@@ -433,7 +349,7 @@ $('mg').onclick=e=>{
   }
 };
 
-render();
+loadData().then(render);
 </script>
 </body>
 </html>
