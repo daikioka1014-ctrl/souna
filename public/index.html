@@ -52,6 +52,12 @@ select{border:1.5px solid var(--l);border-radius:10px;padding:5px 8px;background
 .price b{font-size:28px;line-height:1;font-weight:800;color:var(--o);letter-spacing:-.5px}
 .price b small{font-size:14px;font-weight:700;margin-left:1px}
 .price span{font-size:12px;color:var(--m)}
+.backbar{margin:14px 0 4px}
+.mback{display:inline-block;margin:0 0 10px;padding:6px 14px;border:1px solid #d8cfc6;border-radius:18px;background:#fff;font-size:13px;font-weight:700;cursor:pointer;color:inherit}
+.mback.big{display:block;width:100%;margin:18px 0 0;padding:12px;font-size:14px;text-align:center;border-radius:10px}
+.logo{cursor:pointer}
+.scene{font-size:12px;color:var(--m);margin:0 0 8px;line-height:1.5}
+.aud{font-size:12px;margin:6px 0;font-weight:700}
 .hrs{font-size:12px;color:var(--m);margin:0 0 8px;line-height:1.5}
 .det{font-size:12.5px;color:var(--m);line-height:1.7;margin:8px 0}
 .det b{color:var(--t,#2a2320)}
@@ -102,6 +108,7 @@ a{color:var(--b)}
 </div>
 
 <div class="wrap">
+  <div class="backbar" id="backbar"></div>
   <div class="panel" id="fp">
     <div class="sbox">
       <input id="q" type="search" placeholder="施設名・地名・キーワードで検索（例：白老、登別、ニセコ）">
@@ -170,13 +177,26 @@ const AREAS=['','道央','道南','道北','道東'];
 const CHIPS=[['g','外気浴あり'],['l','ロウリュあり'],['d','日帰りOK'],['w16','水風呂16℃以下'],['f1','1,000円以下'],['m','メモあり']];
 
 const hav=(a,b)=>{const R=6371,r=x=>x*Math.PI/180,dl=r(b.lat-a.lat),dg=r(b.lng-a.lng);const h=Math.sin(dl/2)**2+Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(dg/2)**2;return 2*R*Math.asin(Math.sqrt(h))};
-const hasMemo=id=>{const m=D.memos[id];return m&&(m.t||m.r||m.d)};
+const hasMemo=id=>{const m=D.memos[id];return m&&(m.t||m.r||m.d||(m.aud&&m.aud.length))};
+const AUD=['若者多め','年配多め','ファミリー','外国人多め','女性多め','男性多め','静か','賑やか','混雑しがち','空いていた'];
+const TYPEL={'銭湯':'銭湯','温浴施設':'温浴施設（スーパー銭湯など）','ホテル':'ホテル・旅館','カプセルホテル':'カプセルホテル','プライベートサウナ':'貸切サウナ','一棟貸し':'一棟貸し宿','キャンプ場':'キャンプ場','移動型サウナ':'移動型サウナ','その他':'その他の施設'};
+function sceneOf(f,card){
+  const s=[];
+  s.push(TYPEL[f.type]||f.type||'');
+  if(!card){s.push(['日帰りOK','予約・条件あり','宿泊者限定'][f.u]||'');if(/男性専用/.test(f.note||''))s.push('男性専用')}
+  if(f.fee!=null)s.push(f.fee<=500?'お手頃な料金（500円以下）':f.fee<=1500?'標準的な料金（1,500円以下）':'料金は高め（1,500円超）');
+  const h=f.hours||'';
+  if(/24時間/.test(h))s.push('24時間営業');
+  else if(/翌/.test(h))s.push('深夜まで営業');
+  else{const m=h.match(/(\d{1,2}):\d{2}/);if(m&&+m[1]<=7)s.push('朝から利用可')}
+  return s.filter(Boolean);
+}
 
 function build(){
   let a=all().map(f=>({...f,dist:loc&&f.lat!=null&&f.lng!=null&&isFinite(f.lat)&&isFinite(f.lng)?hav(loc,f):null}));
   if(tab==='want')a=a.filter(f=>D.flags[f.id]?.w);
   if(tab==='done')a=a.filter(f=>D.flags[f.id]?.v);
-  if(q){const k=q.toLowerCase();a=a.filter(f=>[f.name,f.city,f.area,f.type,f.note,f.quiet,f.revGood,f.revBad].join(' ').toLowerCase().includes(k))}
+  if(q){const k=q.toLowerCase();a=a.filter(f=>[f.name,f.city,f.area,f.type,f.note,f.quiet,f.revGood,f.revBad,(D.memos[f.id]?.aud||[]).join(' '),sceneOf(f).join(' ')].join(' ').toLowerCase().includes(k))}
   if(area)a=a.filter(f=>f.area===area);
   if(fl.has('g'))a=a.filter(f=>f.g===1);
   if(fl.has('l'))a=a.filter(f=>f.l===1);
@@ -220,6 +240,7 @@ function card(f){
     <div class="sub">${esc(f.city||'')}${f.dist!=null?` ・ <b style="color:var(--o)">現在地から約${f.dist<10?f.dist.toFixed(1):Math.round(f.dist)}km</b>`:''}</div>
     ${f.fee!=null?`<div class="price"><b>${f.fee.toLocaleString()}<small>円〜</small></b><span>${/未確認|要確認/.test(f.fee_note)?'入浴料の目安（未確認）':'入浴料の目安'}</span></div>`:''}
     ${f.hours?`<div class="hrs">🕒 ${esc(f.hours)}</div>`:''}
+    <div class="scene">🏷 ${sceneOf(f,true).map(esc).join(' ・ ')}</div>
     <div class="ind">${ind('サウナ',f.sT,'hot','℃')}${ind('水風呂',f.wT,'cold','℃')}${yn('外気浴',f.g)}${yn('ロウリュ',f.l)}</div>
     <div class="tags">
       <span class="tag ${U[0]}">${U[1]}</span>
@@ -228,6 +249,7 @@ function card(f){
       ${tagList.map(t=>`<span class="tag">#${esc(t)}</span>`).join('')}
     </div>
     ${revHtml}
+    ${m&&m.aud&&m.aud.length?`<div class="aud">👥 ${m.aud.map(esc).join(' ・ ')}</div>`:''}
     ${m&&(m.t||m.r)?`<div class="memo">${stars}${m.d?esc(m.d)+' ':''}${esc(m.t||'')}</div>`:''}
   </div>
   <div class="acts">
@@ -255,6 +277,7 @@ function render(){
      :`<div class="empty">条件に合う施設がありません。検索条件をゆるめてみてください。</div>`;
   } else if(tab==='near'&&total>nearN) h+=`<div class="empty" style="padding:16px"><button class="btn o" data-more>もっと見る（さらに${Math.min(12,total-nearN)}件）</button></div>`;
   $('list').innerHTML=h;
+  $('backbar').innerHTML=tab!=='all'?'<button class="btn o" data-back>← トップ（すべての施設）に戻る</button>':'';
   $('fp').style.display=tab==='near'?'none':'';
   if(tab==='near')$('fp').parentNode.firstElementChild.style.marginTop='16px';
 }
@@ -268,10 +291,29 @@ function getLoc(after){
 }
 
 /* ====== イベント処理 ====== */
-$('nav').onclick=e=>{const t=e.target.dataset.t;if(!t)return;tab=t;nearN=12;if(t==='near'&&!loc)getLoc();render();scrollTo(0,0)};
+/* ====== 戻る操作（画面履歴） ====== */
+function pushH(v){try{history.pushState({v},'')}catch(e){}}
+function goTop(){
+  if(history.state&&history.state.v==='tab'){history.back();return}
+  tab='all';nearN=12;render();scrollTo(0,0);
+}
+window.addEventListener('popstate',()=>{
+  const open=['m1','m2'].filter(k=>$(k).classList.contains('on'));
+  if(open.length){open.forEach(k=>$(k).classList.remove('on'));render();return}
+  if(tab!=='all'){tab='all';nearN=12;render();scrollTo(0,0)}
+});
+try{history.replaceState(null,'')}catch(e){}
+document.querySelector('.logo').onclick=()=>{['m1','m2'].forEach(k=>$(k).classList.remove('on'));goTop()};
+$('backbar').onclick=e=>{if(e.target.closest('[data-back]'))goTop()};
+$('nav').onclick=e=>{
+  const t=e.target.dataset.t;if(!t)return;
+  if(t==='all')return goTop();
+  if(tab==='all')pushH('tab');
+  tab=t;nearN=12;if(t==='near'&&!loc)getLoc();render();scrollTo(0,0);
+};
 $('q').oninput=e=>{q=e.target.value.trim();render()};
 $('sort').onchange=e=>{sort=e.target.value;if(sort==='dist'&&!loc)getLoc();render()};
-$('locb').onclick=()=>getLoc(()=>{tab='near';nearN=12});
+$('locb').onclick=()=>getLoc(()=>{if(tab==='all')pushH('tab');tab='near';nearN=12;scrollTo(0,0)});
 $('reset').onclick=()=>{q='';area='';fl.clear();sort='std';$('q').value='';$('sort').value='std';render()};
 $('areas').onclick=e=>{if(e.target.dataset.ar!==undefined){area=e.target.dataset.ar;render()}};
 $('chips').onclick=e=>{const c=e.target.dataset.c;if(c){fl.has(c)?fl.delete(c):fl.add(c);render()}};
@@ -299,38 +341,43 @@ function openMemo(id){
       `</div>`;
   }
 
-  $('mb').innerHTML=`<button class="x" data-x="m1">✕</button><h2>${esc(f.name)}</h2>
+  $('mb').innerHTML=`<button class="x" data-x="m1">✕</button><button class="mback" data-x="m1">← 一覧に戻る</button><h2>${esc(f.name)}</h2>
   <div class="sub">${esc(f.area)} ${esc(f.city||'')} ／ ${esc(f.type||'')} <a href="${map}" target="_blank" rel="noopener">Googleマップで開く ↗</a></div>
   ${f.fee!=null?`<div class="price" style="margin-top:10px"><b>${f.fee.toLocaleString()}<small>円〜</small></b><span>入浴料の目安</span></div>`:''}
   <div class="det">${f.fee_note?`<div><b>料金メモ：</b>${esc(f.fee_note)}</div>`:''}${f.hours?`<div><b>営業時間：</b>${esc(f.hours)}</div>`:''}${f.addr?`<div><b>住所：</b>${esc(f.addr)}</div>`:''}${f.tel?`<div><b>電話：</b>${esc(f.tel)}</div>`:''}${f.sT_note?`<div><b>サウナ温度：</b>${esc(f.sT_note)}</div>`:''}${(f.src&&f.src.length)?`<div><b>出典：</b>${f.src.map((u,i)=>`<a href="${esc(u)}" target="_blank" rel="noopener">[${i+1}]</a>`).join(' ')}</div>`:''}</div>
+  <div class="det"><b>施設の性格（登録データから表示）：</b>${sceneOf(f).map(esc).join(' ／ ')}<br><span style="font-size:11px">※ 施設の種類・料金・営業時間から表示しており、実際の客層を示すものではありません。</span></div>
   <div class="row" style="margin-top:6px"><button class="chip ${fg.w?'on':''}" data-f="w">${fg.w?'★ 行きたい':'☆ 行きたい'}</button><button class="chip ${fg.v?'on':''}" data-f="v">✓ 行った</button></div>
   ${revDetail}
   <label>自分の評価</label><div class="stars" id="st">${[1,2,3,4,5].map(i=>`<button data-r="${i}" class="${(m.r||0)>=i?'on':''}">★</button>`).join('')}</div>
   <label>訪問日</label><input type="date" id="md" value="${esc(m.d||'')}">
+  <label>客層メモ（自分の観察・複数選択可）</label>
+  <div class="row" id="aud">${AUD.map(a=>`<button class="chip ${(m.aud||[]).includes(a)?'on':''}" data-aud="${a}">${a}</button>`).join('')}</div>
   <label>感想・メモ（サウナ温度の体感、水風呂、混雑度など）</label>
   <textarea id="mt" placeholder="例：サウナ10分×3セット。水風呂がキンキンに冷えていて最高。外気浴チェアー多め。">${esc(m.t||'')}</textarea>
-  <div class="row"><span class="note" style="margin:0">メモは自動保存されます</span></div>`;
-  $('m1').classList.add('on');$('m1').dataset.id=id;
+  <div class="row"><span class="note" style="margin:0">メモは自動保存されます</span></div>
+  <button class="mback big" data-x="m1">← 閉じて一覧に戻る</button>`;
+  $('m1').classList.add('on');$('m1').dataset.id=id;pushH('m');
 }
 const setM=(k,v)=>{const id=$('m1').dataset.id;const m=D.memos[id]=D.memos[id]||{};m[k]=v;save()};
 $('mb').oninput=e=>{if(e.target.id==='mt')setM('t',e.target.value);if(e.target.id==='md'){setM('d',e.target.value);if(e.target.value){const id=$('m1').dataset.id;(D.flags[id]=D.flags[id]||{}).v=1;save()}}};
 $('mb').onclick=e=>{
   const id=$('m1').dataset.id;
   if(e.target.dataset.x)return closeM('m1');
+  if(e.target.dataset.aud){const m=D.memos[id]=D.memos[id]||{},a=m.aud=m.aud||[],k=e.target.dataset.aud,i=a.indexOf(k);if(i>=0)a.splice(i,1);else a.push(k);save();e.target.classList.toggle('on');return}
   if(e.target.dataset.r){const r=+e.target.dataset.r,m=D.memos[id]=D.memos[id]||{};m.r=m.r===r?0:r;save();return openMemo(id)}
   if(e.target.dataset.f){const f=D.flags[id]=D.flags[id]||{},k=e.target.dataset.f;f[k]=f[k]?0:1;save();return openMemo(id)}
 };
-function closeM(k){$(k).classList.remove('on');render()}
+function closeM(k){if(history.state&&history.state.v==='m'){history.back();return}$(k).classList.remove('on');render()}
 document.querySelectorAll('.mask').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeM(m.id)}));
 
 /* ====== バックアップ管理モーダル ====== */
 $('mng').onclick=()=>{
-  $('mg').innerHTML=`<button class="x" data-x="m2">✕</button><h2>個人データのバックアップ</h2>
+  $('mg').innerHTML=`<button class="x" data-x="m2">✕</button><button class="mback" data-x="m2">← 一覧に戻る</button><h2>個人データのバックアップ</h2>
   <p style="font-size:13px;color:var(--m)">「行った」「行きたい」「個人メモ」のバックアップと復元を行えます。</p>
   <label>バックアップ／移行（JSON）</label>
   <textarea id="jt" style="min-height:90px;font-size:12px" placeholder="ここにJSONを貼り付けて「読み込む」を押します。"></textarea>
   <div class="row"><button class="btn s" id="j_out">書き出す</button><button class="btn s o" id="j_dl">ファイル保存</button><button class="btn s o" id="j_in">読み込む</button></div>`;
-  $('m2').classList.add('on');
+  $('m2').classList.add('on');pushH('m');
 };
 $('mg').onclick=e=>{
   const g=id=>$(id);
