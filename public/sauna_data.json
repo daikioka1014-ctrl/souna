@@ -1,402 +1,5650 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>北海道サウナ手帳 | サウナ検索・行った/行きたい・メモ</title>
-<meta name="description" content="北海道のサウナ施設を検索。行った・行きたいの記録、個人メモ、現在地からの距離検索に対応。">
-<style>
-:root{--o:#f2682c;--o2:#ff8a4c;--bg:#f5f4f1;--t:#2a2320;--m:#7b726c;--l:#e8e4df;--g:#1f9d6b;--y:#d99a00;--r:#d6453d;--b:#2b7fb8}
-*{box-sizing:border-box}
-body{margin:0;font:15px/1.6 -apple-system,"Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;background:var(--bg);color:var(--t)}
-button,input,select,textarea{font:inherit;color:inherit}
-button{cursor:pointer}
-header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--l);display:flex;align-items:center;gap:8px;padding:8px 14px}
-.logo{font-weight:800;color:var(--o);font-size:17px;white-space:nowrap}
-.logo .for{display:inline-block;margin-left:8px;padding:2px 9px;border-radius:10px;background:var(--o);color:#fff;font-size:11px;font-weight:800;letter-spacing:.12em;vertical-align:middle}
-.logo small{display:block;font-size:10px;color:var(--m);font-weight:500;line-height:1}
-nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto}
-nav button{border:0;background:none;padding:8px 11px;border-radius:20px;color:var(--m);font-weight:700;white-space:nowrap;font-size:14px}
-nav button.on{background:#fff0e8;color:var(--o)}
-.hero{background:linear-gradient(135deg,var(--o2),var(--o));color:#fff;padding:28px 16px 64px;text-align:center}
-.hero h1{margin:0 0 6px;font-size:clamp(20px,5vw,30px);line-height:1.35}
-.hero p{margin:0;opacity:.92;font-size:13px}
-.wrap{max-width:1040px;margin:0 auto;padding:0 14px}
-.panel{background:#fff;border-radius:16px;box-shadow:0 6px 24px rgba(60,30,10,.1);padding:16px;margin:-44px 0 16px}
-.sbox{display:flex;gap:8px;flex-wrap:wrap}
-.sbox input{flex:1;min-width:180px;border:2px solid var(--l);border-radius:12px;padding:11px 14px}
-.sbox input:focus{outline:0;border-color:var(--o)}
-.btn{border:0;border-radius:12px;padding:11px 16px;font-weight:700;background:var(--o);color:#fff}
-.btn.o{background:#fff;color:var(--o);border:2px solid var(--o)}
-.btn.s{padding:7px 12px;font-size:13px;border-radius:10px}
-.row{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;align-items:center}
-.chip{border:1.5px solid var(--l);background:#fff;border-radius:20px;padding:5px 12px;font-size:13px;font-weight:600;color:var(--m)}
-.chip.on{background:var(--o);border-color:var(--o);color:#fff}
-.lbl{font-size:12px;color:var(--m);font-weight:700;margin-right:2px}
-select{border:1.5px solid var(--l);border-radius:10px;padding:5px 8px;background:#fff}
-.stats{display:flex;gap:8px;margin-bottom:12px}
-.stat{flex:1;background:#fff;border-radius:12px;padding:10px;text-align:center;font-size:12px;color:var(--m)}
-.stat b{display:block;font-size:20px;color:var(--t)}
-.bar{display:flex;justify-content:space-between;align-items:center;margin:4px 2px 10px;font-size:13px;color:var(--m)}
-.bar b{color:var(--t);font-size:16px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;padding-bottom:40px}
-.card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 1px 4px rgba(60,30,10,.08);display:flex;flex-direction:column}
-.top{height:64px;padding:10px 12px;color:#fff;display:flex;justify-content:space-between;align-items:flex-start;font-size:12px;font-weight:700}
-.a-道央{background:linear-gradient(135deg,#f2682c,#ff9a5c)}.a-道南{background:linear-gradient(135deg,#2b7fb8,#5db0e0)}.a-道北{background:linear-gradient(135deg,#5a6b8c,#8ea0c4)}.a-道東{background:linear-gradient(135deg,#1f9d6b,#56c795)}
-.top span{background:rgba(0,0,0,.22);border-radius:10px;padding:1px 9px}
-.cb{padding:12px 14px;flex:1}
-.cb h3{margin:0;font-size:16px;line-height:1.4;cursor:pointer}
-.cb h3:hover{color:var(--o)}
-.sub{font-size:12px;color:var(--m);margin:2px 0 10px}
-.price{display:flex;align-items:baseline;gap:6px;margin:0 0 10px}
-.price b{font-size:28px;line-height:1;font-weight:800;color:var(--o);letter-spacing:-.5px}
-.price b small{font-size:14px;font-weight:700;margin-left:1px}
-.price span{font-size:12px;color:var(--m)}
-.backbar{margin:14px 0 4px}
-.mback{display:inline-block;margin:0 0 10px;padding:6px 14px;border:1px solid #d8cfc6;border-radius:18px;background:#fff;font-size:13px;font-weight:700;cursor:pointer;color:inherit}
-.mback.big{display:block;width:100%;margin:18px 0 0;padding:12px;font-size:14px;text-align:center;border-radius:10px}
-.logo{cursor:pointer}
-.scene{font-size:12px;color:var(--m);margin:0 0 8px;line-height:1.5}
-.aud{font-size:12px;margin:6px 0;font-weight:700}
-.hrs{font-size:12px;color:var(--m);margin:0 0 8px;line-height:1.5}
-.det{font-size:12.5px;color:var(--m);line-height:1.7;margin:8px 0}
-.det b{color:var(--t,#2a2320)}
-.det a{word-break:break-all}
-.ind{display:flex;gap:6px}
-.ind div{flex:1;text-align:center;font-size:10px;color:var(--m)}
-.ind i{display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;margin:0 auto 2px;font-style:normal;font-weight:800;font-size:14px;border:3px solid var(--l);color:var(--t)}
-.ind .hot i{border-color:#f0603a;color:#d6381a}.ind .cold i{border-color:#3a9be0;color:#1f6fb0}.ind .yes i{border-color:var(--g);color:var(--g)}
-.ind i small{font-size:9px;font-weight:600}
-.tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
-.tag{font-size:11px;padding:1px 8px;border-radius:8px;background:#f2efeb;color:var(--m);font-weight:600}
-.tag.g{background:#e3f5ec;color:var(--g)}.tag.y{background:#fdf3d8;color:#a67700}.tag.r{background:#fbe6e4;color:var(--r)}.tag.d{background:#e4f1fa;color:var(--b)}
-.memo{margin-top:8px;font-size:12px;background:#fffaf2;border-left:3px solid var(--o2);padding:4px 8px;color:#6a5a4c;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.review-box{margin-top:8px;font-size:11.5px;background:#fffbe6;border:1px solid #ffe58f;border-radius:8px;padding:6px 10px;color:#434343;line-height:1.45}
-.review-title{font-weight:bold;color:#d48806;font-size:11px;margin-bottom:2px}
-.acts{display:flex;border-top:1px solid var(--l)}
-.acts button{flex:1;border:0;background:#fff;padding:10px 4px;font-size:13px;font-weight:700;color:var(--m)}
-.acts button+button{border-left:1px solid var(--l)}
-.acts .w.on{background:#fff4d6;color:#a67700}.acts .v.on{background:#e3f5ec;color:var(--g)}.acts .n.on{color:var(--o)}
-.empty{grid-column:1/-1;text-align:center;padding:48px 16px;color:var(--m);background:#fff;border-radius:16px}
-.mask{position:fixed;inset:0;background:rgba(30,20,10,.55);z-index:50;display:none;align-items:flex-end;justify-content:center}
-.mask.on{display:flex}
-.modal{background:#fff;width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:18px 18px 28px}
-@media(min-width:640px){.mask{align-items:center}.modal{border-radius:20px}}
-.modal h2{margin:0 0 2px;font-size:19px}
-.modal label{display:block;font-size:12px;font-weight:700;color:var(--m);margin:12px 0 4px}
-.modal input,.modal textarea{width:100%;border:1.5px solid var(--l);border-radius:10px;padding:9px 11px}
-.modal textarea{min-height:130px;resize:vertical}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.stars button{border:0;background:none;font-size:28px;color:#d8d2cb;padding:0 2px}
-.stars button.on{color:#f5a623}
-.x{float:right;border:0;background:#f2efeb;border-radius:50%;width:32px;height:32px;font-size:16px}
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#2a2320;color:#fff;padding:10px 18px;border-radius:24px;font-size:13px;z-index:99;opacity:0;pointer-events:none;transition:.25s;max-width:90vw}
-.toast.on{opacity:1}
-.note{font-size:11px;color:var(--m);margin:6px 0 30px;line-height:1.6}
-a{color:var(--b)}
-</style>
-</head>
-<body>
-<header>
-  <div class="logo">♨ 北海道サウナ手帳<span class="for">FOR KINJI</span><small>HOKKAIDO SAUNA NOTE</small></div>
-  <nav id="nav"></nav>
-</header>
-
-<div class="hero">
-  <h1>北海道で、ととのう一軒を見つけよう。</h1>
-  <p id="hp">収録中 ・ 検索 ・ 行きたい/行った ・ 自分だけのサ活メモ ・ 現在地から近いサウナ</p>
-</div>
-
-<div class="wrap">
-  <div class="backbar" id="backbar"></div>
-  <div class="panel" id="fp">
-    <div class="sbox">
-      <input id="q" type="search" placeholder="施設名・地名・キーワードで検索（例：白老、登別、ニセコ）">
-      <button class="btn o" id="locb">📍 現在地から探す</button>
-    </div>
-    <div class="row" id="areas"><span class="lbl">エリア</span></div>
-    <div class="row" id="chips"><span class="lbl">こだわり</span></div>
-    <div class="row">
-      <span class="lbl">並び替え</span>
-      <select id="sort">
-        <option value="std">おすすめ順</option><option value="fee">料金が安い順</option><option value="st">サウナ温度が高い順</option><option value="wt">水風呂が冷たい順</option><option value="dist">現在地から近い順</option>
-      </select>
-      <button class="chip" id="reset" style="margin-left:auto">条件をリセット</button>
-    </div>
-  </div>
-
-  <div class="stats" id="stats"></div>
-  <div class="bar"><span id="cnt"></span><button class="btn s o" id="mng">⚙ データ管理</button></div>
-  <div class="grid" id="list"></div>
-  <p class="note">※ サウナ温度・水風呂温度は、サウナイキタイの利用者投稿を参考にした目安です（時期や男女で異なります）。料金・営業時間も変更される場合があるため、訪問前に公式情報をご確認ください。「行った」「行きたい」「メモ」はこの端末のブラウザ内に保存されます。</p>
-  <p class="note" style="margin-top:-24px">地図データ © OpenStreetMap contributors（座標を使用する場合）</p>
-</div>
-
-<div class="mask" id="m1"><div class="modal" id="mb"></div></div>
-<div class="mask" id="m2"><div class="modal" id="mg"></div></div>
-<div class="toast" id="toast"></div>
-
-<script>
-/* ====== 施設データ（sauna_data.json を読み込み） ====== */
-let SEED=[];
-const toSeed=x=>({
-  id:x.id,name:x.name,area:x.area||'',city:x.city||'',
-  lat:x.lat==null?null:x.lat,lng:x.lng==null?null:x.lng,
-  type:x.type||'温浴施設',u:x.u??0,fee:x.fee??null,sT:x.sT??null,wT:x.wT??null,
-  g:x.g??null,l:x.l??null,inf:0,tat:0,quiet:'',url:'',revGood:'',revBad:'',
-  note:(x.note||'').split(',').map(s=>s.trim()).filter(s=>s&&s!=='宿泊者限定').join(','),
-  hours:x.hours||'',fee_note:x.fee_note||'',sT_note:x.sT_note||'',addr:x.addr||'',tel:x.tel||'',src:x.src||[]
-});
-async function loadData(){
-  try{
-    const r=await fetch('sauna_data.json',{cache:'no-cache'});
-    if(!r.ok)throw new Error('http '+r.status);
-    const j=await r.json();
-    SEED=(j.facilities||[]).map(toSeed);
-  }catch(e){
-    console.error(e);
-    setTimeout(()=>toast('施設データを読み込めませんでした'),300);
+{
+ "_readme": "北海道サウナ手帳 施設データ（統合版）。エリア追加ごとに更新。sT/wT は利用者投稿の目安。lat/lng 未取得は null。",
+ "_updated": "2026-11-08",
+ "facilities": [
+  {
+   "id": "n001",
+   "name": "虎杖浜温泉ホテル",
+   "area": "道央",
+   "city": "白老町",
+   "type": "ホテル",
+   "addr": "北海道白老郡白老町虎杖浜73-5",
+   "tel": "0144-82-8267",
+   "u": 0,
+   "fee": 1000,
+   "fee_note": "日帰り大人 平日1,000円／土日祝1,200円",
+   "hours": "9:00〜22:00・年中無休",
+   "sT": 92,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。投稿は90〜98℃、水風呂13〜15℃の幅あり",
+   "g": 1,
+   "l": 1,
+   "lat": 42.460733,
+   "lng": 141.21036,
+   "note": "2024年3月新築の温泉棟,オートロウリュ付きサウナ,水風呂13〜15℃",
+   "src": [
+    "https://onsen.nifty.com/noboribetsu-onsen/onsen000143/",
+    "https://sauna-ikitai.com/saunas/5318"
+   ],
+   "osm": "way/429794071"
+  },
+  {
+   "id": "n002",
+   "name": "リブマックスリゾート ウポポイ白老温泉",
+   "area": "道央",
+   "city": "白老町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": "0144-82-5335",
+   "u": 0,
+   "fee": 1200,
+   "fee_note": "日帰り大人1,200円・小人700円（タオルセット300円）",
+   "hours": "7:00〜10:00（受付〜9:00）／15:00〜22:00（受付〜21:00）・水曜午前休み。2026/11/16〜20は工事で休館",
+   "sT": 95,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。投稿は90〜98℃、水風呂17〜20℃の幅あり",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "白老駅から徒歩約10分",
+   "src": [
+    "https://onsen.nifty.com/niseko-onsen/onsen024720/",
+    "https://sauna-ikitai.com/saunas/81915"
+   ]
+  },
+  {
+   "id": "n003",
+   "name": "ホテルいずみ",
+   "area": "道央",
+   "city": "白老町",
+   "type": "ホテル",
+   "addr": "北海道白老郡白老町字虎杖浜312-1",
+   "tel": "0144-87-2621",
+   "u": 0,
+   "fee": 650,
+   "fee_note": "サウナイキタイ表示のみ・日帰り可否は未確認",
+   "hours": "大浴場24時間（サウナイキタイ表示・未確認）",
+   "sT": 86,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。水風呂15〜16℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.455193,
+   "lng": 141.194502,
+   "note": "虎杖浜",
+   "src": [
+    "https://travel.yahoo.co.jp/00901504/",
+    "https://sauna-ikitai.com/saunas/8489"
+   ],
+   "osm": "way/429794064"
+  },
+  {
+   "id": "n004",
+   "name": "ホテルオーシャン",
+   "area": "道央",
+   "city": "白老町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 600,
+   "fee_note": "サウナイキタイ表示のみ・未確認",
+   "hours": "10:00〜20:00（サウナイキタイ表示）・金曜定休と表示",
+   "sT": 98,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男性98〜102℃、女性90℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/saunas/282"
+   ]
+  },
+  {
+   "id": "n005",
+   "name": "シラオイベース",
+   "area": "道央",
+   "city": "白老町",
+   "type": "その他",
+   "addr": "北海道白老郡白老町竹浦290-22",
+   "tel": null,
+   "u": 1,
+   "fee": 2500,
+   "fee_note": "事前予約制・サウナイキタイ表示のみ",
+   "hours": "金曜定休と表示",
+   "sT": 80,
+   "wT": 12,
+   "sT_note": "目安（利用者投稿）",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/saunas/90205"
+   ]
+  },
+  {
+   "id": "n006",
+   "name": "海の別邸 ふる川",
+   "area": "道央",
+   "city": "白老町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "大浴場14:00〜翌1:00（サウナイキタイ表示）",
+   "sT": 38,
+   "wT": 18,
+   "sT_note": "目安（利用者投稿）。男性38℃・女性45℃、水風呂18〜19℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.454415,
+   "lng": 141.204532,
+   "note": "宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/saunas/8531"
+   ],
+   "osm": "way/429794048"
+  },
+  {
+   "id": "n007",
+   "name": "登別温泉 登別グランドホテル",
+   "area": "道央",
+   "city": "登別市",
+   "type": "ホテル",
+   "addr": "北海道登別市登別温泉町154",
+   "tel": null,
+   "u": 0,
+   "fee": 2000,
+   "fee_note": "日帰り大人2,000円（まっぷる掲載）",
+   "hours": "7:00〜9:00／12:30〜19:00（月・木は14:30〜）※まっぷる掲載",
+   "sT": 106,
+   "wT": 11,
+   "sT_note": "目安（利用者投稿）。男106℃・女80℃（2026/11/6時点）。投稿は78〜110℃と幅が大きい",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "『鬼サウナ』（ガイド記載は110度）,3種の泉質",
+   "src": [
+    "https://www.mapple.net/region/a0102030200_g05050700/spot/",
+    "https://sauna-ikitai.com/hokkaido/%E7%99%BB%E5%88%A5%E5%B8%82"
+   ]
+  },
+  {
+   "id": "n008",
+   "name": "登別万世閣",
+   "area": "道央",
+   "city": "登別市",
+   "type": "ホテル",
+   "addr": "北海道登別市登別温泉町21",
+   "tel": null,
+   "u": 0,
+   "fee": 1300,
+   "fee_note": "サウナイキタイ表示1,300円〜／まっぷる掲載1,100円（時期差の可能性・要確認）",
+   "hours": "7:00〜9:00／13:30〜18:00（まっぷる掲載）",
+   "sT": 90,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。男90℃・女85℃、水風呂12〜17℃の幅あり",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "3階大浴場に男女サウナ",
+   "src": [
+    "https://www.mapple.net/region/a0102030200_g05050700/spot/",
+    "https://sauna-ikitai.com/hokkaido/%E7%99%BB%E5%88%A5%E5%B8%82"
+   ]
+  },
+  {
+   "id": "n009",
+   "name": "第一滝本館",
+   "area": "道央",
+   "city": "登別市",
+   "type": "ホテル",
+   "addr": "北海道登別市登別温泉町55",
+   "tel": null,
+   "u": 0,
+   "fee": 2250,
+   "fee_note": "日帰り大人2,250円（まっぷる掲載・サウナイキタイと一致）",
+   "hours": "9:00〜18:00（閉館21:00）",
+   "sT": 85,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男85℃・女92℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.495171,
+   "lng": 141.145226,
+   "note": "源泉かけ流しの35浴槽",
+   "src": [
+    "https://www.mapple.net/region/a0102030202_g05050700/spot/",
+    "https://sauna-ikitai.com/search?keyword=登別"
+   ],
+   "osm": "way/238811172"
+  },
+  {
+   "id": "n010",
+   "name": "温泉銭湯 夢元(ゆもと) さぎり湯",
+   "area": "道央",
+   "city": "登別市",
+   "type": "銭湯",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "9:00〜21:00（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男90℃・女86℃",
+   "g": 0,
+   "l": 0,
+   "lat": 42.492298,
+   "lng": 141.143,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=登別"
+   ],
+   "osm": "way/238814097"
+  },
+  {
+   "id": "n011",
+   "name": "登別温泉 ホテル まほろば",
+   "area": "道央",
+   "city": "登別市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "大浴場14:00〜翌3:00（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男女とも90℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.493036,
+   "lng": 141.141827,
+   "note": "宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=登別"
+   ],
+   "osm": "way/238821250"
+  },
+  {
+   "id": "n012",
+   "name": "ゆもと登別",
+   "area": "道央",
+   "city": "登別市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1200,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "13:00〜翌2:00（サウナイキタイ表示）",
+   "sT": 88,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男88℃・女85℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.492135,
+   "lng": 141.143753,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=登別"
+   ],
+   "osm": "way/238814073"
+  },
+  {
+   "id": "n013",
+   "name": "登別 石水亭",
+   "area": "道央",
+   "city": "登別市",
+   "type": "ホテル",
+   "addr": "北海道登別市登別温泉町203-1",
+   "tel": null,
+   "u": 0,
+   "fee": 1200,
+   "fee_note": "サウナイキタイ表示1,200円〜／まっぷる掲載800円（時期差の可能性・要確認）",
+   "hours": "日帰り11:00〜18:00（閉館19:00）※まっぷる掲載",
+   "sT": 85,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男女とも85℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.499915,
+   "lng": 141.141653,
+   "note": "",
+   "src": [
+    "https://www.mapple.net/region/a0102030202_g05050700/spot/",
+    "https://sauna-ikitai.com/search?keyword=登別"
+   ],
+   "osm": "way/238827656"
+  },
+  {
+   "id": "n014",
+   "name": "望楼 NOGUCHI 登別",
+   "area": "道央",
+   "city": "登別市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "大浴場14:00〜翌10:00（サウナイキタイ表示）",
+   "sT": 95,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。男95℃・女92℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.500199,
+   "lng": 141.140747,
+   "note": "宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=登別"
+   ],
+   "osm": "way/238827653"
+  },
+  {
+   "id": "n015",
+   "name": "おふろぱーく登別",
+   "area": "道央",
+   "city": "登別市",
+   "type": "銭湯",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "13:00〜21:00（サウナイキタイ表示）",
+   "sT": 85,
+   "wT": 24,
+   "sT_note": "目安（利用者投稿）。男85℃・女76℃。水風呂は男24℃・女20℃と高め",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=登別"
+   ]
+  },
+  {
+   "id": "n016",
+   "name": "登別温泉郷 滝乃家",
+   "area": "道央",
+   "city": "登別市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "大浴場15:00〜22:00（サウナイキタイ表示）",
+   "sT": 94,
+   "wT": 20,
+   "sT_note": "目安（利用者投稿）。男94℃・女97℃、水風呂20℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=登別"
+   ]
+  },
+  {
+   "id": "n017",
+   "name": "Moruran Sauna",
+   "area": "道央",
+   "city": "室蘭市",
+   "type": "プライベートサウナ",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 2200,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "9:00〜20:00（サウナイキタイ表示）",
+   "sT": 88,
+   "wT": 18,
+   "sT_note": "目安（利用者投稿）。貸切利用",
+   "g": 1,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制,プライベートサウナ（室蘭市）",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=登別"
+   ]
+  },
+  {
+   "id": "n018",
+   "name": "ニセコ駅前温泉 綺羅乃湯",
+   "area": "道央",
+   "city": "ニセコ町",
+   "type": "銭湯",
+   "addr": "北海道虻田郡ニセコ町中央通33",
+   "tel": null,
+   "u": 0,
+   "fee": 800,
+   "fee_note": "サウナイキタイ表示800円〜／まっぷる掲載は入館600円（時期差の可能性・要確認）",
+   "hours": "10:00〜21:00（閉館21:30）",
+   "sT": 88,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男88℃、女90℃、水風呂16/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.808023,
+   "lng": 140.685229,
+   "note": "",
+   "src": [
+    "https://www.mapple.net/region/a0102020000_g05050200/spot/",
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ],
+   "osm": "way/194228136"
+  },
+  {
+   "id": "n019",
+   "name": "ホテル甘露の森",
+   "area": "道央",
+   "city": "ニセコ町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1800,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "11:00〜（サウナイキタイ表示）",
+   "sT": 92,
+   "wT": 13,
+   "sT_note": "目安（利用者投稿）。男92℃、女92℃、水風呂13/12℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.846236,
+   "lng": 140.622714,
+   "note": "ニセコ昆布温泉",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ],
+   "osm": "way/194743626"
+  },
+  {
+   "id": "n020",
+   "name": "まっかり温泉",
+   "area": "道央",
+   "city": "真狩村",
+   "type": "温浴施設",
+   "addr": "北海道虻田郡真狩村緑岡174-3",
+   "tel": null,
+   "u": 0,
+   "fee": 600,
+   "fee_note": "大人600円（まっぷる掲載・サウナイキタイと一致）",
+   "hours": "10:00〜20:30（閉館21:00）／10〜翌3月は11:00〜（まっぷる掲載）",
+   "sT": 96,
+   "wT": 11,
+   "sT_note": "目安（利用者投稿）。男96℃、女90℃、水風呂11/16℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.765287,
+   "lng": 140.777793,
+   "note": "",
+   "src": [
+    "https://www.mapple.net/region/a0102020000_g05050200/spot/",
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ],
+   "osm": "way/426718935"
+  },
+  {
+   "id": "n021",
+   "name": "ニセコノーザンリゾート・アンヌプリ",
+   "area": "道央",
+   "city": "ニセコ町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "大浴場13:00〜24:00（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 13,
+   "sT_note": "目安（利用者投稿）。男90℃、女90℃、水風呂13/18℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.850264,
+   "lng": 140.644448,
+   "note": "宿泊者限定。外気浴は女性側のみ表示",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ],
+   "osm": "node/1957047041"
+  },
+  {
+   "id": "n022",
+   "name": "ニセコ カシノヤ -niseko KASHINOYA-",
+   "area": "道央",
+   "city": "倶知安町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 6000,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "大浴場13:00〜21:00（サウナイキタイ表示）",
+   "sT": null,
+   "wT": null,
+   "sT_note": null,
+   "g": 1,
+   "l": 0,
+   "lat": 42.849828,
+   "lng": 140.702332,
+   "note": "事前予約制。サウナ温度は未表示",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ],
+   "osm": "way/667856432"
+  },
+  {
+   "id": "n023",
+   "name": "ゆころ温泉",
+   "area": "道央",
+   "city": "倶知安町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "12:00〜21:00（サウナイキタイ表示）",
+   "sT": 92,
+   "wT": 19,
+   "sT_note": "目安（利用者投稿）。男92℃、女90℃、水風呂19/18℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ]
+  },
+  {
+   "id": "n024",
+   "name": "アウトドアパーク ペトトル倶知安",
+   "area": "道央",
+   "city": "倶知安町",
+   "type": "キャンプ場",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 1000,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "営業開始11:00（サウナイキタイ表示）",
+   "sT": 95,
+   "wT": 10,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂10℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.883175,
+   "lng": 140.75494,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ],
+   "osm": "node/10901119937"
+  },
+  {
+   "id": "n025",
+   "name": "ニセコ温泉郷 いこいの湯宿 いろは",
+   "area": "道央",
+   "city": "ニセコ町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 800,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場24時間（サウナイキタイ表示）",
+   "sT": 85,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男85℃、女90℃、水風呂16/12℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.849989,
+   "lng": 140.641416,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ],
+   "osm": "node/1957047186"
+  },
+  {
+   "id": "n026",
+   "name": "風の谷キャンプ場",
+   "area": "道央",
+   "city": "ニセコ町",
+   "type": "キャンプ場",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 1300,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "サウナ14:00〜21:00（サウナイキタイ表示）",
+   "sT": 60,
+   "wT": 8,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂8℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ]
+  },
+  {
+   "id": "n027",
+   "name": "ニセコ昆布温泉 鶴雅別荘 杢の抄",
+   "area": "道央",
+   "city": "ニセコ町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": null,
+   "fee_note": "料金・日帰り可否は未確認",
+   "hours": "大浴場15:00〜翌10:00（サウナイキタイ表示）",
+   "sT": 80,
+   "wT": 20,
+   "sT_note": "目安（利用者投稿）。男80℃、女89℃、水風呂20/20℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ]
+  },
+  {
+   "id": "n028",
+   "name": "トゥリーシェルニセコ (Tree Shell Niseko)",
+   "area": "道央",
+   "city": "虻田郡",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": 2750,
+   "fee_note": "宿泊者限定・サウナイキタイ表示・未確認",
+   "hours": null,
+   "sT": 85,
+   "wT": null,
+   "sT_note": "目安（利用者投稿）。男女共用",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ]
+  },
+  {
+   "id": "n029",
+   "name": "ワンニセコリゾートタワーズ",
+   "area": "道央",
+   "city": "ニセコ町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 950,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "13:00〜翌10:00（サウナイキタイ表示）",
+   "sT": 100,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男100℃、女90℃、水風呂15/17℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.847717,
+   "lng": 140.624329,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ],
+   "osm": "node/5430633939"
+  },
+  {
+   "id": "n030",
+   "name": "パークハイアット ニセコHANAZONO",
+   "area": "道央",
+   "city": "倶知安町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "大浴場24時間（サウナイキタイ表示）",
+   "sT": 105,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。男105℃、女100℃、水風呂14/15℃",
+   "g": 0,
+   "l": 0,
+   "lat": 42.893336,
+   "lng": 140.697368,
+   "note": "宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ],
+   "osm": "way/1109178091"
+  },
+  {
+   "id": "n031",
+   "name": "木ニセコ",
+   "area": "道央",
+   "city": "倶知安町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "大浴場24時間（サウナイキタイ表示）",
+   "sT": 95,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男95℃、女90℃、水風呂15/13℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.863242,
+   "lng": 140.701247,
+   "note": "宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ],
+   "osm": "way/624244848"
+  },
+  {
+   "id": "n032",
+   "name": "サバス2号車",
+   "area": "道央",
+   "city": "虻田郡",
+   "type": "移動型サウナ",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 3000,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": null,
+   "sT": 110,
+   "wT": 21,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂21℃",
+   "g": 1,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "移動型のため場所が変わる（現在地検索の対象外）",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ]
+  },
+  {
+   "id": "n033",
+   "name": "ニッコースタイルニセコ HANAZONO",
+   "area": "道央",
+   "city": "倶知安町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "大浴場15:00〜23:00（サウナイキタイ表示）",
+   "sT": 92,
+   "wT": 12,
+   "sT_note": "目安（利用者投稿）。男92℃、女95℃、水風呂12/13℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.893085,
+   "lng": 140.701581,
+   "note": "宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ],
+   "osm": "way/1331886827"
+  },
+  {
+   "id": "n034",
+   "name": "森のテントサウナ「SNOWY」in ニセコ",
+   "area": "道央",
+   "city": "ニセコ町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 7800,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": null,
+   "sT": 88,
+   "wT": 9,
+   "sT_note": "目安（利用者投稿）。男88℃、女90℃、水風呂9/12℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "テントサウナ体験。予約要否は未確認",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ]
+  },
+  {
+   "id": "n035",
+   "name": "東山ニセコビレッジ リッツ・カールトン・リザーブ",
+   "area": "道央",
+   "city": "ニセコ町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": null,
+   "fee_note": "料金・宿泊者以外の利用可否は未確認",
+   "hours": "営業開始11:00（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": null,
+   "sT_note": "目安（利用者投稿）。男90℃、女88℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.843582,
+   "lng": 140.682844,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ],
+   "osm": "way/1106776584"
+  },
+  {
+   "id": "n036",
+   "name": "Setsu Niseko (雪ニセコ)",
+   "area": "道央",
+   "city": "倶知安町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "大浴場14:00〜24:00（サウナイキタイ表示）",
+   "sT": 98,
+   "wT": 17.7,
+   "sT_note": "目安（利用者投稿）。男98℃、女95℃、水風呂17.7℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.861525,
+   "lng": 140.707115,
+   "note": "宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ],
+   "osm": "way/942466150"
+  },
+  {
+   "id": "n037",
+   "name": "COCO VILLA ニセコアンヌプリ",
+   "area": "道央",
+   "city": "蘭越町",
+   "type": "一棟貸し",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "24時間（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂15℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "一棟貸し・宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ]
+  },
+  {
+   "id": "n038",
+   "name": "COCO VILLA ニセコ",
+   "area": "道央",
+   "city": "ニセコ町",
+   "type": "一棟貸し",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "24時間（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 18,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂18℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "一棟貸し・宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ]
+  },
+  {
+   "id": "n039",
+   "name": "ルーキーズキッチン",
+   "area": "道央",
+   "city": "ニセコ町",
+   "type": "キャンプ場",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 1500,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": null,
+   "sT": 82,
+   "wT": null,
+   "sT_note": "目安（利用者投稿）。男女共用",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ]
+  },
+  {
+   "id": "n040",
+   "name": "ニセコパークホテル",
+   "area": "道央",
+   "city": "倶知安町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "大浴場24時間（サウナイキタイ表示）",
+   "sT": 89,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男89℃、水風呂15℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.85976,
+   "lng": 140.70208,
+   "note": "宿泊者限定・男性専用",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ],
+   "osm": "node/10006406779"
+  },
+  {
+   "id": "n041",
+   "name": "Sauna cota niseko",
+   "area": "道央",
+   "city": "ニセコ町",
+   "type": "一棟貸し",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": null,
+   "sT": 110,
+   "wT": null,
+   "sT_note": "目安（利用者投稿）。男女共用",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "一棟貸し・宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ]
+  },
+  {
+   "id": "n042",
+   "name": "XYZ Niseko",
+   "area": "道央",
+   "city": "ニセコ町",
+   "type": "一棟貸し",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定・事前予約制",
+   "hours": "15:00〜翌10:00（サウナイキタイ表示）",
+   "sT": 75,
+   "wT": null,
+   "sT_note": "目安（利用者投稿）。男女共用",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "一棟貸し・宿泊者限定・事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ]
+  },
+  {
+   "id": "n043",
+   "name": "MUWA NISEKO",
+   "area": "道央",
+   "city": "倶知安町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "大浴場7:00〜24:00（サウナイキタイ表示）",
+   "sT": 85,
+   "wT": null,
+   "sT_note": "目安（利用者投稿）。男85℃",
+   "g": 0,
+   "l": 0,
+   "lat": 42.863391,
+   "lng": 140.699706,
+   "note": "宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?keyword=ニセコ"
+   ],
+   "osm": "way/1262545519"
+  },
+  {
+   "id": "n044",
+   "name": "GLAMPING HILL A-GATE",
+   "area": "道北",
+   "city": "旭川市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "大浴場24時間（サウナイキタイ表示）",
+   "sT": 75,
+   "wT": 5,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂5℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=min_fee_asc"
+   ]
+  },
+  {
+   "id": "n045",
+   "name": "スパ アルパ（アートホテル旭川）",
+   "area": "道北",
+   "city": "旭川市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "大浴場15:00〜24:00（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男90℃、女90℃、水風呂17/17℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=min_fee_asc"
+   ]
+  },
+  {
+   "id": "n046",
+   "name": "OMO7旭川 by 星野リゾート サウナプラトー",
+   "area": "道北",
+   "city": "旭川市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "大浴場15:30〜24:00（サウナイキタイ表示）",
+   "sT": 94,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男94℃、女88℃、水風呂17/17℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=min_fee_asc"
+   ]
+  },
+  {
+   "id": "n047",
+   "name": "SAUNA NOJO",
+   "area": "道東",
+   "city": "津別町",
+   "type": "プライベートサウナ",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": null,
+   "fee_note": "会員のみ・事前予約制",
+   "hours": "24時間（サウナイキタイ表示）",
+   "sT": 85,
+   "wT": 12,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂12℃",
+   "g": 1,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "会員のみ・事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=min_fee_asc"
+   ]
+  },
+  {
+   "id": "n048",
+   "name": "ホテルアネックス",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": null,
+   "sT": 45,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂15℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "低温サウナ",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=min_fee_asc"
+   ]
+  },
+  {
+   "id": "n049",
+   "name": "奥沢キャンプ場",
+   "area": "道央",
+   "city": "上砂川町",
+   "type": "キャンプ場",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": null,
+   "fee_note": "料金・利用条件は未確認",
+   "hours": null,
+   "sT": 70,
+   "wT": null,
+   "sT_note": "目安（利用者投稿）。男女共用",
+   "g": 1,
+   "l": 1,
+   "lat": 43.46584,
+   "lng": 142.015298,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=min_fee_asc"
+   ],
+   "osm": "way/719643490"
+  },
+  {
+   "id": "n050",
+   "name": "幌延町 老人福祉センター",
+   "area": "道北",
+   "city": "幌延町",
+   "type": "その他",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 100,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始13:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 94,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男94℃、女86℃、水風呂17/18℃",
+   "g": 0,
+   "l": 0,
+   "lat": 45.018026,
+   "lng": 141.847472,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=min_fee_asc"
+   ],
+   "osm": "node/3663186588"
+  },
+  {
+   "id": "n051",
+   "name": "大樹町公衆浴場",
+   "area": "道東",
+   "city": "大樹町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 200,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始16:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 85,
+   "wT": null,
+   "sT_note": "目安（利用者投稿）。男85℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=min_fee_asc"
+   ]
+  },
+  {
+   "id": "n052",
+   "name": "ホテル森夢",
+   "area": "道東",
+   "city": "西興部村",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 250,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場11:00〜23:00（サウナイキタイ表示）",
+   "sT": 88,
+   "wT": 28,
+   "sT_note": "目安（利用者投稿）。男88℃、女100℃、水風呂28/22℃",
+   "g": 0,
+   "l": 0,
+   "lat": 44.330569,
+   "lng": 142.947741,
+   "note": "水風呂は高め",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=min_fee_asc"
+   ],
+   "osm": "relation/3860445"
+  },
+  {
+   "id": "n053",
+   "name": "繁次郎温泉",
+   "area": "道南",
+   "city": "江差町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 300,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始12:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 96,
+   "wT": 20,
+   "sT_note": "目安（利用者投稿）。男96℃、女90℃、水風呂20/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": 41.898081,
+   "lng": 140.139992,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=min_fee_asc"
+   ],
+   "osm": "way/328158195"
+  },
+  {
+   "id": "n054",
+   "name": "ふれあいプラザ浴場",
+   "area": "道東",
+   "city": "上士幌町",
+   "type": "銭湯",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 300,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "14:00〜22:00（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男90℃、女97℃、水風呂17/14℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=min_fee_asc"
+   ]
+  },
+  {
+   "id": "n055",
+   "name": "和寒町保養センター",
+   "area": "道北",
+   "city": "和寒町",
+   "type": "銭湯",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 300,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "金曜定休と表示（サウナイキタイ）",
+   "sT": 108,
+   "wT": null,
+   "sT_note": "目安（利用者投稿）。男108℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=min_fee_asc"
+   ]
+  },
+  {
+   "id": "n056",
+   "name": "こもれび温泉",
+   "area": "道南",
+   "city": "知内町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 350,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 90,
+   "wT": 12,
+   "sT_note": "目安（利用者投稿）。男90℃、女86℃、水風呂12/10℃",
+   "g": 1,
+   "l": 0,
+   "lat": 41.579681,
+   "lng": 140.414691,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=min_fee_asc"
+   ],
+   "osm": "way/685416972"
+  },
+  {
+   "id": "n057",
+   "name": "ふれあい湯遊館",
+   "area": "道南",
+   "city": "函館市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 360,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 89,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男89℃、女88℃、水風呂17/19℃",
+   "g": 0,
+   "l": 0,
+   "lat": 41.729545,
+   "lng": 141.031788,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=min_fee_asc"
+   ],
+   "osm": "way/456805766"
+  },
+  {
+   "id": "n058",
+   "name": "厚沢部町 上里ふれあい交流センター",
+   "area": "道南",
+   "city": "厚沢部町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 400,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始13:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 91,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男91℃、女90℃、水風呂17℃",
+   "g": 0,
+   "l": 0,
+   "lat": 41.931372,
+   "lng": 140.235618,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=min_fee_asc"
+   ],
+   "osm": "way/229140100"
+  },
+  {
+   "id": "n059",
+   "name": "赤井川カルデラ温泉・保養センター",
+   "area": "道央",
+   "city": "赤井川村",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 400,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 92,
+   "wT": 18,
+   "sT_note": "目安（利用者投稿）。男92℃、女92℃、水風呂18℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.081036,
+   "lng": 140.812269,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=min_fee_asc"
+   ],
+   "osm": "way/666607541"
+  },
+  {
+   "id": "n060",
+   "name": "俄虫温泉旅館",
+   "area": "道南",
+   "city": "厚沢部町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 400,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 80,
+   "wT": 13,
+   "sT_note": "目安（利用者投稿）。男80℃、女108℃、水風呂13/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": 41.932425,
+   "lng": 140.236434,
+   "note": "女性側のサウナ温度が高めの投稿",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=min_fee_asc"
+   ],
+   "osm": "way/229140099"
+  },
+  {
+   "id": "n061",
+   "name": "吹上温泉保養センター 白銀荘",
+   "area": "道北",
+   "city": "上富良野町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 700,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜22:00（サウナイキタイ表示）",
+   "sT": 94,
+   "wT": 12,
+   "sT_note": "目安（利用者投稿）。男94℃、女88℃、水風呂12/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.431489,
+   "lng": 142.64137,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc"
+   ],
+   "osm": "way/576996446"
+  },
+  {
+   "id": "n062",
+   "name": "ニコーリフレ SAPPORO",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "カプセルホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1900,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場24時間（サウナイキタイ表示）",
+   "sT": 85,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。男85℃、水風呂14℃",
+   "g": 0,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "男性専用",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc"
+   ]
+  },
+  {
+   "id": "n063",
+   "name": "北こぶし知床 ホテル&リゾート",
+   "area": "道東",
+   "city": "斜里町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": 2200,
+   "fee_note": "宿泊者限定（サウナイキタイ表示2,200円〜）",
+   "hours": "大浴場15:00〜24:00（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男90℃、女87℃、水風呂15/15.5℃",
+   "g": 1,
+   "l": 0,
+   "lat": 44.071893,
+   "lng": 144.995597,
+   "note": "宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc"
+   ],
+   "osm": "way/458993977"
+  },
+  {
+   "id": "n064",
+   "name": "森のスパリゾート 北海道ホテル",
+   "area": "道東",
+   "city": "帯広市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 2000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始5:30（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 80,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男80℃、女80℃、水風呂17/17℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.910175,
+   "lng": 143.196913,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc"
+   ],
+   "osm": "way/546392329"
+  },
+  {
+   "id": "n065",
+   "name": "定山渓 鹿の湯",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "ホテル",
+   "addr": "北海道札幌市南区定山渓温泉西3-32",
+   "tel": "011-598-2311",
+   "u": 0,
+   "fee": 1500,
+   "fee_note": "日帰り大人1,500円（公式発表）",
+   "hours": "13:00〜21:00（最終受付20:00）",
+   "sT": 105,
+   "wT": 9,
+   "sT_note": "目安（利用者投稿）。男105℃、女92℃、水風呂9/9℃",
+   "g": 1,
+   "l": 1,
+   "lat": 42.965817,
+   "lng": 141.163127,
+   "note": "",
+   "src": [
+    "https://news.livedoor.com/pr_article/detail/31287794/",
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc"
+   ],
+   "osm": "node/4405145790"
+  },
+  {
+   "id": "n066",
+   "name": "月見湯",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "銭湯",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 550,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "13:45〜24:00（サウナイキタイ表示）",
+   "sT": 100,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男100℃、女85℃、水風呂15/16℃",
+   "g": 1,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc"
+   ]
+  },
+  {
+   "id": "n067",
+   "name": "GARDENS CABIN（ガーデンズキャビン）",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "カプセルホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場15:00〜翌9:30（サウナイキタイ表示）",
+   "sT": 98,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男98℃、女92℃、水風呂16/17℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc"
+   ]
+  },
+  {
+   "id": "n068",
+   "name": "ログホテル ザ メープルロッジ",
+   "area": "道央",
+   "city": "岩見沢市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 800,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場15:00〜24:00（サウナイキタイ表示）",
+   "sT": 74,
+   "wT": 15.5,
+   "sT_note": "目安（利用者投稿）。男74℃、女78℃、水風呂15.5/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.15562,
+   "lng": 141.931889,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc"
+   ],
+   "osm": "way/1517880486"
+  },
+  {
+   "id": "n069",
+   "name": "サウナコタンサッポロ",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 900,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "11:00〜24:00（サウナイキタイ表示）",
+   "sT": 91,
+   "wT": 18,
+   "sT_note": "目安（利用者投稿）。男91℃、女90℃、水風呂18/15℃",
+   "g": 1,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc"
+   ]
+  },
+  {
+   "id": "n070",
+   "name": "洞爺湖万世閣 ホテルレイクサイドテラス",
+   "area": "道央",
+   "city": "洞爺湖町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1200,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場13:00〜翌2:00（サウナイキタイ表示）",
+   "sT": 95,
+   "wT": 12,
+   "sT_note": "目安（利用者投稿）。男95℃、女90℃、水風呂12/13℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.565819,
+   "lng": 140.824675,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc"
+   ],
+   "osm": "node/3079576022"
+  },
+  {
+   "id": "n071",
+   "name": "ザ・センチュリオンサウナレスト&ステイ札幌",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "カプセルホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1600,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場24時間（サウナイキタイ表示）",
+   "sT": 80,
+   "wT": 16.4,
+   "sT_note": "目安（利用者投稿）。男80℃、水風呂16.4℃",
+   "g": 1,
+   "l": 1,
+   "lat": 43.054874,
+   "lng": 141.349371,
+   "note": "男性専用",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc"
+   ],
+   "osm": "node/12470797401"
+  },
+  {
+   "id": "n072",
+   "name": "すすきの天然温泉 湯香郷",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1210,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜24:00（サウナイキタイ表示）",
+   "sT": 87,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。男87℃、女90℃、水風呂14/14℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.051906,
+   "lng": 141.355416,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc"
+   ],
+   "osm": "node/6308592936"
+  },
+  {
+   "id": "n073",
+   "name": "プレミアホテル-CABIN-札幌",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 2750,
+   "fee_note": "サウナイキタイ表示・未確認・休業・短縮営業の表示あり",
+   "hours": "大浴場13:30〜翌10:00（サウナイキタイ表示）",
+   "sT": 88,
+   "wT": 13,
+   "sT_note": "目安（利用者投稿）。男88℃、女82℃、水風呂13/16℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.053162,
+   "lng": 141.347744,
+   "note": "サウナイキタイで休業・短縮営業の表示あり",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc"
+   ],
+   "osm": "node/3814789030"
+  },
+  {
+   "id": "n074",
+   "name": "ニュー阿寒ホテル",
+   "area": "道東",
+   "city": "釧路市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1300,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場24時間（サウナイキタイ表示）",
+   "sT": 82,
+   "wT": 15.9,
+   "sT_note": "目安（利用者投稿）。男82℃、女86℃、水風呂15.9/16℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.433398,
+   "lng": 144.096902,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc"
+   ],
+   "osm": "way/430715740"
+  },
+  {
+   "id": "n075",
+   "name": "小金湯温泉 湯元 小金湯",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 900,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜23:00（サウナイキタイ表示）",
+   "sT": 86,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。男86℃、女80℃、水風呂14/14℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.968356,
+   "lng": 141.219874,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc"
+   ],
+   "osm": "node/2546431415"
+  },
+  {
+   "id": "n076",
+   "name": "Kushiro Marshland Hostel THE GEEK",
+   "area": "道東",
+   "city": "標茶町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 3300,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "大浴場10:00〜21:30（サウナイキタイ表示）",
+   "sT": 88,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂16℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc"
+   ]
+  },
+  {
+   "id": "n077",
+   "name": "芦別温泉 おふろcafé 星遊館",
+   "area": "道央",
+   "city": "芦別市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 900,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "6:00〜22:00（サウナイキタイ表示）",
+   "sT": 92,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男92℃、女94℃、水風呂15/16℃",
+   "g": 1,
+   "l": 1,
+   "lat": 43.545445,
+   "lng": 142.241151,
+   "note": "芦別温泉スターライトホテル",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc"
+   ],
+   "osm": "node/9910923826"
+  },
+  {
+   "id": "n078",
+   "name": "定山渓万世閣ホテルミリオーネ",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場12:00〜翌2:00（サウナイキタイ表示）",
+   "sT": 92,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。男92℃、女85℃、水風呂14/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.964295,
+   "lng": 141.163737,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc"
+   ],
+   "osm": "node/4403653064"
+  },
+  {
+   "id": "n079",
+   "name": "SPA&SAUNA オスパー",
+   "area": "道北",
+   "city": "旭川市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 880,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場24時間（サウナイキタイ表示）",
+   "sT": 85,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男85℃、女80℃、水風呂15/15℃",
+   "g": 1,
+   "l": 1,
+   "lat": 43.760125,
+   "lng": 142.370622,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
+   ],
+   "osm": "way/256297195"
+  },
+  {
+   "id": "n080",
+   "name": "奥札幌の秘湯 湖畔の宿支笏湖 丸駒温泉旅館",
+   "area": "道央",
+   "city": "千歳市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1200,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 90,
+   "wT": 19,
+   "sT_note": "目安（利用者投稿）。男90℃、女100℃、水風呂19/17℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.780445,
+   "lng": 141.310748,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
+   ],
+   "osm": "way/442044851"
+  },
+  {
+   "id": "n081",
+   "name": "休日湯",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1420,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜24:00（サウナイキタイ表示）",
+   "sT": 85,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男85℃、女88℃、水風呂15/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
+   ]
+  },
+  {
+   "id": "n082",
+   "name": "天然温泉あしべ屯田",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 850,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜24:00（サウナイキタイ表示）",
+   "sT": 95,
+   "wT": 18,
+   "sT_note": "目安（利用者投稿）。男95℃、女80℃、水風呂18/17℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.137062,
+   "lng": 141.329659,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
+   ],
+   "osm": "way/698149378"
+  },
+  {
+   "id": "n083",
+   "name": "新千歳空港温泉",
+   "area": "道央",
+   "city": "千歳市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1800,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜翌9:00（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男90℃、女86℃、水風呂15/19℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.787982,
+   "lng": 141.680422,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
+   ],
+   "osm": "node/6556841934"
+  },
+  {
+   "id": "n084",
+   "name": "キトウシの森きとろん",
+   "area": "道北",
+   "city": "東川町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜22:00（サウナイキタイ表示）",
+   "sT": 93,
+   "wT": 14.5,
+   "sT_note": "目安（利用者投稿）。男93℃、女86℃、水風呂14.5/13.4℃",
+   "g": 1,
+   "l": 1,
+   "lat": 43.727002,
+   "lng": 142.539756,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
+   ],
+   "osm": "way/1264686758"
+  },
+  {
+   "id": "n085",
+   "name": "ひまわり温泉",
+   "area": "道東",
+   "city": "帯広市",
+   "type": "銭湯",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "11:00〜23:00（サウナイキタイ表示）",
+   "sT": 100,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。男100℃、女95℃、水風呂14/18℃",
+   "g": 1,
+   "l": 1,
+   "lat": 42.894295,
+   "lng": 143.1911,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
+   ],
+   "osm": "way/549176703",
+   "coord_note": "帯広のひまわり温泉は候補が複数あり、位置が違う可能性"
+  },
+  {
+   "id": "n086",
+   "name": "tower eleven onsen & sauna（エスコンフィールド）",
+   "area": "道央",
+   "city": "北広島市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 2500,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "営業開始11:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 85,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂17℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
+   ]
+  },
+  {
+   "id": "n087",
+   "name": "天然温泉 大喜湯昭和店",
+   "area": "道東",
+   "city": "釧路市",
+   "type": "銭湯",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "12:00〜23:00（サウナイキタイ表示）",
+   "sT": 89,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男89℃、女98℃、水風呂16/15℃",
+   "g": 1,
+   "l": 1,
+   "lat": 43.026891,
+   "lng": 144.357155,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
+   ],
+   "osm": "way/541730605"
+  },
+  {
+   "id": "n088",
+   "name": "スゴイサウナ 札幌すすきの店",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1100,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "11:00〜翌6:00（サウナイキタイ表示）",
+   "sT": 70,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男70℃、女70℃、水風呂15/16℃",
+   "g": 0,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "低めの温度設定の投稿",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
+   ]
+  },
+  {
+   "id": "n089",
+   "name": "KIKI知床 ナチュラルリゾート",
+   "area": "道東",
+   "city": "斜里町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 2200,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始7:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 85,
+   "wT": 13.5,
+   "sT_note": "目安（利用者投稿）。男85℃、女85℃、水風呂13.5/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
+   ]
+  },
+  {
+   "id": "n090",
+   "name": "岬の湯 しゃこたん",
+   "area": "道央",
+   "city": "積丹町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1200,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始11:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 100,
+   "wT": 13,
+   "sT_note": "目安（利用者投稿）。男100℃、女96℃、水風呂13/16℃",
+   "g": 1,
+   "l": 1,
+   "lat": 43.338605,
+   "lng": 140.454361,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
+   ],
+   "osm": "way/269896545"
+  },
+  {
+   "id": "n091",
+   "name": "湯処花ゆづき",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜24:00（サウナイキタイ表示）",
+   "sT": 80,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男80℃、女80℃、水風呂17/16℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.077083,
+   "lng": 141.315566,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
+   ],
+   "osm": "way/374823163"
+  },
+  {
+   "id": "n092",
+   "name": "ETANBETSU MARGINAL SAUNA（江丹別マージナルサウナ）",
+   "area": "道北",
+   "city": "旭川市",
+   "type": "プライベートサウナ",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 4400,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "6:30〜21:30（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 12,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂12℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "貸切タイプ。予約要否は未確認",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
+   ]
+  },
+  {
+   "id": "n093",
+   "name": "シャトレーゼ ガトーキングダム札幌",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1300,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場10:00〜23:00（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 20,
+   "sT_note": "目安（利用者投稿）。男90℃、女80℃、水風呂20/21℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.17227,
+   "lng": 141.35741,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
+   ],
+   "osm": "way/490477089"
+  },
+  {
+   "id": "n094",
+   "name": "湯屋サーモン",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "銭湯",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 600,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "12:30〜23:00（サウナイキタイ表示）",
+   "sT": 80,
+   "wT": 19,
+   "sT_note": "目安（利用者投稿）。男80℃、女80℃、水風呂19/18℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.099402,
+   "lng": 141.269445,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
+   ],
+   "osm": "way/201285150"
+  },
+  {
+   "id": "n095",
+   "name": "湯の郷 絢ほのか",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 800,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "24時間（サウナイキタイ表示）",
+   "sT": 95,
+   "wT": 15.5,
+   "sT_note": "目安（利用者投稿）。男95℃、女85℃、水風呂15.5/17.3℃",
+   "g": 1,
+   "l": 1,
+   "lat": 43.00115,
+   "lng": 141.435889,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
+   ],
+   "osm": "node/2476119121"
+  },
+  {
+   "id": "n096",
+   "name": "つきさむ温泉",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜24:00（サウナイキタイ表示）",
+   "sT": 95,
+   "wT": 20,
+   "sT_note": "目安（利用者投稿）。男95℃、女90℃、水風呂20/11.2℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.010973,
+   "lng": 141.422464,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
+   ],
+   "osm": "way/288862669"
+  },
+  {
+   "id": "n097",
+   "name": "苗穂駅前温泉 蔵ノ湯",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜24:00（サウナイキタイ表示）",
+   "sT": 92,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男92℃、女83℃、水風呂16/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.067584,
+   "lng": 141.377173,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
+   ],
+   "osm": "node/13521903624"
+  },
+  {
+   "id": "n098",
+   "name": "goodsauna & spa SAPPORO",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1780,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "11:00〜翌10:00（サウナイキタイ表示）",
+   "sT": 82,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男82℃、女85℃、水風呂15/15℃",
+   "g": 0,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
+   ]
+  },
+  {
+   "id": "n099",
+   "name": "湯宿だいいち",
+   "area": "道東",
+   "city": "中標津町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 5570,
+   "fee_note": "サウナイキタイ表示・未確認（宿泊向けの料金の可能性あり）",
+   "hours": "大浴場15:00〜翌11:00（サウナイキタイ表示）",
+   "sT": 83,
+   "wT": 13,
+   "sT_note": "目安（利用者投稿）。男83℃、女80℃、水風呂13/16℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.587564,
+   "lng": 144.722707,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
+   ],
+   "osm": "node/5110240021",
+   "coord_note": "位置が中標津町の外れ"
+  },
+  {
+   "id": "n100",
+   "name": "JRタワーホテル日航札幌 スカイリゾートスパ プラウブラン",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 3300,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場12:00〜23:00（サウナイキタイ表示）",
+   "sT": 96,
+   "wT": 16.2,
+   "sT_note": "目安（利用者投稿）。男96℃、女86℃、水風呂16.2/16℃",
+   "g": 0,
+   "l": 0,
+   "lat": 43.068218,
+   "lng": 141.352382,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
+   ],
+   "osm": "way/1107957976"
+  },
+  {
+   "id": "n101",
+   "name": "知内温泉",
+   "area": "道南",
+   "city": "知内町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 5000,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "営業開始7:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 90,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂16℃",
+   "g": 1,
+   "l": 1,
+   "lat": 41.595689,
+   "lng": 140.29473,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
+   ],
+   "osm": "way/685415145"
+  },
+  {
+   "id": "n102",
+   "name": "POT SAUNA（HOTEL POTMUM）",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 3500,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "大浴場7:30〜22:30（サウナイキタイ表示）",
+   "sT": 94,
+   "wT": 18,
+   "sT_note": "目安（利用者投稿）。男94℃、女95℃、水風呂18℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
+   ]
+  },
+  {
+   "id": "n103",
+   "name": "森林公園温泉 きよら",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "銭湯",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 550,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "11:00〜24:00（サウナイキタイ表示）",
+   "sT": 88,
+   "wT": 14.5,
+   "sT_note": "目安（利用者投稿）。男88℃、女86℃、水風呂14.5/14℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.051935,
+   "lng": 141.485353,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
+   ],
+   "osm": "way/326886259"
+  },
+  {
+   "id": "n104",
+   "name": "SAUNA Otaru arch",
+   "area": "道央",
+   "city": "小樽市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 3700,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "9:00〜22:00（サウナイキタイ表示）",
+   "sT": 100,
+   "wT": 7,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂7℃",
+   "g": 1,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
+   ]
+  },
+  {
+   "id": "n105",
+   "name": "solos",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "プライベートサウナ",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 2800,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "9:00〜23:00（サウナイキタイ表示）",
+   "sT": 100,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男100℃、女90℃、水風呂15/16℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
+   ]
+  },
+  {
+   "id": "n106",
+   "name": "十勝川温泉 観月苑",
+   "area": "道東",
+   "city": "音更町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1800,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場13:00〜翌1:00（サウナイキタイ表示）",
+   "sT": 82,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。男82℃、女80℃、水風呂14/18℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
+   ]
+  },
+  {
+   "id": "n107",
+   "name": "青の洞窟温泉 ピパの湯 ゆ〜りん館",
+   "area": "道央",
+   "city": "美唄市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 650,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始7:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 85,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男85℃、女80℃、水風呂16/13℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.343541,
+   "lng": 141.893217,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
+   ],
+   "osm": "way/551075041"
+  },
+  {
+   "id": "n108",
+   "name": "里の森 森のゆ",
+   "area": "道央",
+   "city": "北広島市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "9:00〜22:00（サウナイキタイ表示）",
+   "sT": 88,
+   "wT": 15.1,
+   "sT_note": "目安（利用者投稿）。男88℃、女85℃、水風呂15.1/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.015575,
+   "lng": 141.492481,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
+   ],
+   "osm": "way/454323359",
+   "coord_note": "所在地が北広島市か札幌市か要確認"
+  },
+  {
+   "id": "n109",
+   "name": "十勝エアポートスパ そら",
+   "area": "道東",
+   "city": "中札内村",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "7:00〜22:00（サウナイキタイ表示）",
+   "sT": 82,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男82℃、女90℃、水風呂15/12.5℃",
+   "g": 1,
+   "l": 1,
+   "lat": 42.658028,
+   "lng": 143.15148,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
+   ],
+   "osm": "way/1159788570"
+  },
+  {
+   "id": "n110",
+   "name": "湯宿くったり温泉レイクイン（北海道アヴァント）",
+   "area": "道東",
+   "city": "新得町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 700,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場14:00〜22:00（サウナイキタイ表示）",
+   "sT": 70,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男70℃、女90℃、水風呂16/16℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "男女で温度差が大きい投稿",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
+   ]
+  },
+  {
+   "id": "n111",
+   "name": "十勝しんむら牧場 ミルクサウナ",
+   "area": "道東",
+   "city": "上士幌町",
+   "type": "その他",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 22000,
+   "fee_note": "サウナイキタイ表示・未確認・利用条件は未確認",
+   "hours": null,
+   "sT": 70,
+   "wT": 13,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂13℃",
+   "g": 1,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "高額プラン",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
+   ]
+  },
+  {
+   "id": "n112",
+   "name": "旅籠屋 定山渓商店",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1200,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始13:30（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 110,
+   "wT": 14.5,
+   "sT_note": "目安（利用者投稿）。男110℃、女90℃、水風呂14.5/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.971664,
+   "lng": 141.166359,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
+   ],
+   "osm": "way/439189874"
+  },
+  {
+   "id": "n113",
+   "name": "5737コンナサウナ",
+   "area": "道東",
+   "city": "帯広市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 2000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "11:00〜22:00（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 9.9,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂9.9℃",
+   "g": 1,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
+   ]
+  },
+  {
+   "id": "n114",
+   "name": "屈斜路湖サウナ倶楽部",
+   "area": "道東",
+   "city": "弟子屈町",
+   "type": "プライベートサウナ",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 19800,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "営業開始9:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 90,
+   "wT": 6.7,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂6.7℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
+   ]
+  },
+  {
+   "id": "n115",
+   "name": "湯めごこち南郷の湯",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "14:00〜24:00（サウナイキタイ表示）",
+   "sT": 80,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。男80℃、女80℃、水風呂14/13.2℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.036255,
+   "lng": 141.424524,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
+   ],
+   "osm": "way/445508033"
+  },
+  {
+   "id": "n116",
+   "name": "暖雪 札幌",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "大浴場15:00〜翌1:00（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 16.8,
+   "sT_note": "目安（利用者投稿）。男90℃、女88℃、水風呂16.8/19℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.054574,
+   "lng": 141.360167,
+   "note": "宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
+   ],
+   "osm": "node/13623264537"
+  },
+  {
+   "id": "n117",
+   "name": "湯元 花の湯",
+   "area": "道南",
+   "city": "函館市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 720,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜22:00（サウナイキタイ表示）",
+   "sT": 80,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男80℃、女80℃、水風呂16/15℃",
+   "g": 1,
+   "l": 1,
+   "lat": 41.839841,
+   "lng": 140.736621,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
+   ],
+   "osm": "way/485073727"
+  },
+  {
+   "id": "n118",
+   "name": "新琴似温泉 壱乃湯",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜24:00（サウナイキタイ表示）",
+   "sT": 95,
+   "wT": 19.2,
+   "sT_note": "目安（利用者投稿）。男95℃、女88℃、水風呂19.2/19℃",
+   "g": 1,
+   "l": 1,
+   "lat": 43.108935,
+   "lng": 141.316453,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
+   ],
+   "osm": "way/408262274"
+  },
+  {
+   "id": "n119",
+   "name": "Lively by Euphoria faste ライブリー",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 1500,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "営業開始10:30（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 90,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男90℃、女92℃、水風呂16/15.7℃",
+   "g": 0,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=4"
+   ]
+  },
+  {
+   "id": "n120",
+   "name": "フミノサウナ",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "プライベートサウナ",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 3100,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "10:00〜翌4:00（サウナイキタイ表示）",
+   "sT": 105,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男105℃、女80℃、水風呂15℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=4"
+   ]
+  },
+  {
+   "id": "n121",
+   "name": "岩見沢温泉ほのか",
+   "area": "道央",
+   "city": "岩見沢市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 650,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜翌9:00（サウナイキタイ表示）",
+   "sT": 80,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男80℃、女82℃、水風呂16/15℃",
+   "g": 1,
+   "l": 1,
+   "lat": 43.184658,
+   "lng": 141.723545,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=4"
+   ],
+   "osm": "way/673569638"
+  },
+  {
+   "id": "n122",
+   "name": "プレミアホテル-CABIN-帯広",
+   "area": "道東",
+   "city": "帯広市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "14:00〜23:00（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男90℃、女90℃、水風呂16/19℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.919719,
+   "lng": 143.204327,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=4"
+   ],
+   "osm": "way/545692805"
+  },
+  {
+   "id": "n123",
+   "name": "ホテル・アンドルームス札幌すすきの",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "大浴場15:00〜翌2:00（サウナイキタイ表示）",
+   "sT": 96,
+   "wT": 16.5,
+   "sT_note": "目安（利用者投稿）。男96℃、女88℃、水風呂16.5/19℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.053117,
+   "lng": 141.358573,
+   "note": "宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=4"
+   ],
+   "osm": "node/10635751905"
+  },
+  {
+   "id": "n124",
+   "name": "ていね温泉ほのか",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 800,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "24時間（サウナイキタイ表示）",
+   "sT": 85,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男85℃、女88℃、水風呂15/18℃",
+   "g": 1,
+   "l": 1,
+   "lat": 43.104686,
+   "lng": 141.252079,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=4"
+   ],
+   "osm": "way/695023199"
+  },
+  {
+   "id": "n125",
+   "name": "オベリベリ温泉 水光園",
+   "area": "道東",
+   "city": "帯広市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "11:00〜23:00（サウナイキタイ表示）",
+   "sT": 95,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。男95℃、女90℃、水風呂14/17℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.927762,
+   "lng": 143.222509,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=4"
+   ],
+   "osm": "way/545022994"
+  },
+  {
+   "id": "n126",
+   "name": "妹背牛温泉ペペル",
+   "area": "道央",
+   "city": "妹背牛町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜22:00（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 18,
+   "sT_note": "目安（利用者投稿）。男90℃、女91℃、水風呂18/18℃",
+   "g": 1,
+   "l": 1,
+   "lat": 43.699587,
+   "lng": 141.959186,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=4"
+   ],
+   "osm": "way/694992623"
+  },
+  {
+   "id": "n127",
+   "name": "北のたまゆら 桑園",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "7:00〜翌1:00（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 18,
+   "sT_note": "目安（利用者投稿）。男90℃、女80℃、水風呂18/20℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.071486,
+   "lng": 141.328828,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=4"
+   ],
+   "osm": "way/330331117"
+  },
+  {
+   "id": "n128",
+   "name": "あかん遊久の里 鶴雅",
+   "area": "道東",
+   "city": "釧路市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 2500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場14:00〜22:00（サウナイキタイ表示）",
+   "sT": 88,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男88℃、女80℃、水風呂16/17℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.434731,
+   "lng": 144.090806,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=4"
+   ],
+   "osm": "way/582072673"
+  },
+  {
+   "id": "n129",
+   "name": "天然温泉やよい乃湯",
+   "area": "道東",
+   "city": "帯広市",
+   "type": "銭湯",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜23:00（サウナイキタイ表示）",
+   "sT": 85,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男85℃、女82℃、水風呂17/17℃",
+   "g": 1,
+   "l": 1,
+   "lat": 42.922836,
+   "lng": 143.163081,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=4"
+   ],
+   "osm": "way/552693259"
+  },
+  {
+   "id": "n130",
+   "name": "ラビスタ函館ベイ",
+   "area": "道南",
+   "city": "函館市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "大浴場15:00〜翌10:00（サウナイキタイ表示）",
+   "sT": 92,
+   "wT": 18,
+   "sT_note": "目安（利用者投稿）。男92℃、女94℃、水風呂18/18℃",
+   "g": 1,
+   "l": 0,
+   "lat": 41.767644,
+   "lng": 140.71903,
+   "note": "宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=4"
+   ],
+   "osm": "node/2666692453"
+  },
+  {
+   "id": "n131",
+   "name": "ユンニの湯",
+   "area": "道央",
+   "city": "由仁町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 800,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始6:30（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 94,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男94℃、女88℃、水風呂17/16℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.997687,
+   "lng": 141.776481,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=4"
+   ],
+   "osm": "way/441858102"
+  },
+  {
+   "id": "n132",
+   "name": "プレミアホテル-CABIN-旭川 天然温泉かぐらの湯",
+   "area": "道北",
+   "city": "旭川市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場14:00〜翌10:00（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男90℃、女86℃、水風呂15/12℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.765633,
+   "lng": 142.357857,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=4"
+   ],
+   "osm": "way/141824437"
+  },
+  {
+   "id": "n133",
+   "name": "フタバ湯",
+   "area": "道北",
+   "city": "旭川市",
+   "type": "銭湯",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 600,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "15:00〜22:00（サウナイキタイ表示）",
+   "sT": 80,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男80℃、女80℃、水風呂16/15℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=4"
+   ]
+  },
+  {
+   "id": "n134",
+   "name": "十勝ガーデンズホテル",
+   "area": "道東",
+   "city": "帯広市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1100,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場14:00〜翌2:00（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。男90℃、女95℃、水風呂14/20℃",
+   "g": 1,
+   "l": 0,
+   "lat": 42.919325,
+   "lng": 143.203072,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=4"
+   ],
+   "osm": "way/401702163"
+  },
+  {
+   "id": "n135",
+   "name": "小樽温泉 オスパ",
+   "area": "道央",
+   "city": "小樽市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 850,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "24時間（サウナイキタイ表示）",
+   "sT": 85,
+   "wT": 17.4,
+   "sT_note": "目安（利用者投稿）。男85℃、女82℃、水風呂17.4/16℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.187987,
+   "lng": 141.016553,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=4"
+   ],
+   "osm": "way/673591722"
+  },
+  {
+   "id": "n136",
+   "name": "三笠天然温泉 太古の湯",
+   "area": "道央",
+   "city": "三笠市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 760,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜22:00（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 22.5,
+   "sT_note": "目安（利用者投稿）。男90℃、女84℃、水風呂22.5/17℃",
+   "g": 1,
+   "l": 0,
+   "lat": 43.247465,
+   "lng": 141.805907,
+   "note": "水風呂は高め",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=4"
+   ],
+   "osm": "way/437386269"
+  },
+  {
+   "id": "n137",
+   "name": "リラクゼーション スパ・アルパ",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 2600,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "12:00〜24:00（サウナイキタイ表示）",
+   "sT": 83,
+   "wT": 10,
+   "sT_note": "目安（利用者投稿）。男83℃、女84℃、水風呂10/16℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
+   ]
+  },
+  {
+   "id": "n138",
+   "name": "KIELO SAUNA",
+   "area": "道東",
+   "city": "釧路市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 4000,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（水曜の表示・サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 85,
+   "wT": 9,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂9℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
+   ]
+  },
+  {
+   "id": "n139",
+   "name": "HOTEL&SPA センチュリーマリーナ函館",
+   "area": "道南",
+   "city": "函館市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 2000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場5:30〜翌0:30（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 18,
+   "sT_note": "目安（利用者投稿）。男90℃、女40℃（女性側は表示のまま。男性側と差が大きい）、水風呂18/－℃（女性側は投稿なし）",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
+   ]
+  },
+  {
+   "id": "n140",
+   "name": "谷地頭温泉",
+   "area": "道南",
+   "city": "函館市",
+   "type": "銭湯",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 490,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始6:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 95,
+   "wT": 12,
+   "sT_note": "目安（利用者投稿）。男95℃、女88℃、水風呂12/20℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
+   ]
+  },
+  {
+   "id": "n141",
+   "name": "石狩天然温泉 番屋の湯",
+   "area": "道央",
+   "city": "石狩市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 900,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜24:00（サウナイキタイ表示）",
+   "sT": 91,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男91℃、女90℃、水風呂17/16℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
+   ]
+  },
+  {
+   "id": "n142",
+   "name": "こうしんの湯",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 88,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男88℃、女82℃、水風呂16/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
+   ]
+  },
+  {
+   "id": "n143",
+   "name": "恵庭温泉ラ・フォーレ",
+   "area": "道央",
+   "city": "恵庭市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始11:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 90,
+   "wT": 12.2,
+   "sT_note": "目安（利用者投稿）。男90℃、女85℃、水風呂12.2/10.5℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
+   ]
+  },
+  {
+   "id": "n144",
+   "name": "定山渓温泉 湯の花",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1180,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 85,
+   "wT": 19,
+   "sT_note": "目安（利用者投稿）。男85℃、女80℃、水風呂19/17℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
+   ]
+  },
+  {
+   "id": "n145",
+   "name": "鳳乃舞温泉 音更",
+   "area": "道東",
+   "city": "音更町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場6:00〜23:30（サウナイキタイ表示）",
+   "sT": 82,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。男82℃、女94℃、水風呂14/14℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
+   ]
+  },
+  {
+   "id": "n146",
+   "name": "千歳乃湯えん",
+   "area": "道央",
+   "city": "千歳市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 490,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 92,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男92℃、女82℃、水風呂15/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
+   ]
+  },
+  {
+   "id": "n147",
+   "name": "定山渓ビューホテル",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始6:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 80,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男80℃、女82℃、水風呂16/15℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
+   ]
+  },
+  {
+   "id": "n148",
+   "name": "十勝まきばの家",
+   "area": "道東",
+   "city": "池田町",
+   "type": "キャンプ場",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 3850,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "営業開始9:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 60,
+   "wT": 18,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂18℃",
+   "g": 1,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
+   ]
+  },
+  {
+   "id": "n149",
+   "name": "こみちの湯 ほのか",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "24時間（サウナイキタイ表示）",
+   "sT": 88,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。女性専用のため女性側の値（サウナ88℃・水風呂15℃）",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "女性専用",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
+   ]
+  },
+  {
+   "id": "n150",
+   "name": "日帰り入浴施設マウレ山荘ポッケの湯",
+   "area": "道東",
+   "city": "遠軽町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 600,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始12:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 90,
+   "wT": null,
+   "sT_note": "目安（利用者投稿）。男90℃、女115℃（女性側は表示のまま。男性側と差が大きい）、水風呂の投稿なし",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
+   ]
+  },
+  {
+   "id": "n151",
+   "name": "森のゆ ホテル花神楽",
+   "area": "道北",
+   "city": "東神楽町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 900,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 86,
+   "wT": 13,
+   "sT_note": "目安（利用者投稿）。男86℃、女86℃、水風呂13/13℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
+   ]
+  },
+  {
+   "id": "n152",
+   "name": "京極温泉 京極ふれあい交流センター",
+   "area": "道央",
+   "city": "京極町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 800,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（火曜の表示・サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 95,
+   "wT": 9,
+   "sT_note": "目安（利用者投稿）。男95℃、女88℃、水風呂9/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
+   ]
+  },
+  {
+   "id": "n153",
+   "name": "なんぽろ温泉ハート&ハート",
+   "area": "道央",
+   "city": "南幌町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 750,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 88,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男88℃、女85℃、水風呂15/13℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
+   ]
+  },
+  {
+   "id": "n154",
+   "name": "湯処ほのか",
+   "area": "道央",
+   "city": "北広島市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1150,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "9:00〜24:00（サウナイキタイ表示）",
+   "sT": 80,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男80℃、女88℃、水風呂17/14℃",
+   "g": 1,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
+   ]
+  },
+  {
+   "id": "n155",
+   "name": "GardensResort ときわ",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "キャンプ場",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定（サウナイキタイ表示5,000円〜・未確認。写真の説明に「フィンランド式薪サウナ オプション5000円」の表記あり）",
+   "hours": "サウナ24時間（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂15℃",
+   "g": 1,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
+   ]
+  },
+  {
+   "id": "n156",
+   "name": "晩成温泉",
+   "area": "道東",
+   "city": "大樹町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始8:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 98,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男98℃、女96℃、水風呂16/16℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
+   ]
+  },
+  {
+   "id": "n157",
+   "name": "ホテルモントレエーデルホフ札幌 カルロビ・バリ・スパ",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定（サウナイキタイ表示3,000円〜・未確認）",
+   "hours": "営業開始7:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 95,
+   "wT": 12,
+   "sT_note": "目安（利用者投稿）。男95℃、女88℃、水風呂12/12℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
+   ]
+  },
+  {
+   "id": "n158",
+   "name": "HARVIA SAUNA&SPA TOKACHI（ハルビアトカチ）",
+   "area": "道東",
+   "city": "帯広市",
+   "type": "プライベートサウナ",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 1500,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "営業開始11:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 100,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂17℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
+   ]
+  },
+  {
+   "id": "n159",
+   "name": "ONSEN RYOKAN 由緒 札幌",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "大浴場15:00〜翌1:00（サウナイキタイ表示）",
+   "sT": 88,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男88℃、女84℃、水風呂17/17℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
+   ]
+  },
+  {
+   "id": "n160",
+   "name": "天然温泉ホテルリブマックスPREMIUM札幌大通公園",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場15:00〜翌1:00（サウナイキタイ表示）",
+   "sT": 100,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男100℃、女100℃、水風呂16/14℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
+   ]
+  },
+  {
+   "id": "n161",
+   "name": "天然温泉みなぴりかの湯（ホテルWBFグランデ旭川）",
+   "area": "道北",
+   "city": "旭川市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 89,
+   "wT": 16.3,
+   "sT_note": "目安（利用者投稿）。男89℃、女88℃、水風呂16.3/16.7℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
+   ]
+  },
+  {
+   "id": "n162",
+   "name": "十勝川温泉 第一ホテル",
+   "area": "道東",
+   "city": "音更町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 2000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場13:00〜翌1:00（サウナイキタイ表示）",
+   "sT": 85,
+   "wT": 19,
+   "sT_note": "目安（利用者投稿）。男85℃、女72℃、水風呂19/18℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
+   ]
+  },
+  {
+   "id": "n163",
+   "name": "ココルクの湯",
+   "area": "道央",
+   "city": "江別市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 89,
+   "wT": 12.6,
+   "sT_note": "目安（利用者投稿）。男89℃、女90℃、水風呂12.6/19℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
+   ]
+  },
+  {
+   "id": "n164",
+   "name": "緑の風 リゾート きたゆざわ",
+   "area": "道央",
+   "city": "伊達市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 2500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場15:00〜翌1:30（サウナイキタイ表示）",
+   "sT": 75,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。男75℃、女85℃、水風呂14/16℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
+   ]
+  },
+  {
+   "id": "n165",
+   "name": "望月湯",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "銭湯",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始14:30（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 96,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男96℃、女85℃、水風呂17/16℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
+   ]
+  },
+  {
+   "id": "n166",
+   "name": "つるいむら湿原温泉ホテル",
+   "area": "道東",
+   "city": "鶴居村",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 800,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始11:30（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 90,
+   "wT": 11.4,
+   "sT_note": "目安（利用者投稿）。男90℃、女95℃、水風呂11.4/17℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
+   ]
+  },
+  {
+   "id": "n167",
+   "name": "えにわ温泉ほのか",
+   "area": "道央",
+   "city": "恵庭市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1100,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "9:00〜24:00（サウナイキタイ表示）",
+   "sT": 80,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男80℃、女72℃、水風呂16/14℃",
+   "g": 1,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
+   ]
+  },
+  {
+   "id": "n168",
+   "name": "喜楽湯",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "銭湯",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始11:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 95,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男95℃、女89℃、水風呂16/18℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
+   ]
+  },
+  {
+   "id": "n169",
+   "name": "Koti Private SAUNA Cottage",
+   "area": "道北",
+   "city": "当麻町",
+   "type": "プライベートサウナ",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 10000,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "営業開始11:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 85,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂15℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
+   ]
+  },
+  {
+   "id": "n170",
+   "name": "サホロリゾートホテル",
+   "area": "道東",
+   "city": "新得町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始6:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 90,
+   "wT": 13,
+   "sT_note": "目安（利用者投稿）。男90℃、女91℃、水風呂13/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
+   ]
+  },
+  {
+   "id": "n171",
+   "name": "花園温泉",
+   "area": "道南",
+   "city": "函館市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 480,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始6:00（火曜の表示・サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 86,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男86℃、女90℃、水風呂15/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
+   ]
+  },
+  {
+   "id": "n172",
+   "name": "湯の花江別殿",
+   "area": "道央",
+   "city": "江別市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "8:00〜24:00（サウナイキタイ表示）",
+   "sT": 82,
+   "wT": 13,
+   "sT_note": "目安（利用者投稿）。男82℃、女80℃、水風呂13/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
+   ]
+  },
+  {
+   "id": "n173",
+   "name": "狸の湯 ドーミーイン札幌ANNEX",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "大浴場15:00〜翌10:00（サウナイキタイ表示）",
+   "sT": 80,
+   "wT": 13,
+   "sT_note": "目安（利用者投稿）。男80℃、女82℃、水風呂13/14℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
+   ]
+  },
+  {
+   "id": "n174",
+   "name": "HOTEL BOTH",
+   "area": "道東",
+   "city": "斜里町",
+   "type": "プライベートサウナ",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 4500,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "営業開始6:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 100,
+   "wT": 10,
+   "sT_note": "目安（利用者投稿）。男100℃、女90℃、水風呂10/7℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
+   ]
+  },
+  {
+   "id": "n175",
+   "name": "旭川高砂台 万葉の湯",
+   "area": "道北",
+   "city": "旭川市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1400,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜翌9:00（サウナイキタイ表示）",
+   "sT": 92,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男92℃、女90℃、水風呂16/16℃。ロウリュは女性側のみ○の表示",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
+   ]
+  },
+  {
+   "id": "n176",
+   "name": "トムラウシ温泉 東大雪荘",
+   "area": "道東",
+   "city": "新得町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場13:00〜翌9:00（サウナイキタイ表示）",
+   "sT": 70,
+   "wT": 12,
+   "sT_note": "目安（利用者投稿）。男70℃、女60℃、水風呂12/14.3℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
+   ]
+  },
+  {
+   "id": "n177",
+   "name": "十勝ナウマン温泉ホテルアルコ",
+   "area": "道東",
+   "city": "幕別町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 600,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始5:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 88,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男88℃、女90℃、水風呂15/13℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
+   ]
+  },
+  {
+   "id": "n178",
+   "name": "十勝岳温泉 凌雲閣",
+   "area": "道北",
+   "city": "上富良野町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始8:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 100,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。男100℃、女92℃、水風呂14/18℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
+   ]
+  },
+  {
+   "id": "n179",
+   "name": "道の駅 かみゆうべつ温泉チューリップの湯",
+   "area": "道東",
+   "city": "湧別町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 650,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 85,
+   "wT": 14.1,
+   "sT_note": "目安（利用者投稿）。男85℃、女89℃、水風呂14.1/14℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
+   ]
+  },
+  {
+   "id": "n180",
+   "name": "高砂温泉",
+   "area": "道北",
+   "city": "旭川市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 650,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始6:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 78,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男78℃、女60℃、水風呂16/20℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
+   ]
+  },
+  {
+   "id": "n181",
+   "name": "苫小牧温泉ほのか",
+   "area": "道央",
+   "city": "苫小牧市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1150,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "9:00〜24:00（サウナイキタイ表示）",
+   "sT": 92,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男92℃、女85℃、水風呂16/16℃",
+   "g": 1,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
+   ]
+  },
+  {
+   "id": "n182",
+   "name": "ローマの泉",
+   "area": "道東",
+   "city": "帯広市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 2500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始11:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 95,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男95℃、水風呂15℃（女性側の投稿なし）",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
+   ]
+  },
+  {
+   "id": "n183",
+   "name": "札幌ホテル by グランベル",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 3300,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始5:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 94,
+   "wT": 18,
+   "sT_note": "目安（利用者投稿）。男94℃、女88℃、水風呂18/18.1℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
+   ]
+  },
+  {
+   "id": "n184",
+   "name": "洞爺サンパレス リゾート&スパ",
+   "area": "道央",
+   "city": "壮瞥町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 2000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場5:00〜翌1:00（サウナイキタイ表示）",
+   "sT": 82,
+   "wT": 23,
+   "sT_note": "目安（利用者投稿）。男82℃、女85℃、水風呂23/20.4℃（水風呂は高め）",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
+   ]
+  },
+  {
+   "id": "n185",
+   "name": "朝里川温泉ホテル",
+   "area": "道央",
+   "city": "小樽市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 800,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始11:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 92,
+   "wT": 13,
+   "sT_note": "目安（利用者投稿）。男92℃、女85℃、水風呂13/15℃。ロウリュは男性側のみ○の表示",
+   "g": 1,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
+   ]
+  },
+  {
+   "id": "n186",
+   "name": "アグリ工房まあぶ",
+   "area": "道央",
+   "city": "深川市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 96,
+   "wT": 12,
+   "sT_note": "目安（利用者投稿）。男96℃、女80℃、水風呂12/10℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
+   ]
+  },
+  {
+   "id": "n187",
+   "name": "ホテル万惣",
+   "area": "道南",
+   "city": "函館市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1800,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始15:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 95,
+   "wT": 20,
+   "sT_note": "目安（利用者投稿）。男95℃、女95℃、水風呂20/22℃（水風呂は高め）",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
+   ]
+  },
+  {
+   "id": "n188",
+   "name": "函館高温源泉 湯の箱こみち",
+   "area": "道南",
+   "city": "函館市",
+   "type": "カプセルホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場24時間（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男90℃、女90℃、水風呂16/16℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
+   ]
+  },
+  {
+   "id": "n189",
+   "name": "札幌 北広島クラッセホテル 楓楓",
+   "area": "道央",
+   "city": "北広島市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場10:00〜24:00（サウナイキタイ表示）",
+   "sT": 96,
+   "wT": 13,
+   "sT_note": "目安（利用者投稿）。男96℃、女88℃、水風呂13/17℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
+   ]
+  },
+  {
+   "id": "n190",
+   "name": "洞サウナ（DO SAUNA）",
+   "area": "道央",
+   "city": "北広島市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 2300,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始11:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 90,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男90℃、女80℃、水風呂15/17℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
+   ]
+  },
+  {
+   "id": "n191",
+   "name": "菊の湯",
+   "area": "道北",
+   "city": "旭川市",
+   "type": "銭湯",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 700,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "9:00〜24:00（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男90℃、女80℃、水風呂16/14℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
+   ]
+  },
+  {
+   "id": "n192",
+   "name": "きたゆざわ 森のソラニワ",
+   "area": "道央",
+   "city": "伊達市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 90,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。男90℃、女90℃、水風呂14/22℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
+   ]
+  },
+  {
+   "id": "n193",
+   "name": "北村温泉ホテル",
+   "area": "道央",
+   "city": "岩見沢市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 750,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始6:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 92,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男92℃、女88℃、水風呂17/17℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
+   ]
+  },
+  {
+   "id": "n194",
+   "name": "北のたまゆら 厚別",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "8:00〜翌1:00（サウナイキタイ表示）",
+   "sT": 85,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男85℃、女80℃、水風呂17/16℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
+   ]
+  },
+  {
+   "id": "n195",
+   "name": "湯の花 朝里殿",
+   "area": "道央",
+   "city": "小樽市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 880,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始9:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 90,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男90℃、女88℃、水風呂16/17.8℃。外気浴は男性側のみ○の表示",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
+   ]
+  },
+  {
+   "id": "n196",
+   "name": "秩父別温泉 ちっぷ・ゆう&ゆ",
+   "area": "道央",
+   "city": "秩父別町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始5:30（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 96,
+   "wT": 12,
+   "sT_note": "目安（利用者投稿）。男96℃、女90℃、水風呂12/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
+   ]
+  },
+  {
+   "id": "n197",
+   "name": "Bay Lounge Coffee",
+   "area": "道東",
+   "city": "広尾町",
+   "type": "その他",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始11:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 102,
+   "wT": 10,
+   "sT_note": "目安（利用者投稿）。男性専用のため男性側の値（サウナ102℃・水風呂10℃）",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "男性専用",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
+   ]
+  },
+  {
+   "id": "n198",
+   "name": "天然温泉 ふみぞの湯",
+   "area": "道東",
+   "city": "釧路市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 92,
+   "wT": 18,
+   "sT_note": "目安（利用者投稿）。男92℃、女85℃、水風呂18/20.5℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
+   ]
+  },
+  {
+   "id": "n199",
+   "name": "クインテッサホテル札幌すすきの63 Relax & Spa",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 2200,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場15:00〜翌1:00（サウナイキタイ表示）",
+   "sT": 100,
+   "wT": 13.5,
+   "sT_note": "目安（利用者投稿）。男100℃、女45℃（女性側は表示のまま。男性側と差が大きい）、水風呂13.5/－℃（女性側は投稿なし）",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
+   ]
+  },
+  {
+   "id": "n200",
+   "name": "ふとみ銘泉 万葉の湯",
+   "area": "道央",
+   "city": "当別町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1600,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜翌9:00（サウナイキタイ表示）",
+   "sT": 86,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男86℃、女88℃、水風呂17/17℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
+   ]
+  },
+  {
+   "id": "n201",
+   "name": "sea sauna流木の家（しゃこたん 積丹）",
+   "area": "道央",
+   "city": "積丹町",
+   "type": "プライベートサウナ",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 16500,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 90,
+   "wT": 18,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂18℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
+   ]
+  },
+  {
+   "id": "n202",
+   "name": "ながぬま温泉",
+   "area": "道央",
+   "city": "長沼町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 800,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "サウナ休止中22:00〜24:00の表示（サウナイキタイ表示・営業時間は未確認）",
+   "sT": 95,
+   "wT": 16.5,
+   "sT_note": "目安（利用者投稿）。男95℃、女90℃、水風呂16.5/18℃。外気浴は男性側のみ○の表示",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
+   ]
+  },
+  {
+   "id": "n203",
+   "name": "自由ヶ丘温泉",
+   "area": "道東",
+   "city": "帯広市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 490,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:30〜24:00（サウナイキタイ表示）",
+   "sT": 92,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男92℃、女90℃、水風呂16/14℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
+   ]
+  },
+  {
+   "id": "n204",
+   "name": "新富良野プリンスホテル 富良野温泉 紫彩の湯",
+   "area": "道北",
+   "city": "富良野市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1700,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始5:30（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 85,
+   "wT": 20,
+   "sT_note": "目安（利用者投稿）。男85℃、女82℃、水風呂20/16℃（男性側の水風呂は高め）",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
+   ]
+  },
+  {
+   "id": "n205",
+   "name": "蒸宿 カンノンサウナ（十勝とやま農場内）",
+   "area": "道東",
+   "city": "帯広市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 3700,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 80,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂15℃",
+   "g": 1,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
+   ]
+  },
+  {
+   "id": "n206",
+   "name": "mountainman",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "その他",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 5000,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 80,
+   "wT": 11,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂11℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
+   ]
+  },
+  {
+   "id": "n207",
+   "name": "A-SAUNA（エーサウナ）",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 2600,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "営業開始15:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 92,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男92℃、女90℃、水風呂17/17℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
+   ]
+  },
+  {
+   "id": "n208",
+   "name": "旭岳温泉ホテルベアモンテ",
+   "area": "道北",
+   "city": "東川町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1140,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場12:00〜24:00（サウナイキタイ表示）",
+   "sT": 85,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男85℃、女88℃、水風呂16/15℃。外気浴は女性側のみ○の表示",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
+   ]
+  },
+  {
+   "id": "n209",
+   "name": "旅房はなえみ",
+   "area": "道央",
+   "city": "小樽市",
+   "type": "プライベートサウナ",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 1650,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 90,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂14℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
+   ]
+  },
+  {
+   "id": "n210",
+   "name": "モエレ天然温泉たまゆらの杜",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1400,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "6:00〜翌1:00（サウナイキタイ表示）",
+   "sT": 85,
+   "wT": 24,
+   "sT_note": "目安（利用者投稿）。男85℃、女82℃、水風呂24/20℃（水風呂は高め）",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
+   ]
+  },
+  {
+   "id": "n211",
+   "name": "円山温泉",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "銭湯",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始15:00（火曜の表示・サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 90,
+   "wT": 16.8,
+   "sT_note": "目安（利用者投稿）。男90℃、女91℃、水風呂16.8/17℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
+   ]
+  },
+  {
+   "id": "n212",
+   "name": "杜のSPA神楽",
+   "area": "道北",
+   "city": "旭川市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 700,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜24:00（サウナイキタイ表示）",
+   "sT": 86,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男86℃、女88℃、水風呂16/16℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
+   ]
+  },
+  {
+   "id": "n213",
+   "name": "月形温泉ゆりかご",
+   "area": "道央",
+   "city": "月形町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 650,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始11:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 90,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。男90℃、女92℃、水風呂14/12℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
+   ]
+  },
+  {
+   "id": "n214",
+   "name": "定山渓 鶴雅リゾートスパ 森の謌",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": null,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "11:30〜翌2:00（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男90℃、女86℃、水風呂16/16℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
+   ]
+  },
+  {
+   "id": "n215",
+   "name": "ホテルグローバルビュー函館（旧 ホテルパコ函館）",
+   "area": "道南",
+   "city": "函館市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場13:00〜翌10:00（サウナイキタイ表示）",
+   "sT": 104,
+   "wT": 20,
+   "sT_note": "目安（利用者投稿）。男104℃、女100℃、水風呂20/16℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
+   ]
+  },
+  {
+   "id": "n216",
+   "name": "ぽん・ぽんゆ",
+   "area": "道東",
+   "city": "標茶町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始11:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 88,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男88℃、女90℃、水風呂16/16℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
+   ]
+  },
+  {
+   "id": "n217",
+   "name": "小樽朝里川温泉 おたる宏楽園",
+   "area": "道央",
+   "city": "小樽市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 3400,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場15:00〜24:00（サウナイキタイ表示）",
+   "sT": 90,
+   "wT": null,
+   "sT_note": "目安（利用者投稿）。男90℃、女93℃、水風呂は女性側14.4℃のみ（男性側は読み取れず・要確認）",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
+   ]
+  },
+  {
+   "id": "n218",
+   "name": "北海道アヴァント",
+   "area": "道東",
+   "city": "新得町",
+   "type": "その他",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 22000,
+   "fee_note": "事前予約制・サウナイキタイ表示・未確認",
+   "hours": null,
+   "sT": 96,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂14℃。n110「湯宿くったり温泉レイクイン（北海道アヴァント）」とは別掲載（同一かどうか要確認）",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
+   ]
+  },
+  {
+   "id": "n219",
+   "name": "ヤムワッカナイ温泉 港のゆ",
+   "area": "道北",
+   "city": "稚内市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 680,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 88,
+   "wT": 17,
+   "sT_note": "目安（利用者投稿）。男88℃、女98℃、水風呂17/16℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
+   ]
+  },
+  {
+   "id": "n220",
+   "name": "SAUNA OOO SAPPORO（サウナ オー サッポロ）",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "プライベートサウナ",
+   "addr": null,
+   "tel": null,
+   "u": 1,
+   "fee": 4500,
+   "fee_note": "会員のみ・事前予約制・サウナイキタイ表示・未確認",
+   "hours": null,
+   "sT": 95,
+   "wT": 16,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂16℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "会員のみ,事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
+   ]
+  },
+  {
+   "id": "n221",
+   "name": "美白の湯宿 大江本家",
+   "area": "道東",
+   "city": "北見市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場24時間（サウナイキタイ表示）",
+   "sT": 88,
+   "wT": 18,
+   "sT_note": "目安（利用者投稿）。男88℃、女84℃、水風呂18/18℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
+   ]
+  },
+  {
+   "id": "n222",
+   "name": "しこつ湖鶴雅リゾートスパ 水の謌",
+   "area": "道央",
+   "city": "千歳市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 3900,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "サウナ休止中22:30〜翌1:00の表示（サウナイキタイ表示・営業時間は未確認）",
+   "sT": 80,
+   "wT": 14,
+   "sT_note": "目安（利用者投稿）。男80℃、女80℃、水風呂14/13℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
+   ]
+  },
+  {
+   "id": "n223",
+   "name": "FAV LUX 札幌すすきの",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定",
+   "hours": "大浴場15:00〜24:00（サウナイキタイ表示）",
+   "sT": 82,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男82℃、女90℃、水風呂15/14℃",
+   "g": 0,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "宿泊者限定",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
+   ]
+  },
+  {
+   "id": "n224",
+   "name": "しんしのつ温泉 たっぷの湯",
+   "area": "道央",
+   "city": "新篠津村",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 700,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始6:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 86,
+   "wT": 21,
+   "sT_note": "目安（利用者投稿）。男86℃、女90℃、水風呂21/12℃（男性側の水風呂は高め）",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
+   ]
+  },
+  {
+   "id": "n225",
+   "name": "ペットと泊まれる一棟貸しの宿：マナミキャビン【バレルサウナ完備】",
+   "area": "道東",
+   "city": "鶴居村",
+   "type": "一棟貸し",
+   "addr": null,
+   "tel": null,
+   "u": 2,
+   "fee": null,
+   "fee_note": "宿泊者限定・事前予約制（サウナイキタイ表示44,000円〜・未確認）",
+   "hours": null,
+   "sT": 100,
+   "wT": 8,
+   "sT_note": "目安（利用者投稿）。男100℃、女100℃、水風呂8/9℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "宿泊者限定,事前予約制",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
+   ]
+  },
+  {
+   "id": "n226",
+   "name": "札内ガーデン温泉",
+   "area": "道東",
+   "city": "幕別町",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 690,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "10:00〜24:00（サウナイキタイ表示）",
+   "sT": 75,
+   "wT": 15,
+   "sT_note": "目安（利用者投稿）。男75℃、女92℃、水風呂15/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
+   ]
+  },
+  {
+   "id": "n227",
+   "name": "くりやま温泉 ホテルパラダイスヒルズ",
+   "area": "道央",
+   "city": "栗山町",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 700,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "サウナ休止中21:00〜24:00の表示（サウナイキタイ表示・営業時間は未確認）",
+   "sT": 98,
+   "wT": 18,
+   "sT_note": "目安（利用者投稿）。男98℃、女78℃、水風呂18/20℃。ロウリュは男性側のみ○の表示",
+   "g": 1,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
+   ]
+  },
+  {
+   "id": "n228",
+   "name": "北のたまゆら 東苗穂",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "8:00〜翌1:00（サウナイキタイ表示）",
+   "sT": 88,
+   "wT": 18,
+   "sT_note": "目安（利用者投稿）。男88℃、女80℃、水風呂18/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
+   ]
+  },
+  {
+   "id": "n229",
+   "name": "ホテルグローバルビュー釧路 天然温泉 天空の湯（旧ホテルパコ釧路）",
+   "area": "道東",
+   "city": "釧路市",
+   "type": "ホテル",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 1000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "大浴場13:00〜翌10:00（サウナイキタイ表示）",
+   "sT": 82,
+   "wT": 13.6,
+   "sT_note": "目安（利用者投稿）。男82℃、女82℃、水風呂13.6/15℃",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
+   ]
+  },
+  {
+   "id": "n230",
+   "name": "sauna NALUQ",
+   "area": "道央",
+   "city": "蘭越町",
+   "type": "プライベートサウナ",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 10000,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始11:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 85,
+   "wT": 18,
+   "sT_note": "目安（利用者投稿）。男女共用・水風呂18℃",
+   "g": 1,
+   "l": 1,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
+   ]
+  },
+  {
+   "id": "n231",
+   "name": "札幌あいの里温泉なごみ",
+   "area": "道央",
+   "city": "札幌市",
+   "type": "温浴施設",
+   "addr": null,
+   "tel": null,
+   "u": 0,
+   "fee": 500,
+   "fee_note": "サウナイキタイ表示・未確認",
+   "hours": "営業開始10:00（サウナイキタイ表示・曜日により異なる可能性）",
+   "sT": 82,
+   "wT": 21.6,
+   "sT_note": "目安（利用者投稿）。男82℃、女90℃、水風呂21.6/20℃（水風呂は高め）",
+   "g": 1,
+   "l": 0,
+   "lat": null,
+   "lng": null,
+   "note": "",
+   "src": [
+    "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
+   ]
   }
+ ]
 }
-
-/* ====== ストレージ保存 ====== */
-const KEY='hokkaidoSaunaNote.v500';
-let D={flags:{},memos:{},custom:[]};
-try{Object.assign(D,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){toast('保存に失敗しました')}};
-const all=()=>[...SEED,...D.custom];
-
-function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2600)}
-const $=id=>document.getElementById(id);
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
-/* ====== 検索・絞り込み状態 ====== */
-let tab='all',q='',area='',fl=new Set(),sort='std',loc=null,nearN=12;
-const TABS=[['all','🔍 さがす'],['near','📍 近く'],['want','☆ 行きたい'],['done','✓ 行った']];
-const AREAS=['','道央','道南','道北','道東'];
-const CHIPS=[['g','外気浴あり'],['l','ロウリュあり'],['d','日帰りOK'],['w16','水風呂16℃以下'],['f1','1,000円以下'],['m','メモあり']];
-
-const hav=(a,b)=>{const R=6371,r=x=>x*Math.PI/180,dl=r(b.lat-a.lat),dg=r(b.lng-a.lng);const h=Math.sin(dl/2)**2+Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(dg/2)**2;return 2*R*Math.asin(Math.sqrt(h))};
-const hasMemo=id=>{const m=D.memos[id];return m&&(m.t||m.r||m.d||(m.aud&&m.aud.length))};
-const AUD=['若者多め','年配多め','ファミリー','外国人多め','女性多め','男性多め','静か','賑やか','混雑しがち','空いていた'];
-const TYPEL={'銭湯':'銭湯','温浴施設':'温浴施設（スーパー銭湯など）','ホテル':'ホテル・旅館','カプセルホテル':'カプセルホテル','プライベートサウナ':'貸切サウナ','一棟貸し':'一棟貸し宿','キャンプ場':'キャンプ場','移動型サウナ':'移動型サウナ','その他':'その他の施設'};
-function sceneOf(f,card){
-  const s=[];
-  s.push(TYPEL[f.type]||f.type||'');
-  if(!card){s.push(['日帰りOK','予約・条件あり','宿泊者限定'][f.u]||'');if(/男性専用/.test(f.note||''))s.push('男性専用')}
-  if(f.fee!=null)s.push(f.fee<=500?'お手頃な料金（500円以下）':f.fee<=1500?'標準的な料金（1,500円以下）':'料金は高め（1,500円超）');
-  const h=f.hours||'';
-  if(/24時間/.test(h))s.push('24時間営業');
-  else if(/翌/.test(h))s.push('深夜まで営業');
-  else{const m=h.match(/(\d{1,2}):\d{2}/);if(m&&+m[1]<=7)s.push('朝から利用可')}
-  return s.filter(Boolean);
-}
-
-function build(){
-  let a=all().map(f=>({...f,dist:loc&&f.lat!=null&&f.lng!=null&&isFinite(f.lat)&&isFinite(f.lng)?hav(loc,f):null}));
-  if(tab==='want')a=a.filter(f=>D.flags[f.id]?.w);
-  if(tab==='done')a=a.filter(f=>D.flags[f.id]?.v);
-  if(q){const k=q.toLowerCase();a=a.filter(f=>[f.name,f.city,f.area,f.type,f.note,f.quiet,f.revGood,f.revBad,(D.memos[f.id]?.aud||[]).join(' '),sceneOf(f).join(' ')].join(' ').toLowerCase().includes(k))}
-  if(area)a=a.filter(f=>f.area===area);
-  if(fl.has('g'))a=a.filter(f=>f.g===1);
-  if(fl.has('l'))a=a.filter(f=>f.l===1);
-  if(fl.has('inf'))a=a.filter(f=>f.inf===1);
-  if(fl.has('tat'))a=a.filter(f=>f.tat===1);
-  if(fl.has('d'))a=a.filter(f=>f.u===0);
-  if(fl.has('w16'))a=a.filter(f=>f.wT!=null&&f.wT<=16);
-  if(fl.has('f1'))a=a.filter(f=>f.fee!=null&&f.fee<=1000);
-  if(fl.has('m'))a=a.filter(f=>hasMemo(f.id));
-  const nz=(v,d)=>v==null?d:v;
-  if(tab==='near'||sort==='dist')a=a.filter(f=>f.dist!=null).sort((x,y)=>x.dist-y.dist);
-  else if(sort==='fee')a.sort((x,y)=>nz(x.fee,1e9)-nz(y.fee,1e9));
-  else if(sort==='st')a.sort((x,y)=>nz(y.sT,-1)-nz(x.sT,-1));
-  else if(sort==='wt')a.sort((x,y)=>nz(x.wT,1e9)-nz(y.wT,1e9));
-  const total=a.length;
-  if(tab==='near')a=a.slice(0,nearN);
-  return{a,total};
-}
-
-const ind=(lab,v,cls,unit)=>`<div class="${v==null?'':cls}"><i>${v==null?'—':v+'<small>'+unit+'</small>'}</i>${lab}</div>`;
-const yn=(lab,v)=>`<div class="${v===1?'yes':''}"><i>${v===1?'○':v===0?'×':'?'}</i>${lab}</div>`;
-
-function card(f){
-  const fg=D.flags[f.id]||{},m=D.memos[f.id],U=[['g','日帰りOK'],['y','条件あり'],['r','宿泊者限定']][f.u]||['','要確認'];
-  const stars=m&&m.r?'★'.repeat(m.r)+'☆'.repeat(5-m.r)+' ':'';
-  
-  let revHtml = '';
-  if (f.revGood || f.revBad) {
-    revHtml = `<div class="review-box"><div class="review-title">⭐ Googleマップ口コミ傾向</div>` +
-      (f.revGood ? `<div style="margin-bottom:3px;"><strong style="color:var(--g);">👍 高評価:</strong> ${esc(f.revGood)}</div>` : '') +
-      (f.revBad ? `<div><strong style="color:var(--r);">⚠️ 気になる点:</strong> ${esc(f.revBad)}</div>` : '') +
-      `</div>`;
-  }
-
-  const tagList = (f.note || '').split(',').map(t => t.trim()).filter(Boolean);
-
-  return`<article class="card" data-id="${esc(f.id)}">
-  <div class="top a-${esc(f.area)}"><span>${esc(f.area||'—')}</span><span>${esc(f.type||'')}</span></div>
-  <div class="cb">
-    <h3 data-a="memo">${esc(f.name)}</h3>
-    <div class="sub">${esc(f.city||'')}${f.dist!=null?` ・ <b style="color:var(--o)">現在地から約${f.dist<10?f.dist.toFixed(1):Math.round(f.dist)}km</b>`:''}</div>
-    ${f.fee!=null?`<div class="price"><b>${f.fee.toLocaleString()}<small>円〜</small></b><span>${/未確認|要確認/.test(f.fee_note)?'入浴料の目安（未確認）':'入浴料の目安'}</span></div>`:''}
-    ${f.hours?`<div class="hrs">🕒 ${esc(f.hours)}</div>`:''}
-    <div class="scene">🏷 ${sceneOf(f,true).map(esc).join(' ・ ')}</div>
-    <div class="ind">${ind('サウナ',f.sT,'hot','℃')}${ind('水風呂',f.wT,'cold','℃')}${yn('外気浴',f.g)}${yn('ロウリュ',f.l)}</div>
-    <div class="tags">
-      <span class="tag ${U[0]}">${U[1]}</span>
-      ${f.inf?`<span class="tag y">#インフィニティ</span>`:''}
-      ${f.tat?`<span class="tag r">#タトゥー可</span>`:''}
-      ${tagList.map(t=>`<span class="tag">#${esc(t)}</span>`).join('')}
-    </div>
-    ${revHtml}
-    ${m&&m.aud&&m.aud.length?`<div class="aud">👥 ${m.aud.map(esc).join(' ・ ')}</div>`:''}
-    ${m&&(m.t||m.r)?`<div class="memo">${stars}${m.d?esc(m.d)+' ':''}${esc(m.t||'')}</div>`:''}
-  </div>
-  <div class="acts">
-    <button class="w ${fg.w?'on':''}" data-a="w">${fg.w?'★ 行きたい済':'☆ 行きたい'}</button>
-    <button class="v ${fg.v?'on':''}" data-a="v">${fg.v?'✓ 行った済':'✓ 行った'}</button>
-    <button class="n ${hasMemo(f.id)?'on':''}" data-a="memo">✎ メモ</button>
-  </div></article>`;
-}
-
-function render(){
-  const {a,total}=build();
-  $('nav').innerHTML=TABS.map(([k,l])=>`<button class="${tab===k?'on':''}" data-t="${k}">${l}</button>`).join('');
-  $('areas').innerHTML='<span class="lbl">エリア</span>'+AREAS.map(x=>`<button class="chip ${area===x?'on':''}" data-ar="${x}">${x||'すべて'}</button>`).join('');
-  $('chips').innerHTML='<span class="lbl">こだわり</span>'+CHIPS.map(([k,l])=>`<button class="chip ${fl.has(k)?'on':''}" data-c="${k}">${l}</button>`).join('');
-  const A=all(),n=k=>A.filter(f=>D.flags[f.id]?.[k]).length;
-  $('hp').textContent=`${A.length}件収録（順次追加中） ・ 検索 ・ 行きたい/行った ・ 自分だけのサ活メモ ・ 現在地から近いサウナ`;
-  $('stats').innerHTML=`<div class="stat"><b>${A.length}</b>登録施設</div><div class="stat"><b>${n('v')}</b>行った</div><div class="stat"><b>${n('w')}</b>行きたい</div><div class="stat"><b>${A.filter(f=>hasMemo(f.id)).length}</b>メモ</div>`;
-  $('cnt').innerHTML=`該当 <b>${tab==='near'?a.length:total}</b> 件${tab==='near'?'（近い順）':''}${(tab==='near'||sort==='dist')?'<br><span style="font-size:11px">※ 現在地検索は、位置（座標）を登録済みの施設のみが対象です</span>':''}`;
-  let h=a.map(card).join('');
-  if(!a.length){
-    h=tab==='near'&&loc?`<div class="empty">座標を登録済みの施設がまだありません。<br>座標の追加後に、近い順で表示されます。</div>`
-     :tab==='near'&&!loc?`<div class="empty">📍 現在地を取得すると、近いサウナを距離順に表示します。<br><br><button class="btn" data-loc>現在地を取得する</button></div>`
-     :tab==='want'?`<div class="empty">まだ「行きたい」はありません。<br>気になる施設の ☆ を押してみましょう。</div>`
-     :tab==='done'?`<div class="empty">まだ「行った」はありません。<br>訪問したら ✓ を押して感想をメモしましょう。</div>`
-     :`<div class="empty">条件に合う施設がありません。検索条件をゆるめてみてください。</div>`;
-  } else if(tab==='near'&&total>nearN) h+=`<div class="empty" style="padding:16px"><button class="btn o" data-more>もっと見る（さらに${Math.min(12,total-nearN)}件）</button></div>`;
-  $('list').innerHTML=h;
-  $('backbar').innerHTML=tab!=='all'?'<button class="btn o" data-back>← トップ（すべての施設）に戻る</button>':'';
-  $('fp').style.display=tab==='near'?'none':'';
-  if(tab==='near')$('fp').parentNode.firstElementChild.style.marginTop='16px';
-}
-
-/* ====== 位置情報 ====== */
-function getLoc(after){
-  if(!navigator.geolocation){toast('この端末は位置情報に対応していません');return}
-  toast('現在地を取得中…');
-  navigator.geolocation.getCurrentPosition(p=>{loc={lat:p.coords.latitude,lng:p.coords.longitude};toast('現在地を取得しました');after&&after();render()},
-    e=>toast('現在地を取得できませんでした'),{enableHighAccuracy:true,timeout:12000,maximumAge:60000});
-}
-
-/* ====== イベント処理 ====== */
-/* ====== 戻る操作（画面履歴） ====== */
-function pushH(v){try{history.pushState({v},'')}catch(e){}}
-function goTop(){
-  if(history.state&&history.state.v==='tab'){history.back();return}
-  tab='all';nearN=12;render();scrollTo(0,0);
-}
-window.addEventListener('popstate',()=>{
-  const open=['m1','m2'].filter(k=>$(k).classList.contains('on'));
-  if(open.length){open.forEach(k=>$(k).classList.remove('on'));render();return}
-  if(tab!=='all'){tab='all';nearN=12;render();scrollTo(0,0)}
-});
-try{history.replaceState(null,'')}catch(e){}
-document.querySelector('.logo').onclick=()=>{['m1','m2'].forEach(k=>$(k).classList.remove('on'));goTop()};
-$('backbar').onclick=e=>{if(e.target.closest('[data-back]'))goTop()};
-$('nav').onclick=e=>{
-  const t=e.target.dataset.t;if(!t)return;
-  if(t==='all')return goTop();
-  if(tab==='all')pushH('tab');
-  tab=t;nearN=12;if(t==='near'&&!loc)getLoc();render();scrollTo(0,0);
-};
-$('q').oninput=e=>{q=e.target.value.trim();render()};
-$('sort').onchange=e=>{sort=e.target.value;if(sort==='dist'&&!loc)getLoc();render()};
-$('locb').onclick=()=>getLoc(()=>{if(tab==='all')pushH('tab');tab='near';nearN=12;scrollTo(0,0)});
-$('reset').onclick=()=>{q='';area='';fl.clear();sort='std';$('q').value='';$('sort').value='std';render()};
-$('areas').onclick=e=>{if(e.target.dataset.ar!==undefined){area=e.target.dataset.ar;render()}};
-$('chips').onclick=e=>{const c=e.target.dataset.c;if(c){fl.has(c)?fl.delete(c):fl.add(c);render()}};
-$('list').onclick=e=>{
-  if(e.target.closest('[data-loc]'))return getLoc();
-  if(e.target.closest('[data-more]')){nearN+=12;return render()}
-  const b=e.target.closest('[data-a]'),c=e.target.closest('.card');if(!b||!c)return;
-  const id=c.dataset.id,a=b.dataset.a;
-  if(a==='memo')return openMemo(id);
-  const f=D.flags[id]=D.flags[id]||{};f[a]=f[a]?0:1;save();
-  toast(a==='w'?(f.w?'「行きたい」に追加':'「行きたい」を解除'):(f.v?'「行った」に記録':'「行った」を解除'));render();
-};
-
-/* ====== 詳細・メモ モーダル ====== */
-function openMemo(id){
-  const f=all().find(x=>x.id===id);if(!f)return;
-  const fg=D.flags[id]||{},m=D.memos[id]||{};
-  const map=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(f.name+' '+(f.addr||f.city||''))}`;
-  
-  let revDetail = '';
-  if (f.revGood || f.revBad) {
-    revDetail = `<div class="review-box" style="margin-top:10px;"><div class="review-title">⭐ Googleマップ口コミ傾向</div>` +
-      (f.revGood ? `<div style="margin-bottom:4px;"><strong style="color:var(--g);">👍 高評価:</strong> ${esc(f.revGood)}</div>` : '') +
-      (f.revBad ? `<div><strong style="color:var(--r);">⚠️ 気になる点:</strong> ${esc(f.revBad)}</div>` : '') +
-      `</div>`;
-  }
-
-  $('mb').innerHTML=`<button class="x" data-x="m1">✕</button><button class="mback" data-x="m1">← 一覧に戻る</button><h2>${esc(f.name)}</h2>
-  <div class="sub">${esc(f.area)} ${esc(f.city||'')} ／ ${esc(f.type||'')} <a href="${map}" target="_blank" rel="noopener">Googleマップで開く ↗</a></div>
-  ${f.fee!=null?`<div class="price" style="margin-top:10px"><b>${f.fee.toLocaleString()}<small>円〜</small></b><span>入浴料の目安</span></div>`:''}
-  <div class="det">${f.fee_note?`<div><b>料金メモ：</b>${esc(f.fee_note)}</div>`:''}${f.hours?`<div><b>営業時間：</b>${esc(f.hours)}</div>`:''}${f.addr?`<div><b>住所：</b>${esc(f.addr)}</div>`:''}${f.tel?`<div><b>電話：</b>${esc(f.tel)}</div>`:''}${f.sT_note?`<div><b>サウナ温度：</b>${esc(f.sT_note)}</div>`:''}${(f.src&&f.src.length)?`<div><b>出典：</b>${f.src.map((u,i)=>`<a href="${esc(u)}" target="_blank" rel="noopener">[${i+1}]</a>`).join(' ')}</div>`:''}</div>
-  <div class="det"><b>施設の性格（登録データから表示）：</b>${sceneOf(f).map(esc).join(' ／ ')}<br><span style="font-size:11px">※ 施設の種類・料金・営業時間から表示しており、実際の客層を示すものではありません。</span></div>
-  <div class="row" style="margin-top:6px"><button class="chip ${fg.w?'on':''}" data-f="w">${fg.w?'★ 行きたい':'☆ 行きたい'}</button><button class="chip ${fg.v?'on':''}" data-f="v">✓ 行った</button></div>
-  ${revDetail}
-  <label>自分の評価</label><div class="stars" id="st">${[1,2,3,4,5].map(i=>`<button data-r="${i}" class="${(m.r||0)>=i?'on':''}">★</button>`).join('')}</div>
-  <label>訪問日</label><input type="date" id="md" value="${esc(m.d||'')}">
-  <label>客層メモ（自分の観察・複数選択可）</label>
-  <div class="row" id="aud">${AUD.map(a=>`<button class="chip ${(m.aud||[]).includes(a)?'on':''}" data-aud="${a}">${a}</button>`).join('')}</div>
-  <label>感想・メモ（サウナ温度の体感、水風呂、混雑度など）</label>
-  <textarea id="mt" placeholder="例：サウナ10分×3セット。水風呂がキンキンに冷えていて最高。外気浴チェアー多め。">${esc(m.t||'')}</textarea>
-  <div class="row"><span class="note" style="margin:0">メモは自動保存されます</span></div>
-  <button class="mback big" data-x="m1">← 閉じて一覧に戻る</button>`;
-  $('m1').classList.add('on');$('m1').dataset.id=id;pushH('m');
-}
-const setM=(k,v)=>{const id=$('m1').dataset.id;const m=D.memos[id]=D.memos[id]||{};m[k]=v;save()};
-$('mb').oninput=e=>{if(e.target.id==='mt')setM('t',e.target.value);if(e.target.id==='md'){setM('d',e.target.value);if(e.target.value){const id=$('m1').dataset.id;(D.flags[id]=D.flags[id]||{}).v=1;save()}}};
-$('mb').onclick=e=>{
-  const id=$('m1').dataset.id;
-  if(e.target.dataset.x)return closeM('m1');
-  if(e.target.dataset.aud){const m=D.memos[id]=D.memos[id]||{},a=m.aud=m.aud||[],k=e.target.dataset.aud,i=a.indexOf(k);if(i>=0)a.splice(i,1);else a.push(k);save();e.target.classList.toggle('on');return}
-  if(e.target.dataset.r){const r=+e.target.dataset.r,m=D.memos[id]=D.memos[id]||{};m.r=m.r===r?0:r;save();return openMemo(id)}
-  if(e.target.dataset.f){const f=D.flags[id]=D.flags[id]||{},k=e.target.dataset.f;f[k]=f[k]?0:1;save();return openMemo(id)}
-};
-function closeM(k){if(history.state&&history.state.v==='m'){history.back();return}$(k).classList.remove('on');render()}
-document.querySelectorAll('.mask').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeM(m.id)}));
-
-/* ====== バックアップ管理モーダル ====== */
-$('mng').onclick=()=>{
-  $('mg').innerHTML=`<button class="x" data-x="m2">✕</button><button class="mback" data-x="m2">← 一覧に戻る</button><h2>個人データのバックアップ</h2>
-  <p style="font-size:13px;color:var(--m)">「行った」「行きたい」「個人メモ」のバックアップと復元を行えます。</p>
-  <label>バックアップ／移行（JSON）</label>
-  <textarea id="jt" style="min-height:90px;font-size:12px" placeholder="ここにJSONを貼り付けて「読み込む」を押します。"></textarea>
-  <div class="row"><button class="btn s" id="j_out">書き出す</button><button class="btn s o" id="j_dl">ファイル保存</button><button class="btn s o" id="j_in">読み込む</button></div>`;
-  $('m2').classList.add('on');pushH('m');
-};
-$('mg').onclick=e=>{
-  const g=id=>$(id);
-  if(e.target.dataset.x)return closeM('m2');
-  if(e.target.id==='j_out')g('jt').value=JSON.stringify(D);
-  if(e.target.id==='j_dl'){const b=new Blob([JSON.stringify(D)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='sauna-note-user-data.json';a.click()}
-  if(e.target.id==='j_in'){
-    try{
-      const j=JSON.parse(g('jt').value);
-      if(j.flags||j.memos){
-        Object.assign(D.flags,j.flags||{});
-        Object.assign(D.memos,j.memos||{});
-        save();toast('個人データを読み込みました');closeM('m2');
-      } else { toast('データ形式が正しくありません'); }
-    }catch(_){ toast('JSONの形式が正しくありません'); }
-  }
-};
-
-loadData().then(render);
-</script>
-</body>
-</html>
