@@ -67,6 +67,7 @@ select{border:1.5px solid var(--l);border-radius:10px;padding:5px 8px;background
 .ind i{display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;margin:0 auto 2px;font-style:normal;font-weight:800;font-size:14px;border:3px solid var(--l);color:var(--t)}
 .ind .hot i{border-color:#f0603a;color:#d6381a}.ind .cold i{border-color:#3a9be0;color:#1f6fb0}.ind .yes i{border-color:var(--g);color:var(--g)}
 .ind i small{font-size:9px;font-weight:600}
+.sidelab{font-size:11px;color:var(--m);text-align:center;margin:5px 0 0;line-height:1.4}
 .tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
 .tag{font-size:11px;padding:1px 8px;border-radius:8px;background:#f2efeb;color:var(--m);font-weight:600}
 .tag.g{background:#e3f5ec;color:var(--g)}.tag.y{background:#fdf3d8;color:#a67700}.tag.r{background:#fbe6e4;color:var(--r)}.tag.d{background:#e4f1fa;color:var(--b)}
@@ -77,6 +78,7 @@ select{border:1.5px solid var(--l);border-radius:10px;padding:5px 8px;background
 .acts button{flex:1;border:0;background:#fff;padding:10px 4px;font-size:13px;font-weight:700;color:var(--m)}
 .acts button+button{border-left:1px solid var(--l)}
 .acts .w.on{background:#fff4d6;color:#a67700}.acts .v.on{background:#e3f5ec;color:var(--g)}.acts .n.on{color:var(--o)}
+.row select{max-width:100%}
 .empty{grid-column:1/-1;text-align:center;padding:48px 16px;color:var(--m);background:#fff;border-radius:16px}
 .mask{position:fixed;inset:0;background:rgba(30,20,10,.55);z-index:50;display:none;align-items:flex-end;justify-content:center}
 .mask.on{display:flex}
@@ -111,10 +113,11 @@ a{color:var(--b)}
   <div class="backbar" id="backbar"></div>
   <div class="panel" id="fp">
     <div class="sbox">
-      <input id="q" type="search" placeholder="施設名・地名・キーワードで検索（例：白老、登別、ニセコ）">
+      <input id="q" type="search" placeholder="施設名・地名（例：札幌 24時間）">
       <button class="btn o" id="locb">📍 現在地から探す</button>
     </div>
     <div class="row" id="areas"><span class="lbl">エリア</span></div>
+    <div class="row"><span class="lbl">市町村</span><select id="city"></select></div>
     <div class="row" id="chips"><span class="lbl">こだわり</span></div>
     <div class="row">
       <span class="lbl">並び替え</span>
@@ -128,7 +131,7 @@ a{color:var(--b)}
   <div class="stats" id="stats"></div>
   <div class="bar"><span id="cnt"></span><button class="btn s o" id="mng">⚙ データ管理</button></div>
   <div class="grid" id="list"></div>
-  <p class="note">※ サウナ温度・水風呂温度は、サウナイキタイの利用者投稿を参考にした目安です（時期や男女で異なります）。料金・営業時間も変更される場合があるため、訪問前に公式情報をご確認ください。「行った」「行きたい」「メモ」はこの端末のブラウザ内に保存されます。</p>
+  <p class="note">※ サウナ温度・水風呂温度は、サウナイキタイの利用者投稿を参考にした目安です（時期によっても異なります）。男女で値が違う施設は男性側の値を表示し、男女共用・女性専用の施設はカードにその旨を表示します。女性側の値は詳細画面で確認できます。料金は「〜」表示の最低額の目安で、曜日・時間帯・設備により変わります。営業時間とあわせて、訪問前に公式情報をご確認ください。現在地からの距離は直線距離です。「行った」「行きたい」「メモ」はこの端末のブラウザ内に保存されます。</p>
   <p class="note" style="margin-top:-24px">地図データ © OpenStreetMap contributors（座標を使用する場合）</p>
 </div>
 
@@ -148,13 +151,16 @@ const toSeed=x=>({
   hours:x.hours||'',fee_note:x.fee_note||'',sT_note:x.sT_note||'',addr:x.addr||'',tel:x.tel||'',src:x.src||[]
 });
 async function loadData(){
+  loadErr=false;
   try{
     const r=await fetch('sauna_data.json',{cache:'no-cache'});
     if(!r.ok)throw new Error('http '+r.status);
     const j=await r.json();
     SEED=(j.facilities||[]).map(toSeed);
+    SEED.forEach(f=>{f._h=hay(f)});
   }catch(e){
     console.error(e);
+    loadErr=true;
     setTimeout(()=>toast('施設データを読み込めませんでした'),300);
   }
 }
@@ -171,13 +177,24 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 /* ====== 検索・絞り込み状態 ====== */
-let tab='all',q='',area='',fl=new Set(),sort='std',loc=null,nearN=12;
+let tab='all',q='',area='',city='',fl=new Set(),sort='std',loc=null,nearN=12,loadErr=false;
 const TABS=[['all','🔍 さがす'],['near','📍 近く'],['want','☆ 行きたい'],['done','✓ 行った']];
 const AREAS=['','道央','道南','道北','道東'];
-const CHIPS=[['g','外気浴あり'],['l','ロウリュあり'],['d','日帰りOK'],['w16','水風呂16℃以下'],['f1','1,000円以下'],['m','メモあり']];
+const CHIPS=[['g','外気浴あり'],['l','ロウリュあり'],['d','日帰りOK'],['w16','水風呂16℃以下'],['f1','基本料金1,000円以下'],['m','メモあり']];
 
 const hav=(a,b)=>{const R=6371,r=x=>x*Math.PI/180,dl=r(b.lat-a.lat),dg=r(b.lng-a.lng);const h=Math.sin(dl/2)**2+Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(dg/2)**2;return 2*R*Math.asin(Math.sqrt(h))};
 const hasMemo=id=>{const m=D.memos[id];return m&&(m.t||m.r||m.d||(m.aud&&m.aud.length))};
+const norm=s=>String(s??'').normalize('NFKC').toLowerCase();
+const hay=f=>norm([f.name,f.city,f.area,f.type,f.note,f.quiet,f.revGood,f.revBad,f.addr,f.tel,f.hours,f.fee_note,f.sT_note,sceneOf(f).join(' ')].join(' '));
+function sideOf(n){
+  n=n||'';
+  if(/男女共用/.test(n))return'共用';
+  if(/男女とも|男女共通/.test(n))return'共通';
+  if(/女性専用/.test(n)&&!/男性専用/.test(n))return'女性';
+  if(/男\d|男性/.test(n))return'男性';
+  return'';
+}
+const sideLabel=f=>({'男性':'男性側の目安（利用者投稿）','共用':'男女共用の目安（利用者投稿）','共通':'男女共通の目安（利用者投稿）','女性':'女性側の目安（利用者投稿）'}[sideOf(f.sT_note)]||'利用者投稿の目安');
 const AUD=['若者多め','年配多め','ファミリー','外国人多め','女性多め','男性多め','静か','賑やか','混雑しがち','空いていた'];
 const TYPEL={'銭湯':'銭湯','温浴施設':'温浴施設（スーパー銭湯など）','ホテル':'ホテル・旅館','カプセルホテル':'カプセルホテル','プライベートサウナ':'貸切サウナ','一棟貸し':'一棟貸し宿','キャンプ場':'キャンプ場','移動型サウナ':'移動型サウナ','その他':'その他の施設'};
 function sceneOf(f,card){
@@ -196,8 +213,9 @@ function build(){
   let a=all().map(f=>({...f,dist:loc&&f.lat!=null&&f.lng!=null&&isFinite(f.lat)&&isFinite(f.lng)?hav(loc,f):null}));
   if(tab==='want')a=a.filter(f=>D.flags[f.id]?.w);
   if(tab==='done')a=a.filter(f=>D.flags[f.id]?.v);
-  if(q){const k=q.toLowerCase();a=a.filter(f=>[f.name,f.city,f.area,f.type,f.note,f.quiet,f.revGood,f.revBad,(D.memos[f.id]?.aud||[]).join(' '),sceneOf(f).join(' ')].join(' ').toLowerCase().includes(k))}
+  if(q){const ks=norm(q).split(/[\s\u3000]+/).filter(Boolean);a=a.filter(f=>{const h=(f._h||hay(f))+' '+norm((D.memos[f.id]?.aud||[]).join(' '));return ks.every(k=>h.includes(k))})}
   if(area)a=a.filter(f=>f.area===area);
+  if(city)a=a.filter(f=>f.city===city);
   if(fl.has('g'))a=a.filter(f=>f.g===1);
   if(fl.has('l'))a=a.filter(f=>f.l===1);
   if(fl.has('inf'))a=a.filter(f=>f.inf===1);
@@ -237,11 +255,12 @@ function card(f){
   <div class="top a-${esc(f.area)}"><span>${esc(f.area||'—')}</span><span>${esc(f.type||'')}</span></div>
   <div class="cb">
     <h3 data-a="memo">${esc(f.name)}</h3>
-    <div class="sub">${esc(f.city||'')}${f.dist!=null?` ・ <b style="color:var(--o)">現在地から約${f.dist<10?f.dist.toFixed(1):Math.round(f.dist)}km</b>`:''}</div>
+    <div class="sub">${esc(f.city||'')}${f.dist!=null?` ・ <b style="color:var(--o)">現在地から直線距離で約${f.dist<10?f.dist.toFixed(1):Math.round(f.dist)}km</b>`:''}</div>
     ${f.fee!=null?`<div class="price"><b>${f.fee.toLocaleString()}<small>円〜</small></b><span>${/未確認|要確認/.test(f.fee_note)?'入浴料の目安（未確認）':'入浴料の目安'}</span></div>`:''}
     ${f.hours?`<div class="hrs">🕒 ${esc(f.hours)}</div>`:''}
     <div class="scene">🏷 ${sceneOf(f,true).map(esc).join(' ・ ')}</div>
     <div class="ind">${ind('サウナ',f.sT,'hot','℃')}${ind('水風呂',f.wT,'cold','℃')}${yn('外気浴',f.g)}${yn('ロウリュ',f.l)}</div>
+    ${(f.sT!=null||f.wT!=null)?`<div class="sidelab">サウナ・水風呂：${sideLabel(f)}</div>`:''}
     <div class="tags">
       <span class="tag ${U[0]}">${U[1]}</span>
       ${f.inf?`<span class="tag y">#インフィニティ</span>`:''}
@@ -259,18 +278,35 @@ function card(f){
   </div></article>`;
 }
 
+function cityOptions(){
+  const cnt={};
+  all().forEach(f=>{if(!f.city||(area&&f.area!==area))return;const k=f.area+'\t'+f.city;cnt[k]=(cnt[k]||0)+1});
+  const by={};
+  Object.keys(cnt).forEach(k=>{const[ar,c]=k.split('\t');(by[ar]=by[ar]||[]).push([c,cnt[k]])});
+  Object.values(by).forEach(l=>l.sort((x,y)=>y[1]-x[1]||x[0].localeCompare(y[0],'ja')));
+  return by;
+}
 function render(){
+  const cby=cityOptions();
+  if(city&&!Object.values(cby).some(l=>l.some(x=>x[0]===city)))city='';
+  {
+    const opt=([c,n])=>`<option value="${esc(c)}">${esc(c)}（${n}）</option>`;
+    const keys=AREAS.filter(x=>x&&cby[x]);
+    $('city').innerHTML='<option value="">すべて</option>'+(area?(cby[area]||[]).map(opt).join(''):keys.map(x=>`<optgroup label="${x}">${cby[x].map(opt).join('')}</optgroup>`).join(''));
+    $('city').value=city;
+  }
   const {a,total}=build();
   $('nav').innerHTML=TABS.map(([k,l])=>`<button class="${tab===k?'on':''}" data-t="${k}">${l}</button>`).join('');
   $('areas').innerHTML='<span class="lbl">エリア</span>'+AREAS.map(x=>`<button class="chip ${area===x?'on':''}" data-ar="${x}">${x||'すべて'}</button>`).join('');
   $('chips').innerHTML='<span class="lbl">こだわり</span>'+CHIPS.map(([k,l])=>`<button class="chip ${fl.has(k)?'on':''}" data-c="${k}">${l}</button>`).join('');
   const A=all(),n=k=>A.filter(f=>D.flags[f.id]?.[k]).length;
-  $('hp').textContent=`${A.length}件収録（順次追加中） ・ 検索 ・ 行きたい/行った ・ 自分だけのサ活メモ ・ 現在地から近いサウナ`;
+  $('hp').textContent=loadErr&&!SEED.length?'施設データを読み込めませんでした':`${A.length}件収録（順次追加中） ・ 検索 ・ 行きたい/行った ・ 自分だけのサ活メモ ・ 現在地から近いサウナ`;
   $('stats').innerHTML=`<div class="stat"><b>${A.length}</b>登録施設</div><div class="stat"><b>${n('v')}</b>行った</div><div class="stat"><b>${n('w')}</b>行きたい</div><div class="stat"><b>${A.filter(f=>hasMemo(f.id)).length}</b>メモ</div>`;
   $('cnt').innerHTML=`該当 <b>${tab==='near'?a.length:total}</b> 件${tab==='near'?'（近い順）':''}${(tab==='near'||sort==='dist')?'<br><span style="font-size:11px">※ 現在地検索は、位置（座標）を登録済みの施設のみが対象です</span>':''}`;
   let h=a.map(card).join('');
   if(!a.length){
-    h=tab==='near'&&loc?`<div class="empty">座標を登録済みの施設がまだありません。<br>座標の追加後に、近い順で表示されます。</div>`
+    h=loadErr&&!SEED.length?`<div class="empty">⚠ 施設データを読み込めませんでした。<br>通信状況を確認して、もう一度お試しください。<br><br><button class="btn" data-retry>再読み込み</button></div>`
+     :tab==='near'&&loc?`<div class="empty">座標を登録済みの施設がまだありません。<br>座標の追加後に、近い順で表示されます。</div>`
      :tab==='near'&&!loc?`<div class="empty">📍 現在地を取得すると、近いサウナを距離順に表示します。<br><br><button class="btn" data-loc>現在地を取得する</button></div>`
      :tab==='want'?`<div class="empty">まだ「行きたい」はありません。<br>気になる施設の ☆ を押してみましょう。</div>`
      :tab==='done'?`<div class="empty">まだ「行った」はありません。<br>訪問したら ✓ を押して感想をメモしましょう。</div>`
@@ -314,10 +350,12 @@ $('nav').onclick=e=>{
 $('q').oninput=e=>{q=e.target.value.trim();render()};
 $('sort').onchange=e=>{sort=e.target.value;if(sort==='dist'&&!loc)getLoc();render()};
 $('locb').onclick=()=>getLoc(()=>{if(tab==='all')pushH('tab');tab='near';nearN=12;scrollTo(0,0)});
-$('reset').onclick=()=>{q='';area='';fl.clear();sort='std';$('q').value='';$('sort').value='std';render()};
+$('reset').onclick=()=>{q='';area='';city='';fl.clear();sort='std';$('q').value='';$('sort').value='std';render()};
+$('city').onchange=e=>{city=e.target.value;render()};
 $('areas').onclick=e=>{if(e.target.dataset.ar!==undefined){area=e.target.dataset.ar;render()}};
 $('chips').onclick=e=>{const c=e.target.dataset.c;if(c){fl.has(c)?fl.delete(c):fl.add(c);render()}};
 $('list').onclick=e=>{
+  if(e.target.closest('[data-retry]'))return loadData().then(render);
   if(e.target.closest('[data-loc]'))return getLoc();
   if(e.target.closest('[data-more]')){nearN+=12;return render()}
   const b=e.target.closest('[data-a]'),c=e.target.closest('.card');if(!b||!c)return;
@@ -344,7 +382,7 @@ function openMemo(id){
   $('mb').innerHTML=`<button class="x" data-x="m1">✕</button><button class="mback" data-x="m1">← 一覧に戻る</button><h2>${esc(f.name)}</h2>
   <div class="sub">${esc(f.area)} ${esc(f.city||'')} ／ ${esc(f.type||'')} <a href="${map}" target="_blank" rel="noopener">Googleマップで開く ↗</a></div>
   ${f.fee!=null?`<div class="price" style="margin-top:10px"><b>${f.fee.toLocaleString()}<small>円〜</small></b><span>入浴料の目安</span></div>`:''}
-  <div class="det">${f.fee_note?`<div><b>料金メモ：</b>${esc(f.fee_note)}</div>`:''}${f.hours?`<div><b>営業時間：</b>${esc(f.hours)}</div>`:''}${f.addr?`<div><b>住所：</b>${esc(f.addr)}</div>`:''}${f.tel?`<div><b>電話：</b>${esc(f.tel)}</div>`:''}${f.sT_note?`<div><b>サウナ温度：</b>${esc(f.sT_note)}</div>`:''}${(f.src&&f.src.length)?`<div><b>出典：</b>${f.src.map((u,i)=>`<a href="${esc(u)}" target="_blank" rel="noopener">[${i+1}]</a>`).join(' ')}</div>`:''}</div>
+  <div class="det">${f.fee_note?`<div><b>料金メモ：</b>${esc(f.fee_note)}</div>`:''}${f.hours?`<div><b>営業時間：</b>${esc(f.hours)}</div>`:''}${f.addr?`<div><b>住所：</b>${esc(f.addr)}</div>`:''}${f.tel?`<div><b>電話：</b>${esc(f.tel)}</div>`:''}${(f.sT!=null||f.wT!=null)?`<div><b>温度の表示：</b>サウナ ${f.sT!=null?f.sT+'℃':'—'} ／ 水風呂 ${f.wT!=null?f.wT+'℃':'—'}（${sideLabel(f)}）</div>`:''}${f.sT_note?`<div><b>サウナ温度：</b>${esc(f.sT_note)}</div>`:''}${(f.src&&f.src.length)?`<div><b>出典：</b>${f.src.map((u,i)=>`<a href="${esc(u)}" target="_blank" rel="noopener">[${i+1}]</a>`).join(' ')}</div>`:''}</div>
   <div class="det"><b>施設の性格（登録データから表示）：</b>${sceneOf(f).map(esc).join(' ／ ')}<br><span style="font-size:11px">※ 施設の種類・料金・営業時間から表示しており、実際の客層を示すものではありません。</span></div>
   <div class="row" style="margin-top:6px"><button class="chip ${fg.w?'on':''}" data-f="w">${fg.w?'★ 行きたい':'☆ 行きたい'}</button><button class="chip ${fg.v?'on':''}" data-f="v">✓ 行った</button></div>
   ${revDetail}
