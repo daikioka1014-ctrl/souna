@@ -1,6 +1,6 @@
 {
  "_readme": "北海道サウナ手帳 施設データ（統合版）。エリア追加ごとに更新。sT/wT は利用者投稿の目安。lat/lng 未取得は null。",
- "_updated": "2026-11-08",
+ "_updated": "2026-11-11",
  "facilities": [
   {
    "id": "n001",
@@ -101,7 +101,8 @@
    "note": "",
    "src": [
     "https://sauna-ikitai.com/saunas/282"
-   ]
+   ],
+   "coord_note": "OSMの「ホテルオーシャン」は豊浦町周辺の別施設のため未採用"
   },
   {
    "id": "n005",
@@ -967,7 +968,8 @@
    "note": "事前予約制",
    "src": [
     "https://sauna-ikitai.com/search?keyword=ニセコ"
-   ]
+   ],
+   "coord_note": "OSMは「ルーキーズキャンプ」の表記で別施設のため未採用"
   },
   {
    "id": "n040",
@@ -1108,12 +1110,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女90℃、水風呂17/17℃",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.77249,
+   "lng": 142.360433,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=min_fee_asc"
-   ]
+   ],
+   "osm": "way/141910754",
+   "coord_note": null
   },
   {
    "id": "n046",
@@ -1328,12 +1332,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女97℃、水風呂17/14℃",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.230981,
+   "lng": 143.295336,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=min_fee_asc"
-   ]
+   ],
+   "osm": "way/562787279",
+   "coord_note": null
   },
   {
    "id": "n055",
@@ -1878,7 +1884,8 @@
    "note": "事前予約制",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc"
-   ]
+   ],
+   "coord_note": "OSMの「Hotel Marshland」は別施設のため未採用"
   },
   {
    "id": "n077",
@@ -2122,12 +2129,14 @@
    "sT_note": "目安（利用者投稿）。男女共用・水風呂17℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.990148,
+   "lng": 141.549542,
    "note": "事前予約制",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=2"
-   ]
+   ],
+   "osm": "way/949639226",
+   "coord_note": "エスコンフィールド球場全体の中心座標（施設内の正確な位置ではない）"
   },
   {
    "id": "n087",
@@ -2715,12 +2724,14 @@
    "sT_note": "目安（利用者投稿）。男70℃、女90℃、水風呂16/16℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.159595,
+   "lng": 142.908929,
    "note": "男女で温度差が大きい投稿",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=3"
-   ]
+   ],
+   "osm": "node/4279354890",
+   "coord_note": null
   },
   {
    "id": "n111",
@@ -3388,7 +3399,8 @@
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
-   ]
+   ],
+   "coord_note": "OSMの「アルパ琴似」は名称が違い、同じ施設か不明のため未採用"
   },
   {
    "id": "n138",
@@ -3431,12 +3443,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女40℃（女性側は表示のまま。男性側と差が大きい）、水風呂18/－℃（女性側は投稿なし）",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 41.771021,
+   "lng": 140.723024,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
-   ]
+   ],
+   "osm": "way/983550400",
+   "coord_note": null
   },
   {
    "id": "n140",
@@ -3455,12 +3469,14 @@
    "sT_note": "目安（利用者投稿）。男95℃、女88℃、水風呂12/20℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 41.751736,
+   "lng": 140.714214,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
-   ]
+   ],
+   "osm": "way/263921815",
+   "coord_note": null
   },
   {
    "id": "n141",
@@ -3479,12 +3495,14 @@
    "sT_note": "目安（利用者投稿）。男91℃、女90℃、水風呂17/16℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.245253,
+   "lng": 141.349144,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
-   ]
+   ],
+   "osm": "way/202854042",
+   "coord_note": null
   },
   {
    "id": "n142",
@@ -3503,12 +3521,14 @@
    "sT_note": "目安（利用者投稿）。男88℃、女82℃、水風呂16/15℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.10096,
+   "lng": 141.378012,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
-   ]
+   ],
+   "osm": "way/435777452",
+   "coord_note": null
   },
   {
    "id": "n143",
@@ -3527,12 +3547,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女85℃、水風呂12.2/10.5℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.866796,
+   "lng": 141.586323,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
-   ]
+   ],
+   "osm": "way/673354566",
+   "coord_note": null
   },
   {
    "id": "n144",
@@ -3551,12 +3573,14 @@
    "sT_note": "目安（利用者投稿）。男85℃、女80℃、水風呂19/17℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.963012,
+   "lng": 141.158258,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
-   ]
+   ],
+   "osm": "way/429226845",
+   "coord_note": null
   },
   {
    "id": "n145",
@@ -3580,7 +3604,8 @@
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
-   ]
+   ],
+   "coord_note": "OSMの「鳳乃舞」は芽室の別施設のみで未採用"
   },
   {
    "id": "n146",
@@ -3599,12 +3624,14 @@
    "sT_note": "目安（利用者投稿）。男92℃、女82℃、水風呂15/15℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.810938,
+   "lng": 141.638478,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
-   ]
+   ],
+   "osm": "node/6105515212",
+   "coord_note": null
   },
   {
    "id": "n147",
@@ -3623,12 +3650,14 @@
    "sT_note": "目安（利用者投稿）。男80℃、女82℃、水風呂16/15℃",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.969322,
+   "lng": 141.167368,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
-   ]
+   ],
+   "osm": "node/4405145691",
+   "coord_note": null
   },
   {
    "id": "n148",
@@ -3647,12 +3676,14 @@
    "sT_note": "目安（利用者投稿）。男女共用・水風呂18℃",
    "g": 1,
    "l": 1,
-   "lat": null,
-   "lng": null,
+   "lat": 42.937295,
+   "lng": 143.473725,
    "note": "事前予約制",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
-   ]
+   ],
+   "osm": "way/422781118",
+   "coord_note": null
   },
   {
    "id": "n149",
@@ -3671,12 +3702,14 @@
    "sT_note": "目安（利用者投稿）。女性専用のため女性側の値（サウナ88℃・水風呂15℃）",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.057478,
+   "lng": 141.35511,
    "note": "女性専用",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
-   ]
+   ],
+   "osm": "node/2477807466",
+   "coord_note": null
   },
   {
    "id": "n150",
@@ -3695,12 +3728,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女115℃（女性側は表示のまま。男性側と差が大きい）、水風呂の投稿なし",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.915007,
+   "lng": 143.328492,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
-   ]
+   ],
+   "osm": "way/430691601",
+   "coord_note": "丸瀬布温泉マウレ山荘の座標（ポッケの湯そのものの位置ではない・要確認）"
   },
   {
    "id": "n151",
@@ -3719,12 +3754,14 @@
    "sT_note": "目安（利用者投稿）。男86℃、女86℃、水風呂13/13℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.669214,
+   "lng": 142.54536,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
-   ]
+   ],
+   "osm": "node/2479924079",
+   "coord_note": null
   },
   {
    "id": "n152",
@@ -3743,12 +3780,14 @@
    "sT_note": "目安（利用者投稿）。男95℃、女88℃、水風呂9/15℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.85964,
+   "lng": 140.87342,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
-   ]
+   ],
+   "osm": "way/426268998",
+   "coord_note": null
   },
   {
    "id": "n153",
@@ -3767,12 +3806,14 @@
    "sT_note": "目安（利用者投稿）。男88℃、女85℃、水風呂15/13℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.06911,
+   "lng": 141.59824,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
-   ]
+   ],
+   "osm": "way/361024437",
+   "coord_note": null
   },
   {
    "id": "n154",
@@ -3791,12 +3832,14 @@
    "sT_note": "目安（利用者投稿）。男80℃、女88℃、水風呂17/14℃",
    "g": 1,
    "l": 1,
-   "lat": null,
-   "lng": null,
+   "lat": 43.018006,
+   "lng": 141.489837,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
-   ]
+   ],
+   "osm": "way/386389327",
+   "coord_note": null
   },
   {
    "id": "n155",
@@ -3815,12 +3858,14 @@
    "sT_note": "目安（利用者投稿）。男女共用・水風呂15℃",
    "g": 1,
    "l": 1,
-   "lat": null,
-   "lng": null,
+   "lat": 42.920551,
+   "lng": 141.334319,
    "note": "宿泊者限定",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=5"
-   ]
+   ],
+   "osm": "node/12024078841",
+   "coord_note": null
   },
   {
    "id": "n156",
@@ -3839,12 +3884,14 @@
    "sT_note": "目安（利用者投稿）。男98℃、女96℃、水風呂16/16℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.532448,
+   "lng": 143.483182,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
-   ]
+   ],
+   "osm": "way/673299493",
+   "coord_note": null
   },
   {
    "id": "n157",
@@ -3863,12 +3910,14 @@
    "sT_note": "目安（利用者投稿）。男95℃、女88℃、水風呂12/12℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.064218,
+   "lng": 141.355624,
    "note": "宿泊者限定",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
-   ]
+   ],
+   "osm": "node/6308562578",
+   "coord_note": null
   },
   {
    "id": "n158",
@@ -3935,12 +3984,14 @@
    "sT_note": "目安（利用者投稿）。男100℃、女100℃、水風呂16/14℃",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.057087,
+   "lng": 141.344142,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
-   ]
+   ],
+   "osm": "node/13620318601",
+   "coord_note": null
   },
   {
    "id": "n161",
@@ -4031,12 +4082,14 @@
    "sT_note": "目安（利用者投稿）。男75℃、女85℃、水風呂14/16℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.624027,
+   "lng": 141.025501,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
-   ]
+   ],
+   "osm": "way/725841026",
+   "coord_note": null
   },
   {
    "id": "n165",
@@ -4079,12 +4132,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女95℃、水風呂11.4/17℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.234032,
+   "lng": 144.324437,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
-   ]
+   ],
+   "osm": "way/1159315875",
+   "coord_note": null
   },
   {
    "id": "n167",
@@ -4103,12 +4158,14 @@
    "sT_note": "目安（利用者投稿）。男80℃、女72℃、水風呂16/14℃",
    "g": 1,
    "l": 1,
-   "lat": null,
-   "lng": null,
+   "lat": 42.876168,
+   "lng": 141.60715,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
-   ]
+   ],
+   "osm": "way/673356252",
+   "coord_note": null
   },
   {
    "id": "n168",
@@ -4175,12 +4232,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女91℃、水風呂13/15℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.166844,
+   "lng": 142.813298,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
-   ]
+   ],
+   "osm": "way/327569031",
+   "coord_note": null
   },
   {
    "id": "n171",
@@ -4199,12 +4258,14 @@
    "sT_note": "目安（利用者投稿）。男86℃、女90℃、水風呂15/15℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 41.796392,
+   "lng": 140.779918,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
-   ]
+   ],
+   "osm": "way/595139104",
+   "coord_note": null
   },
   {
    "id": "n172",
@@ -4223,12 +4284,14 @@
    "sT_note": "目安（利用者投稿）。男82℃、女80℃、水風呂13/15℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.091644,
+   "lng": 141.505992,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=6"
-   ]
+   ],
+   "osm": "way/185048113",
+   "coord_note": null
   },
   {
    "id": "n173",
@@ -4295,12 +4358,14 @@
    "sT_note": "目安（利用者投稿）。男92℃、女90℃、水風呂16/16℃。ロウリュは女性側のみ○の表示",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.769315,
+   "lng": 142.311419,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
-   ]
+   ],
+   "osm": "way/493714779",
+   "coord_note": null
   },
   {
    "id": "n176",
@@ -4319,12 +4384,14 @@
    "sT_note": "目安（利用者投稿）。男70℃、女60℃、水風呂12/14.3℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.460071,
+   "lng": 142.875332,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
-   ]
+   ],
+   "osm": "way/624210073",
+   "coord_note": null
   },
   {
    "id": "n177",
@@ -4367,12 +4434,14 @@
    "sT_note": "目安（利用者投稿）。男100℃、女92℃、水風呂14/18℃",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.413576,
+   "lng": 142.642823,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
-   ]
+   ],
+   "osm": "way/889237285",
+   "coord_note": null
   },
   {
    "id": "n179",
@@ -4391,12 +4460,14 @@
    "sT_note": "目安（利用者投稿）。男85℃、女89℃、水風呂14.1/14℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 44.184286,
+   "lng": 143.594835,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
-   ]
+   ],
+   "osm": "way/430678132",
+   "coord_note": null
   },
   {
    "id": "n180",
@@ -4415,12 +4486,14 @@
    "sT_note": "目安（利用者投稿）。男78℃、女60℃、水風呂16/20℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.759722,
+   "lng": 142.319442,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
-   ]
+   ],
+   "osm": "way/494230918",
+   "coord_note": null
   },
   {
    "id": "n181",
@@ -4439,12 +4512,14 @@
    "sT_note": "目安（利用者投稿）。男92℃、女85℃、水風呂16/16℃",
    "g": 1,
    "l": 1,
-   "lat": null,
-   "lng": null,
+   "lat": 42.614666,
+   "lng": 141.527569,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
-   ]
+   ],
+   "osm": "way/673282092",
+   "coord_note": null
   },
   {
    "id": "n182",
@@ -4487,12 +4562,14 @@
    "sT_note": "目安（利用者投稿）。男94℃、女88℃、水風呂18/18.1℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.06975,
+   "lng": 141.357778,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
-   ]
+   ],
+   "osm": "way/1061896740",
+   "coord_note": null
   },
   {
    "id": "n184",
@@ -4511,12 +4588,14 @@
    "sT_note": "目安（利用者投稿）。男82℃、女85℃、水風呂23/20.4℃（水風呂は高め）",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.565399,
+   "lng": 140.834718,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
-   ]
+   ],
+   "osm": "node/3114287197",
+   "coord_note": null
   },
   {
    "id": "n185",
@@ -4535,12 +4614,14 @@
    "sT_note": "目安（利用者投稿）。男92℃、女85℃、水風呂13/15℃。ロウリュは男性側のみ○の表示",
    "g": 1,
    "l": 1,
-   "lat": null,
-   "lng": null,
+   "lat": 43.141944,
+   "lng": 141.040538,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
-   ]
+   ],
+   "osm": "way/997317900",
+   "coord_note": null
   },
   {
    "id": "n186",
@@ -4559,12 +4640,14 @@
    "sT_note": "目安（利用者投稿）。男96℃、女80℃、水風呂12/10℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.68634,
+   "lng": 142.089122,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
-   ]
+   ],
+   "osm": "way/616213714",
+   "coord_note": null
   },
   {
    "id": "n187",
@@ -4583,12 +4666,14 @@
    "sT_note": "目安（利用者投稿）。男95℃、女95℃、水風呂20/22℃（水風呂は高め）",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 41.777306,
+   "lng": 140.783986,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
-   ]
+   ],
+   "osm": "node/4805838320",
+   "coord_note": null
   },
   {
    "id": "n188",
@@ -4607,12 +4692,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女90℃、水風呂16/16℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 41.821018,
+   "lng": 140.737343,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
-   ]
+   ],
+   "osm": "way/261183333",
+   "coord_note": null
   },
   {
    "id": "n189",
@@ -4631,12 +4718,14 @@
    "sT_note": "目安（利用者投稿）。男96℃、女88℃、水風呂13/17℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.972333,
+   "lng": 141.528477,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
-   ]
+   ],
+   "osm": "way/412505181",
+   "coord_note": null
   },
   {
    "id": "n190",
@@ -4703,12 +4792,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女90℃、水風呂14/22℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.627529,
+   "lng": 141.027142,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=7"
-   ]
+   ],
+   "osm": "way/725840333",
+   "coord_note": null
   },
   {
    "id": "n193",
@@ -4727,12 +4818,14 @@
    "sT_note": "目安（利用者投稿）。男92℃、女88℃、水風呂17/17℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.260177,
+   "lng": 141.698097,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
-   ]
+   ],
+   "osm": "node/10890289886",
+   "coord_note": null
   },
   {
    "id": "n194",
@@ -4751,12 +4844,14 @@
    "sT_note": "目安（利用者投稿）。男85℃、女80℃、水風呂17/16℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.027318,
+   "lng": 141.462505,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
-   ]
+   ],
+   "osm": "way/453335160",
+   "coord_note": "札幌に「北のたまゆら」が複数あるため、市内の位置関係から厚別の店と判断（要確認）"
   },
   {
    "id": "n195",
@@ -4775,12 +4870,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女88℃、水風呂16/17.8℃。外気浴は男性側のみ○の表示",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.157316,
+   "lng": 141.044217,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
-   ]
+   ],
+   "osm": "way/507736339",
+   "coord_note": null
   },
   {
    "id": "n196",
@@ -4799,12 +4896,14 @@
    "sT_note": "目安（利用者投稿）。男96℃、女90℃、水風呂12/15℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.765024,
+   "lng": 141.966445,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
-   ]
+   ],
+   "osm": "way/1108936158",
+   "coord_note": null
   },
   {
    "id": "n197",
@@ -4823,12 +4922,14 @@
    "sT_note": "目安（利用者投稿）。男性専用のため男性側の値（サウナ102℃・水風呂10℃）",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.28885,
+   "lng": 143.315026,
    "note": "男性専用",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
-   ]
+   ],
+   "osm": "node/13797814087",
+   "coord_note": null
   },
   {
    "id": "n198",
@@ -4847,12 +4948,14 @@
    "sT_note": "目安（利用者投稿）。男92℃、女85℃、水風呂18/20.5℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.020568,
+   "lng": 144.380576,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
-   ]
+   ],
+   "osm": "way/534286435",
+   "coord_note": null
   },
   {
    "id": "n199",
@@ -4871,12 +4974,14 @@
    "sT_note": "目安（利用者投稿）。男100℃、女45℃（女性側は表示のまま。男性側と差が大きい）、水風呂13.5/－℃（女性側は投稿なし）",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.052937,
+   "lng": 141.354432,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
-   ]
+   ],
+   "osm": "node/3823686296",
+   "coord_note": null
   },
   {
    "id": "n200",
@@ -4895,12 +5000,14 @@
    "sT_note": "目安（利用者投稿）。男86℃、女88℃、水風呂17/17℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.188282,
+   "lng": 141.444925,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
-   ]
+   ],
+   "osm": "way/566498407",
+   "coord_note": null
   },
   {
    "id": "n201",
@@ -4943,12 +5050,14 @@
    "sT_note": "目安（利用者投稿）。男95℃、女90℃、水風呂16.5/18℃。外気浴は男性側のみ○の表示",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.002775,
+   "lng": 141.72455,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
-   ]
+   ],
+   "osm": "node/4776303531",
+   "coord_note": null
   },
   {
    "id": "n203",
@@ -4967,12 +5076,14 @@
    "sT_note": "目安（利用者投稿）。男92℃、女90℃、水風呂16/14℃",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.901696,
+   "lng": 143.156689,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
-   ]
+   ],
+   "osm": "way/551721269",
+   "coord_note": null
   },
   {
    "id": "n204",
@@ -4991,12 +5102,14 @@
    "sT_note": "目安（利用者投稿）。男85℃、女82℃、水風呂20/16℃（男性側の水風呂は高め）",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.323301,
+   "lng": 142.354089,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
-   ]
+   ],
+   "osm": "node/3080111640",
+   "coord_note": null
   },
   {
    "id": "n205",
@@ -5087,12 +5200,14 @@
    "sT_note": "目安（利用者投稿）。男85℃、女88℃、水風呂16/15℃。外気浴は女性側のみ○の表示",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.650709,
+   "lng": 142.79902,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
-   ]
+   ],
+   "osm": "way/452341703",
+   "coord_note": null
   },
   {
    "id": "n209",
@@ -5116,7 +5231,8 @@
    "note": "事前予約制",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
-   ]
+   ],
+   "coord_note": "OSMの「glampark 小樽はなえみ」は名称が違い、同じ施設か不明のため未採用"
   },
   {
    "id": "n210",
@@ -5135,12 +5251,14 @@
    "sT_note": "目安（利用者投稿）。男85℃、女82℃、水風呂24/20℃（水風呂は高め）",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.12609,
+   "lng": 141.415859,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
-   ]
+   ],
+   "osm": "way/428565171",
+   "coord_note": null
   },
   {
    "id": "n211",
@@ -5159,12 +5277,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女91℃、水風呂16.8/17℃",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.049611,
+   "lng": 141.324362,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=8"
-   ]
+   ],
+   "osm": "way/382298835",
+   "coord_note": null
   },
   {
    "id": "n212",
@@ -5207,12 +5327,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女92℃、水風呂14/12℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.341397,
+   "lng": 141.67984,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
-   ]
+   ],
+   "osm": "way/581085023",
+   "coord_note": null
   },
   {
    "id": "n214",
@@ -5231,12 +5353,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女86℃、水風呂16/16℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.966489,
+   "lng": 141.169688,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
-   ]
+   ],
+   "osm": "node/4403617407",
+   "coord_note": null
   },
   {
    "id": "n215",
@@ -5255,12 +5379,14 @@
    "sT_note": "目安（利用者投稿）。男104℃、女100℃、水風呂20/16℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 41.769953,
+   "lng": 140.735622,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
-   ]
+   ],
+   "osm": "way/541812836",
+   "coord_note": null
   },
   {
    "id": "n216",
@@ -5351,12 +5477,14 @@
    "sT_note": "目安（利用者投稿）。男88℃、女98℃、水風呂17/16℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 45.408049,
+   "lng": 141.676678,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
-   ]
+   ],
+   "osm": "node/5659120822",
+   "coord_note": null
   },
   {
    "id": "n220",
@@ -5399,12 +5527,14 @@
    "sT_note": "目安（利用者投稿）。男88℃、女84℃、水風呂18/18℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.759817,
+   "lng": 143.509303,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
-   ]
+   ],
+   "osm": "way/650663975",
+   "coord_note": null
   },
   {
    "id": "n222",
@@ -5423,12 +5553,14 @@
    "sT_note": "目安（利用者投稿）。男80℃、女80℃、水風呂14/13℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.77429,
+   "lng": 141.403487,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
-   ]
+   ],
+   "osm": "node/6805270306",
+   "coord_note": null
   },
   {
    "id": "n223",
@@ -5471,12 +5603,14 @@
    "sT_note": "目安（利用者投稿）。男86℃、女90℃、水風呂21/12℃（男性側の水風呂は高め）",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.213754,
+   "lng": 141.643114,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
-   ]
+   ],
+   "osm": "way/429786590",
+   "coord_note": null
   },
   {
    "id": "n225",
@@ -5519,12 +5653,14 @@
    "sT_note": "目安（利用者投稿）。男75℃、女92℃、水風呂15/15℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.92795,
+   "lng": 143.250963,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
-   ]
+   ],
+   "osm": "way/558572385",
+   "coord_note": null
   },
   {
    "id": "n227",
@@ -5543,12 +5679,14 @@
    "sT_note": "目安（利用者投稿）。男98℃、女78℃、水風呂18/20℃。ロウリュは男性側のみ○の表示",
    "g": 1,
    "l": 1,
-   "lat": null,
-   "lng": null,
+   "lat": 43.057881,
+   "lng": 141.797892,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
-   ]
+   ],
+   "osm": "way/544542154",
+   "coord_note": null
   },
   {
    "id": "n228",
@@ -5567,12 +5705,14 @@
    "sT_note": "目安（利用者投稿）。男88℃、女80℃、水風呂18/15℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.103255,
+   "lng": 141.418905,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
-   ]
+   ],
+   "osm": "way/378623058",
+   "coord_note": "札幌に「北のたまゆら」が複数あるため、市内の位置関係から東苗穂の店と判断（要確認）"
   },
   {
    "id": "n229",
@@ -5591,12 +5731,14 @@
    "sT_note": "目安（利用者投稿）。男82℃、女82℃、水風呂13.6/15℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.982439,
+   "lng": 144.387003,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
-   ]
+   ],
+   "osm": "way/531749824",
+   "coord_note": null
   },
   {
    "id": "n230",
@@ -5639,12 +5781,14 @@
    "sT_note": "目安（利用者投稿）。男82℃、女90℃、水風呂21.6/20℃（水風呂は高め）",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.152509,
+   "lng": 141.398557,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=9"
-   ]
+   ],
+   "osm": "way/356939718",
+   "coord_note": null
   },
   {
    "id": "n232",
@@ -5663,12 +5807,14 @@
    "sT_note": "目安（利用者投稿）。男女共用・水風呂15℃。n199「クインテッサホテル札幌すすきの63 Relax & Spa」とは別掲載",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.049895,
+   "lng": 141.351828,
    "note": "宿泊者限定,事前予約制",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=10"
-   ]
+   ],
+   "osm": "node/3836696384",
+   "coord_note": null
   },
   {
    "id": "n233",
@@ -5687,12 +5833,14 @@
    "sT_note": "目安（利用者投稿）。男88℃、女88℃、水風呂17/16℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 41.782658,
+   "lng": 140.764279,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=10"
-   ]
+   ],
+   "osm": "way/261172270",
+   "coord_note": null
   },
   {
    "id": "n234",
@@ -5711,12 +5859,14 @@
    "sT_note": "目安（利用者投稿）。男88℃、女90℃、水風呂17/16℃。ロウリュは男性側のみ○の表示",
    "g": 1,
    "l": 1,
-   "lat": null,
-   "lng": null,
+   "lat": 44.198419,
+   "lng": 143.090995,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=10"
-   ]
+   ],
+   "osm": "node/13052271463",
+   "coord_note": null
   },
   {
    "id": "n235",
@@ -5735,12 +5885,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女84℃、水風呂14.7/12℃。外気浴は男性側のみ○の表示",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.951516,
+   "lng": 141.532233,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=10"
-   ]
+   ],
+   "osm": "node/7859640524",
+   "coord_note": null
   },
   {
    "id": "n236",
@@ -5759,12 +5911,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女82℃、水風呂17.5/17.5℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.645987,
+   "lng": 142.165478,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=10"
-   ]
+   ],
+   "osm": "node/4723169318",
+   "coord_note": null
   },
   {
    "id": "n237",
@@ -5812,7 +5966,8 @@
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=10"
-   ]
+   ],
+   "coord_note": "OSMに「グリーンピア大沼」はあるが、ホテルの位置か不明のため未採用"
   },
   {
    "id": "n239",
@@ -5831,12 +5986,14 @@
    "sT_note": "目安（利用者投稿）。男80℃、女85℃、水風呂15/15℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.990435,
+   "lng": 144.189531,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=10"
-   ]
+   ],
+   "osm": "way/1408741972",
+   "coord_note": null
   },
   {
    "id": "n240",
@@ -5855,12 +6012,14 @@
    "sT_note": "目安（利用者投稿）。男85℃、女76℃、水風呂15/19℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.093924,
+   "lng": 141.511026,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=10"
-   ]
+   ],
+   "osm": "way/186421866",
+   "coord_note": null
   },
   {
    "id": "n241",
@@ -5903,12 +6062,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女80℃、水風呂15.4/15.3℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.659319,
+   "lng": 141.648971,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=10"
-   ]
+   ],
+   "osm": "way/673291222",
+   "coord_note": "OSMの「なごみの湯」の座標を採用（要確認）"
   },
   {
    "id": "n243",
@@ -5927,12 +6088,14 @@
    "sT_note": "目安（利用者投稿）。男92℃、女87℃、水風呂14/12℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.657094,
+   "lng": 140.309368,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=10"
-   ]
+   ],
+   "osm": "way/431427745",
+   "coord_note": null
   },
   {
    "id": "n244",
@@ -5975,12 +6138,14 @@
    "sT_note": "目安（利用者投稿）。男女共用・水風呂15℃",
    "g": 1,
    "l": 1,
-   "lat": null,
-   "lng": null,
+   "lat": 42.933937,
+   "lng": 141.337177,
    "note": "事前予約制",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=10"
-   ]
+   ],
+   "osm": "node/14284414825",
+   "coord_note": null
   },
   {
    "id": "n246",
@@ -6047,12 +6212,14 @@
    "sT_note": "目安（利用者投稿）。男78℃、女90℃、水風呂18/15℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.931418,
+   "lng": 143.303087,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=10"
-   ]
+   ],
+   "osm": "way/1417647598",
+   "coord_note": "OSMの「ホテル大平原」の座標。音更町十勝川温泉の位置とずれがある可能性（要確認）"
   },
   {
    "id": "n249",
@@ -6119,12 +6286,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女85℃、水風呂18/－℃（女性側は投稿なし）",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.066872,
+   "lng": 142.634248,
    "note": "宿泊者限定",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=11"
-   ]
+   ],
+   "osm": "node/3080111634",
+   "coord_note": null
   },
   {
    "id": "n252",
@@ -6143,12 +6312,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女84℃、水風呂17/18℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.827984,
+   "lng": 143.930788,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=11"
-   ]
+   ],
+   "osm": "way/438804027",
+   "coord_note": null
   },
   {
    "id": "n253",
@@ -6167,12 +6338,14 @@
    "sT_note": "目安（利用者投稿）。男92℃、女91℃、水風呂17/10℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 41.778897,
+   "lng": 140.785285,
    "note": "宿泊者限定",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=11"
-   ]
+   ],
+   "osm": "node/4805838298",
+   "coord_note": null
   },
   {
    "id": "n254",
@@ -6191,12 +6364,14 @@
    "sT_note": "目安（利用者投稿）。男86℃、女79℃、水風呂15/15℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.617754,
+   "lng": 141.453782,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=11"
-   ]
+   ],
+   "osm": "way/673275136",
+   "coord_note": null
   },
   {
    "id": "n255",
@@ -6215,12 +6390,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女86℃、水風呂13/13℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.725369,
+   "lng": 142.95049,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=11"
-   ]
+   ],
+   "osm": "way/1163333804",
+   "coord_note": null
   },
   {
    "id": "n256",
@@ -6239,12 +6416,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女80℃、水風呂16/17℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 41.814336,
+   "lng": 141.180695,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=11"
-   ]
+   ],
+   "osm": "node/4838816434",
+   "coord_note": null
   },
   {
    "id": "n257",
@@ -6268,7 +6447,8 @@
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=11"
-   ]
+   ],
+   "coord_note": "OSMの「レ・コード館」は博物館で、同じ施設か不明のため未採用"
   },
   {
    "id": "n258",
@@ -6335,12 +6515,14 @@
    "sT_note": "目安（利用者投稿）。男88℃、女75℃、水風呂18/17℃。ロウリュは男性側のみ○の表示",
    "g": 0,
    "l": 1,
-   "lat": null,
-   "lng": null,
+   "lat": 42.919383,
+   "lng": 143.203856,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=11"
-   ]
+   ],
+   "osm": "way/545692813",
+   "coord_note": null
   },
   {
    "id": "n261",
@@ -6359,12 +6541,14 @@
    "sT_note": "目安（利用者投稿）。男89℃、女86℃、水風呂17/18℃。外気浴は女性側のみ○の表示",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.049531,
+   "lng": 141.356947,
    "note": "宿泊者限定",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=11"
-   ]
+   ],
+   "osm": "node/1519553730",
+   "coord_note": null
   },
   {
    "id": "n262",
@@ -6407,12 +6591,14 @@
    "sT_note": "目安（利用者投稿）。男性専用のため男性側の値（サウナ90℃・水風呂17℃）",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.804543,
+   "lng": 143.892228,
    "note": "男性専用",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=11"
-   ]
+   ],
+   "osm": "way/451483077",
+   "coord_note": null
   },
   {
    "id": "n264",
@@ -6431,12 +6617,14 @@
    "sT_note": "目安（利用者投稿）。男85℃、女83℃、水風呂17/16℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.58312,
+   "lng": 141.893522,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=11"
-   ]
+   ],
+   "osm": "way/694995316",
+   "coord_note": null
   },
   {
    "id": "n265",
@@ -6455,12 +6643,14 @@
    "sT_note": "目安（利用者投稿）。男83℃、女84℃、水風呂16/18℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.169844,
+   "lng": 141.759069,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=11"
-   ]
+   ],
+   "osm": "way/673572159",
+   "coord_note": null
   },
   {
    "id": "n266",
@@ -6508,7 +6698,8 @@
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=11"
-   ]
+   ],
+   "coord_note": "OSMの「湯らん銭」は苫小牧の別施設のため未採用"
   },
   {
    "id": "n268",
@@ -6527,12 +6718,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女96℃、水風呂18/17℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.138257,
+   "lng": 143.367468,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=11"
-   ]
+   ],
+   "osm": "way/530300080",
+   "coord_note": "OSMでは「士幌温泉プラザ緑風」の表記"
   },
   {
    "id": "n269",
@@ -6551,12 +6744,14 @@
    "sT_note": "目安（利用者投稿）。男98℃、女87℃、水風呂17/18℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.73454,
+   "lng": 141.867138,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=12"
-   ]
+   ],
+   "osm": "way/430299094",
+   "coord_note": null
   },
   {
    "id": "n270",
@@ -6599,12 +6794,14 @@
    "sT_note": "目安（利用者投稿）。男87℃、女88℃、水風呂18.4/18℃",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.06523,
+   "lng": 141.3463,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=12"
-   ]
+   ],
+   "osm": "node/10095286779",
+   "coord_note": null
   },
   {
    "id": "n272",
@@ -6623,12 +6820,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女88℃、水風呂15.7/17℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.632143,
+   "lng": 143.493692,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=12"
-   ]
+   ],
+   "osm": "way/401759159",
+   "coord_note": "OSMでは「勝山温泉 ゆうゆ」の表記"
   },
   {
    "id": "n273",
@@ -6647,12 +6846,14 @@
    "sT_note": "目安（利用者投稿）。男85℃、女85℃、水風呂16/17.3℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.220093,
+   "lng": 142.635214,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=12"
-   ]
+   ],
+   "osm": "way/437443691",
+   "coord_note": null
   },
   {
    "id": "n274",
@@ -6671,12 +6872,14 @@
    "sT_note": "目安（利用者投稿）。男86℃、女90℃、水風呂15/14℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.424517,
+   "lng": 142.4447,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=12"
-   ]
+   ],
+   "osm": "way/472077837",
+   "coord_note": null
   },
   {
    "id": "n275",
@@ -6695,12 +6898,14 @@
    "sT_note": "目安（利用者投稿）。男100℃、女90℃、水風呂11/13℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.949626,
+   "lng": 140.515589,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=12"
-   ]
+   ],
+   "osm": "way/902494728",
+   "coord_note": null
   },
   {
    "id": "n276",
@@ -6719,12 +6924,14 @@
    "sT_note": "目安（利用者投稿）。男81℃、女80℃、水風呂19.8/18℃（水風呂は高め）",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.555337,
+   "lng": 144.191874,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=12"
-   ]
+   ],
+   "osm": "relation/9217961",
+   "coord_note": null
   },
   {
    "id": "n277",
@@ -6743,12 +6950,14 @@
    "sT_note": "目安（利用者投稿）。男100℃、女70℃、水風呂11/11.6℃",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.198959,
+   "lng": 140.996325,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=12"
-   ]
+   ],
+   "osm": "way/224290009",
+   "coord_note": null
   },
   {
    "id": "n278",
@@ -6767,12 +6976,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女94℃、水風呂17.5/17℃",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.01506,
+   "lng": 140.642795,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=12"
-   ]
+   ],
+   "osm": "way/257652610",
+   "coord_note": null
   },
   {
    "id": "n279",
@@ -6791,12 +7002,14 @@
    "sT_note": "目安（利用者投稿）。男93℃、女90℃、水風呂19.8/19℃（水風呂は高め）",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.809315,
+   "lng": 144.150778,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=12"
-   ]
+   ],
+   "osm": "way/687335491",
+   "coord_note": null
   },
   {
    "id": "n280",
@@ -6815,12 +7028,14 @@
    "sT_note": "目安（利用者投稿）。男90℃、女85℃、水風呂15/14℃",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.041451,
+   "lng": 141.368643,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=12"
-   ]
+   ],
+   "osm": "node/4461125897",
+   "coord_note": null
   },
   {
    "id": "n281",
@@ -6839,12 +7054,14 @@
    "sT_note": "目安（利用者投稿）。男86℃、女92℃、水風呂は女性側16℃のみ（男性側は読み取れず・要確認）",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 41.846931,
+   "lng": 140.682297,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=12"
-   ]
+   ],
+   "osm": "node/4356790717",
+   "coord_note": null
   },
   {
    "id": "n282",
@@ -6863,12 +7080,14 @@
    "sT_note": "目安（利用者投稿）。男88℃、女56℃（女性側は表示のまま。男性側と差が大きい）、水風呂12.8/13℃",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.041262,
+   "lng": 141.412552,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=12"
-   ]
+   ],
+   "osm": "way/445379248",
+   "coord_note": null
   },
   {
    "id": "n283",
@@ -6911,12 +7130,14 @@
    "sT_note": "目安（利用者投稿）。男95℃、女94℃、水風呂17.5/18℃",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 42.914545,
+   "lng": 143.19779,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=12"
-   ]
+   ],
+   "osm": "way/546156445",
+   "coord_note": null
   },
   {
    "id": "n285",
@@ -6935,12 +7156,14 @@
    "sT_note": "目安（利用者投稿）。男80℃、女84℃、水風呂18.5/18℃（水風呂は高め）",
    "g": 0,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.098581,
+   "lng": 141.342724,
    "note": "",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=12"
-   ]
+   ],
+   "osm": "way/430201662",
+   "coord_note": null
   },
   {
    "id": "n286",
@@ -6959,12 +7182,14 @@
    "sT_note": "目安（利用者投稿）。男性専用のため男性側の値（サウナ100℃・水風呂17℃）",
    "g": 1,
    "l": 0,
-   "lat": null,
-   "lng": null,
+   "lat": 43.049817,
+   "lng": 141.355522,
    "note": "男性専用",
    "src": [
     "https://sauna-ikitai.com/search?prefecture[]=hokkaido&ordering=ikitai_counts_desc&page=12"
-   ]
+   ],
+   "osm": "node/3823814000",
+   "coord_note": null
   },
   {
    "id": "n287",
