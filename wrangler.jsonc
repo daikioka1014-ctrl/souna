@@ -1,0 +1,19 @@
+{
+  "$schema": "https://raw.githubusercontent.com/cloudflare/workers-sdk/main/packages/wrangler/config-schema.json",
+  "name": "souna",
+  "main": "./src/index.js",
+  "compatibility_date": "2026-11-01",
+  "keep_vars": true,
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "souna-community",
+      "database_id": "a023e52b-1708-4e07-a893-db78e4bf1508"
+    }
+  ]
+}

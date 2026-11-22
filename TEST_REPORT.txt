@@ -1,0 +1,21 @@
+北海道サウナ手帳・現地レポート共有機能 試作テスト
+
+実施日：2026-11-22
+
+成功したチェック：
+- Worker JavaScript の構文チェック（node --check）
+- public/index.html 内のJavaScript構文チェック
+- public/admin.html 内のJavaScript構文チェック
+- sauna_data.json のJSONパース（461施設）
+- wrangler.jsonc のJSONパース
+- D1初期化SQLをSQLiteで実行し、reportsテーブルとインデックスが作成されること
+- Worker APIのモック結合テスト：投稿 → pending保存 → 管理者による承認 → 公開一覧で取得
+- 提供された sauna_data.json と同梱版のSHA-256一致
+
+未実施（Cloudflareアカウント操作が必要）：
+- 実際のCloudflare D1への接続とクエリ
+- Turnstile本番Siteverify検証
+- Cloudflare Git連携ビルド・本番デプロイ
+- 実機ブラウザでの画面操作テスト（Chrome / iOS Safari）
+
+注意：このZIPは導入用パッケージです。Cloudflare WorkerにADMIN_TOKENとTURNSTILE_SECRETをSecret登録し、TURNSTILE_SITE_KEYを通常のVariableとして登録してからデプロイしてください。D1の初期化SQLはすでに本番D1へ実行済みのため、今回再実行しないでください。

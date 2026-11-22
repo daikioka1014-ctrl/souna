@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>現地レポート管理 | 北海道サウナ手帳</title>
+<style>
+:root{--o:#f2682c;--bg:#f5f4f1;--ink:#2a2320;--muted:#7b726c;--line:#e8e4df;--green:#1f9d6b;--red:#c43f38;--blue:#2b7fb8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,"Hiragino Sans","Noto Sans JP",Meiryo,sans-serif}
+header{background:#fff;border-bottom:1px solid var(--line);padding:15px max(16px,calc((100vw - 940px)/2));font-weight:800;color:var(--o)}main{max-width:940px;margin:auto;padding:20px 14px 60px}
+.panel,.report{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:13px;box-shadow:0 1px 4px #3c1e0a0a}
+h1{font-size:23px;margin:4px 0 14px}h2{font-size:17px;margin:0 0 8px}label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin:10px 0 4px}
+input,select,textarea{font:inherit;width:100%;border:1px solid var(--line);border-radius:9px;padding:9px 10px;background:#fff;color:var(--ink)}textarea{min-height:80px}
+button{font:inherit;cursor:pointer;border:0;border-radius:9px;padding:9px 13px;font-weight:700;background:var(--o);color:#fff}.secondary{background:#fff;color:var(--o);border:1px solid var(--o)}.danger{background:#fff;color:var(--red);border:1px solid #e7b5b2}.good{background:var(--green)}button:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row>*{flex:0 0 auto}.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:13px 0}.tabs button{background:#fff;color:var(--muted);border:1px solid var(--line)}.tabs button.active{background:#fff0e8;color:var(--o);border-color:#ffc5a7}
+.muted{font-size:12px;color:var(--muted)}.status{font-size:11px;font-weight:800;border-radius:20px;padding:3px 9px;background:#fff3d5;color:#946800}.status.approved{background:#e3f5ec;color:var(--green)}.status.rejected{background:#fbe6e4;color:var(--red)}
+.report-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.report-values{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0}.value{background:#f2efeb;padding:4px 8px;border-radius:8px;font-size:12px}.comment{white-space:pre-wrap;overflow-wrap:anywhere;margin:8px 0}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.edit{border-top:1px solid var(--line);margin-top:12px;padding-top:10px}.edit summary{cursor:pointer;color:var(--blue);font-weight:700}.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.checkrow{display:flex;gap:6px;flex-wrap:wrap}.checkrow label{display:flex;align-items:center;gap:5px;border:1px solid var(--line);padding:5px 8px;border-radius:8px;margin:0}.checkrow input{width:auto}
+#message{position:sticky;top:0;z-index:2;padding:8px 10px;border-radius:8px;background:#fff3d5;color:#805b00;margin-bottom:10px;display:none}#message.show{display:block}.hidden{display:none!important}
+@media(max-width:560px){.g2{grid-template-columns:1fr}.report-head{flex-direction:column}}
+</style>
+</head>
+<body>
+<header>♨ 北海道サウナ手帳　／　現地レポート管理</header>
+<main>
+  <h1>現地レポート管理</h1>
+  <div id="message" role="status" aria-live="polite"></div>
+  <section class="panel" id="loginPanel">
+    <h2>管理者認証</h2>
+    <p class="muted">Cloudflare Workerに登録した管理者用トークンを入力してください。トークンはこのタブの間だけ保存します。</p>
+    <label for="token">管理者トークン</label>
+    <input type="password" id="token" autocomplete="current-password" placeholder="Cloudflareに登録したADMIN_TOKEN">
+    <div class="row" style="margin-top:12px"><button id="login">ログイン</button></div>
+  </section>
+  <section id="dashboard" class="hidden">
+    <div class="row" style="justify-content:space-between">
+      <p class="muted" id="summary">投稿を読み込んでいます。</p>
+      <button class="secondary" id="logout">ログアウト</button>
+    </div>
+    <div class="tabs" id="tabs">
+      <button data-status="pending" class="active">承認待ち</button>
+      <button data-status="approved">公開済み</button>
+      <button data-status="rejected">非公開</button>
+      <button data-status="all">すべて</button>
+    </div>
+    <div id="reports"></div>
+  </section>
+</main>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const TAGS=['外気浴あり','ロウリュあり','設備故障・停止','営業情報の変更','その他'];
+const todayJST=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+let token=sessionStorage.getItem('sounaAdminToken')||'';
+let currentStatus='pending';
+function message(text,isError=false){$('message').textContent=text;$('message').style.background=isError?'#fbe6e4':'#fff3d5';$('message').style.color=isError?'#a22b25':'#805b00';$('message').classList.add('show');}
+async function api(path,options={}){
+  const response=await fetch(path,{...options,headers:{'content-type':'application/json','authorization':`Bearer ${token}`,...(options.headers||{})}});
+  const data=await response.json().catch(()=>({ok:false,error:'サーバー応答を読み取れません。'}));
+  if(!response.ok||!data.ok)throw new Error(data.error||`HTTP ${response.status}`);
+  return data;
+}
+function values(r){const v=[];if(r.saunaTemp!=null)v.push(`サウナ ${esc(r.saunaTemp)}℃`);if(r.waterTemp!=null)v.push(`水風呂 ${esc(r.waterTemp)}℃`);if(r.crowd)v.push(`混雑：${esc(r.crowd)}`);return v.map(x=>`<span class="value">${x}</span>`).join('');}
+function renderReport(r){
+  const statusLabel={pending:'承認待ち',approved:'公開済み',rejected:'非公開'}[r.status]||r.status;
+  const tags=Array.isArray(r.tags)?r.tags:[];
+  return `<article class="report" data-id="${r.id}">
+    <div class="report-head"><div><h2>${esc(r.facilityName)} <span class="muted">(${esc(r.facilityId)})</span></h2><div class="muted">${esc(r.visitDate)} 訪問 ／ ${esc(r.side)} ／ 投稿者：${esc(r.nickname||'匿名')}</div></div><span class="status ${esc(r.status)}">${statusLabel}</span></div>
+    <div class="report-values">${values(r)}</div>
+    ${tags.length?`<div class="report-values">${tags.map(t=>`<span class="value">${esc(t)}</span>`).join('')}</div>`:''}
+    <div class="comment">${esc(r.comment||'（コメントなし）')}</div>
+    <div class="muted">投稿日時：${esc(r.createdAt||'')} ${r.reviewedAt?`／確認日時：${esc(r.reviewedAt)}`:''}</div>
+    <div class="actions">
+      ${r.status!=='approved'?'<button class="good" data-action="approve">公開する</button>':''}
+      ${r.status!=='rejected'?'<button class="secondary" data-action="reject">非公開にする</button>':''}
+      <button class="danger" data-action="delete">削除</button>
+    </div>
+    <details class="edit"><summary>投稿内容を編集</summary>
+      <div class="g2">
+        <div><label>ニックネーム</label><input data-field="nickname" maxlength="24" value="${esc(r.nickname)}"></div>
+        <div><label>訪問日</label><input data-field="visitDate" type="date" max="${todayJST()}" value="${esc(r.visitDate)}"></div>
+        <div><label>浴場</label><select data-field="side">${['男性','女性','共用','不明'].map(x=>`<option ${r.side===x?'selected':''}>${x}</option>`).join('')}</select></div>
+        <div><label>混雑状況</label><select data-field="crowd">${['','空いていた','普通','混雑していた'].map(x=>`<option value="${esc(x)}" ${r.crowd===x?'selected':''}>${x||'未選択'}</option>`).join('')}</select></div>
+        <div><label>サウナ温度（℃）</label><input data-field="saunaTemp" type="number" min="0" max="130" value="${r.saunaTemp??''}"></div>
+        <div><label>水風呂温度（℃）</label><input data-field="waterTemp" type="number" min="0" max="40" value="${r.waterTemp??''}"></div>
+      </div>
+      <label>タグ</label><div class="checkrow">${TAGS.map(t=>`<label><input type="checkbox" data-tag="${esc(t)}" ${tags.includes(t)?'checked':''}>${esc(t)}</label>`).join('')}</div>
+      <label>コメント</label><textarea data-field="comment" maxlength="700">${esc(r.comment)}</textarea>
+      <div class="actions"><button data-action="save">変更を保存</button></div>
+    </details>
+  </article>`;
+}
+async function loadReports(){
+  $('reports').innerHTML='<div class="panel">読み込み中…</div>';
+  try{
+    const data=await api(`/api/admin/reports?status=${encodeURIComponent(currentStatus)}`);
+    $('reports').innerHTML=data.reports.length?data.reports.map(renderReport).join(''):'<div class="panel">該当する投稿はありません。</div>';
+    const pending=data.reports.filter(r=>r.status==='pending').length;
+    $('summary').textContent=`表示 ${data.reports.length}件 ／ この表示内の承認待ち ${pending}件`;
+  }catch(error){
+    $('reports').innerHTML='<div class="panel">投稿を取得できませんでした。</div>';
+    message(error.message,true);
+  }
+}
+function showDashboard(){ $('loginPanel').classList.add('hidden');$('dashboard').classList.remove('hidden');loadReports(); }
+$('login').onclick=async()=>{token=$('token').value.trim();if(token.length<32){message('トークンを確認してください。',true);return;}sessionStorage.setItem('sounaAdminToken',token);try{await api('/api/admin/reports?status=pending');showDashboard();}catch(error){sessionStorage.removeItem('sounaAdminToken');token='';message(error.message,true);}};
+$('logout').onclick=()=>{sessionStorage.removeItem('sounaAdminToken');token='';$('dashboard').classList.add('hidden');$('loginPanel').classList.remove('hidden');$('token').value='';};
+$('tabs').onclick=e=>{const b=e.target.closest('[data-status]');if(!b)return;currentStatus=b.dataset.status;[...$('tabs').querySelectorAll('button')].forEach(x=>x.classList.toggle('active',x===b));loadReports();};
+$('reports').onclick=async e=>{
+  const button=e.target.closest('[data-action]');if(!button)return;
+  const card=button.closest('[data-id]');if(!card)return;
+  const id=card.dataset.id,action=button.dataset.action;
+  try{
+    if(action==='delete'){
+      if(!confirm('この投稿を完全に削除します。よろしいですか？'))return;
+      await api(`/api/admin/reports/${id}`,{method:'DELETE'});message('投稿を削除しました。');
+    }else if(action==='approve'||action==='reject'){
+      await api(`/api/admin/reports/${id}`,{method:'PATCH',body:JSON.stringify({status:action==='approve'?'approved':'rejected'})});message(action==='approve'?'投稿を公開しました。':'投稿を非公開にしました。');
+    }else if(action==='save'){
+      const get=field=>card.querySelector(`[data-field="${field}"]`);
+      const numeric=field=>get(field).value===''?null:Number(get(field).value);
+      const payload={nickname:get('nickname').value,visitDate:get('visitDate').value,side:get('side').value,crowd:get('crowd').value,saunaTemp:numeric('saunaTemp'),waterTemp:numeric('waterTemp'),comment:get('comment').value,tags:[...card.querySelectorAll('[data-tag]:checked')].map(x=>x.dataset.tag)};
+      await api(`/api/admin/reports/${id}`,{method:'PATCH',body:JSON.stringify(payload)});message('投稿内容を更新しました。');
+    }
+    await loadReports();
+  }catch(error){message(error.message,true);}
+};
+if(token){$('token').value=token;showDashboard();}
+</script>
+</body>
+</html>

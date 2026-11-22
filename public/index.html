@@ -96,6 +96,27 @@ select{border:1.5px solid var(--l);border-radius:10px;padding:5px 8px;background
 .toast.on{opacity:1}
 .note{font-size:11px;color:var(--m);margin:6px 0 30px;line-height:1.6}
 a{color:var(--b)}
+
+.shared-area{margin:16px 0;padding:14px;background:#f8f6f2;border:1px solid var(--l);border-radius:14px}
+.shared-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.shared-head strong{font-size:15px}
+.shared-count{font-size:11px;color:var(--m);white-space:nowrap}
+.shared-list{display:grid;gap:9px}
+.shared-report{background:#fff;border:1px solid var(--l);border-radius:11px;padding:11px;font-size:13px}
+.shared-report-top{display:flex;justify-content:space-between;gap:8px;color:var(--m);font-size:11px;margin-bottom:6px}
+.shared-values{display:flex;gap:7px;flex-wrap:wrap;margin:5px 0}
+.shared-value{background:#f2efeb;border-radius:8px;padding:3px 8px;font-size:12px}
+.shared-tags{display:flex;gap:5px;flex-wrap:wrap;margin:6px 0}
+.shared-tag{font-size:11px;padding:2px 7px;border-radius:7px;background:#e4f1fa;color:var(--b)}
+.shared-comment{white-space:pre-wrap;overflow-wrap:anywhere;margin-top:6px}
+.shared-foot{font-size:10px;color:var(--m);margin-top:7px}
+.report-form-note{font-size:12px;color:var(--m);line-height:1.6}
+.report-submit{width:100%;margin-top:14px}
+#reportCaptcha{margin-top:12px;min-height:65px}
+.honeypot{position:absolute!important;left:-10000px!important;top:auto!important;width:1px!important;height:1px!important;overflow:hidden!important}
+#m3{z-index:70}
+@media(max-width:430px){.shared-head{align-items:flex-start;flex-direction:column}.shared-report-top{flex-direction:column;gap:2px}}
+
 </style>
 </head>
 <body>
@@ -131,12 +152,13 @@ a{color:var(--b)}
   <div class="stats" id="stats"></div>
   <div class="bar"><span id="cnt"></span><button class="btn s o" id="mng">⚙ データ管理</button></div>
   <div class="grid" id="list"></div>
-  <p class="note">※ サウナ温度・水風呂温度は、サウナイキタイの利用者投稿を参考にした目安です（時期によっても異なります）。男女で値が違う施設は男性側の値を表示し、男女共用・女性専用の施設はカードにその旨を表示します。女性側の値は詳細画面で確認できます。料金は「〜」表示の最低額の目安で、曜日・時間帯・設備により変わります。営業時間とあわせて、訪問前に公式情報をご確認ください。現在地からの距離は直線距離です。「行った」「行きたい」「メモ」はこの端末のブラウザ内に保存されます。</p>
+  <p class="note">※ サウナ温度・水風呂温度は、サウナイキタイの利用者投稿を参考にした目安です（時期によっても異なります）。男女で値が違う施設は男性側の値を表示し、男女共用・女性専用の施設はカードにその旨を表示します。女性側の値は詳細画面で確認できます。料金は「〜」表示の最低額の目安で、曜日・時間帯・設備により変わります。営業時間とあわせて、訪問前に公式情報をご確認ください。現在地からの距離は直線距離です。「行った」「行きたい」「個人メモ」はこの端末のブラウザ内に保存されます。現地レポートは投稿後、管理者の確認を経て全利用者に共有されます。</p>
   <p class="note" style="margin-top:-24px">地図データ © OpenStreetMap contributors（座標を使用する場合）</p>
 </div>
 
 <div class="mask" id="m1"><div class="modal" id="mb"></div></div>
 <div class="mask" id="m2"><div class="modal" id="mg"></div></div>
+<div class="mask" id="m3"><div class="modal" id="mr"></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -334,12 +356,13 @@ function goTop(){
   tab='all';nearN=12;render();scrollTo(0,0);
 }
 window.addEventListener('popstate',()=>{
+  if($('m3').classList.contains('on')){$('m3').classList.remove('on');return}
   const open=['m1','m2'].filter(k=>$(k).classList.contains('on'));
   if(open.length){open.forEach(k=>$(k).classList.remove('on'));render();return}
   if(tab!=='all'){tab='all';nearN=12;render();scrollTo(0,0)}
 });
 try{history.replaceState(null,'')}catch(e){}
-document.querySelector('.logo').onclick=()=>{['m1','m2'].forEach(k=>$(k).classList.remove('on'));goTop()};
+document.querySelector('.logo').onclick=()=>{['m1','m2','m3'].forEach(k=>$(k).classList.remove('on'));goTop()};
 $('backbar').onclick=e=>{if(e.target.closest('[data-back]'))goTop()};
 $('nav').onclick=e=>{
   const t=e.target.dataset.t;if(!t)return;
@@ -386,6 +409,12 @@ function openMemo(id){
   <div class="det"><b>施設の性格（登録データから表示）：</b>${sceneOf(f).map(esc).join(' ／ ')}<br><span style="font-size:11px">※ 施設の種類・料金・営業時間から表示しており、実際の客層を示すものではありません。</span></div>
   <div class="row" style="margin-top:6px"><button class="chip ${fg.w?'on':''}" data-f="w">${fg.w?'★ 行きたい':'☆ 行きたい'}</button><button class="chip ${fg.v?'on':''}" data-f="v">✓ 行った</button></div>
   ${revDetail}
+  <section class="shared-area">
+    <div class="shared-head"><strong>♨ みんなの現地レポート</strong><span class="shared-count" id="sharedCount">読み込み中…</span></div>
+    <div class="shared-list" id="sharedReports"><div class="report-form-note">公開済みの現地レポートを読み込んでいます。</div></div>
+    <button class="btn o report-submit" type="button" data-report-new>＋ 現地レポートを投稿する</button>
+    <div class="report-form-note" style="margin-top:7px">投稿は管理者の確認後に公開されます。個人メモとは別に保存されます。</div>
+  </section>
   <label>自分の評価</label><div class="stars" id="st">${[1,2,3,4,5].map(i=>`<button data-r="${i}" class="${(m.r||0)>=i?'on':''}">★</button>`).join('')}</div>
   <label>訪問日</label><input type="date" id="md" value="${esc(m.d||'')}">
   <label>客層メモ（自分の観察・複数選択可）</label>
@@ -395,17 +424,135 @@ function openMemo(id){
   <div class="row"><span class="note" style="margin:0">メモは自動保存されます</span></div>
   <button class="mback big" data-x="m1">← 閉じて一覧に戻る</button>`;
   $('m1').classList.add('on');$('m1').dataset.id=id;pushH('m');
+  refreshSharedReports(id);
 }
+/* ====== 共有現地レポート ====== */
+let turnstileScriptPromise=null;
+const reportTags=['外気浴あり','ロウリュあり','設備故障・停止','営業情報の変更','その他'];
+const jstToday=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+function loadTurnstileScript(){
+  if(window.turnstile)return Promise.resolve();
+  if(turnstileScriptPromise)return turnstileScriptPromise;
+  turnstileScriptPromise=new Promise((resolve,reject)=>{
+    const script=document.createElement('script');
+    script.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+    script.async=true;script.defer=true;
+    script.onload=resolve;script.onerror=()=>reject(new Error('スパム対策の読み込みに失敗しました。'));
+    document.head.appendChild(script);
+  });
+  return turnstileScriptPromise;
+}
+function reportCardHtml(r){
+  const values=[];
+  if(r.saunaTemp!=null)values.push(`<span class="shared-value">サウナ ${esc(r.saunaTemp)}℃</span>`);
+  if(r.waterTemp!=null)values.push(`<span class="shared-value">水風呂 ${esc(r.waterTemp)}℃</span>`);
+  if(r.crowd)values.push(`<span class="shared-value">混雑：${esc(r.crowd)}</span>`);
+  const tags=Array.isArray(r.tags)?r.tags:[];
+  return `<article class="shared-report">
+    <div class="shared-report-top"><strong>${esc(r.nickname||'匿名')}</strong><span>${esc(r.visitDate||'')} 訪問・${esc(r.side||'浴場不明')}</span></div>
+    ${values.length?`<div class="shared-values">${values.join('')}</div>`:''}
+    ${tags.length?`<div class="shared-tags">${tags.map(t=>`<span class="shared-tag">${esc(t)}</span>`).join('')}</div>`:''}
+    ${r.comment?`<div class="shared-comment">${esc(r.comment)}</div>`:''}
+    <div class="shared-foot">利用者投稿・当日の個人観測です</div>
+  </article>`;
+}
+async function refreshSharedReports(facilityId){
+  const list=$('sharedReports'),count=$('sharedCount');
+  if(!list||!count)return;
+  list.innerHTML='<div class="report-form-note">公開済みの現地レポートを読み込んでいます。</div>';
+  count.textContent='読み込み中…';
+  try{
+    const response=await fetch(`/api/reports?facilityId=${encodeURIComponent(facilityId)}&limit=8`,{cache:'no-store'});
+    const data=await response.json();
+    if(!response.ok||!data.ok)throw new Error(data.error||'読み込みに失敗しました');
+    if(!data.reports.length){list.innerHTML='<div class="report-form-note">まだ公開済みのレポートはありません。最初の現地レポートを投稿してみませんか？</div>';count.textContent='0件';return;}
+    list.innerHTML=data.reports.map(reportCardHtml).join('');
+    count.textContent=`${data.reports.length}件${data.reports.length===8?'（最新8件）':''}`;
+  }catch(error){
+    list.innerHTML='<div class="report-form-note">共有レポートを読み込めませんでした。通信状況を確認して、もう一度お試しください。</div>';
+    count.textContent='取得できません';
+  }
+}
+async function openReportForm(facilityId){
+  const facility=all().find(f=>f.id===facilityId);if(!facility)return;
+  $('mr').innerHTML=`<button class="x" type="button" data-close-report>✕</button>
+    <button class="mback" type="button" data-close-report>← 施設詳細に戻る</button>
+    <h2>現地レポートを投稿</h2>
+    <p class="report-form-note">${esc(facility.name)}を実際に訪問したときの情報を共有できます。投稿は管理者確認後に公開されます。</p>
+    <form id="communityForm">
+      <label for="rpDate">訪問日（必須）</label><input type="date" id="rpDate" name="visitDate" max="${jstToday()}" value="${jstToday()}" required>
+      <label for="rpSide">利用した浴場（必須）</label><select id="rpSide" name="side" required style="width:100%;padding:10px;border:1.5px solid var(--l);border-radius:10px"><option value="">選択してください</option><option>男性</option><option>女性</option><option>共用</option><option>不明</option></select>
+      <div class="g2">
+        <div><label for="rpSauna">サウナ温度（℃）</label><input id="rpSauna" name="saunaTemp" type="number" min="0" max="130" step="1" inputmode="numeric" placeholder="例：92"></div>
+        <div><label for="rpWater">水風呂温度（℃）</label><input id="rpWater" name="waterTemp" type="number" min="0" max="40" step="1" inputmode="numeric" placeholder="例：14"></div>
+      </div>
+      <label for="rpCrowd">混雑状況</label><select id="rpCrowd" name="crowd" style="width:100%;padding:10px;border:1.5px solid var(--l);border-radius:10px"><option value="">未選択</option><option>空いていた</option><option>普通</option><option>混雑していた</option></select>
+      <label>設備・営業状況（複数選択可）</label><div class="row" id="rpTags" style="margin-top:4px">${reportTags.map((tag,i)=>`<label class="chip" style="display:flex;align-items:center;gap:5px;margin:0"><input type="checkbox" value="${esc(tag)}" style="width:auto">${esc(tag)}</label>`).join('')}</div>
+      <label for="rpComment">コメント（700文字以内）</label><textarea id="rpComment" name="comment" maxlength="700" placeholder="例：夕方に訪問。サウナ室は空いていて、水風呂はかなり冷たく感じました。"></textarea>
+      <label for="rpNick">ニックネーム（任意）</label><input id="rpNick" name="nickname" maxlength="24" placeholder="匿名でも投稿できます">
+      <div class="honeypot" aria-hidden="true"><label for="rpWebsite">Website</label><input id="rpWebsite" name="website" tabindex="-1" autocomplete="off"></div>
+      <div id="reportCaptcha"></div>
+      <p id="reportFormMessage" class="report-form-note" aria-live="polite">個人情報（メールアドレス・実名）は入力しないでください。</p>
+      <input type="hidden" id="rpCaptchaToken" name="turnstileToken">
+      <button class="btn report-submit" id="rpSubmit" type="submit" disabled>投稿を送信する</button>
+    </form>`;
+  $('m3').classList.add('on');pushH('report');
+  $('mr').onclick=e=>{if(e.target.closest('[data-close-report]'))closeM('m3')};
+  $('communityForm').onsubmit=async e=>{
+    e.preventDefault();
+    const button=$('rpSubmit'),message=$('reportFormMessage');
+    const token=$('rpCaptchaToken').value;
+    if(!token){message.textContent='スパム対策の確認を完了してください。';return;}
+    const numberValue=id=>$(id).value===''?null:Number($(id).value);
+    const payload={
+      facilityId,visitDate:$('rpDate').value,side:$('rpSide').value,
+      saunaTemp:numberValue('rpSauna'),waterTemp:numberValue('rpWater'),crowd:$('rpCrowd').value,
+      tags:[...$('rpTags').querySelectorAll('input:checked')].map(x=>x.value),
+      comment:$('rpComment').value,nickname:$('rpNick').value,website:$('rpWebsite').value,turnstileToken:token
+    };
+    button.disabled=true;button.textContent='送信中…';message.textContent='投稿を送信しています。';
+    try{
+      const response=await fetch('/api/reports',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
+      const result=await response.json();
+      if(!response.ok||!result.ok)throw new Error(result.error||'投稿できませんでした。');
+      message.textContent=result.message||'投稿を受け付けました。';
+      toast('投稿を受け付けました');
+      setTimeout(()=>closeM('m3'),900);
+    }catch(error){
+      message.textContent=error.message||'送信できませんでした。';
+      button.disabled=false;button.textContent='投稿を送信する';
+      if(window.turnstile&&window._sounaTurnstileId!==undefined){window.turnstile.reset(window._sounaTurnstileId);$('rpCaptchaToken').value='';}
+    }
+  };
+  try{
+    const configResponse=await fetch('/api/config',{cache:'no-store'});const config=await configResponse.json();
+    if(!configResponse.ok||!config.postingEnabled||!config.turnstileSiteKey){
+      $('reportFormMessage').textContent='現在、投稿受付の設定中です。準備が整うまでお待ちください。';
+      $('rpSubmit').disabled=true;return;
+    }
+    await loadTurnstileScript();
+    window._sounaTurnstileId=window.turnstile.render('#reportCaptcha',{
+      sitekey:config.turnstileSiteKey,action:'report_submit',theme:'light',
+      callback:token=>{$('rpCaptchaToken').value=token;$('rpSubmit').disabled=false;$('reportFormMessage').textContent='確認できました。投稿を送信できます。';},
+      'expired-callback':()=>{$('rpCaptchaToken').value='';$('rpSubmit').disabled=true;},
+      'error-callback':()=>{$('rpCaptchaToken').value='';$('rpSubmit').disabled=true;$('reportFormMessage').textContent='スパム対策の確認に失敗しました。ページを再読み込みしてください。';}
+    });
+  }catch(error){
+    $('reportFormMessage').textContent='投稿フォームの準備ができませんでした。時間をおいて再度お試しください。';
+  }
+}
+
 const setM=(k,v)=>{const id=$('m1').dataset.id;const m=D.memos[id]=D.memos[id]||{};m[k]=v;save()};
 $('mb').oninput=e=>{if(e.target.id==='mt')setM('t',e.target.value);if(e.target.id==='md'){setM('d',e.target.value);if(e.target.value){const id=$('m1').dataset.id;(D.flags[id]=D.flags[id]||{}).v=1;save()}}};
 $('mb').onclick=e=>{
   const id=$('m1').dataset.id;
   if(e.target.dataset.x)return closeM('m1');
+  if(e.target.closest('[data-report-new]'))return openReportForm(id);
   if(e.target.dataset.aud){const m=D.memos[id]=D.memos[id]||{},a=m.aud=m.aud||[],k=e.target.dataset.aud,i=a.indexOf(k);if(i>=0)a.splice(i,1);else a.push(k);save();e.target.classList.toggle('on');return}
   if(e.target.dataset.r){const r=+e.target.dataset.r,m=D.memos[id]=D.memos[id]||{};m.r=m.r===r?0:r;save();return openMemo(id)}
   if(e.target.dataset.f){const f=D.flags[id]=D.flags[id]||{},k=e.target.dataset.f;f[k]=f[k]?0:1;save();return openMemo(id)}
 };
-function closeM(k){if(history.state&&history.state.v==='m'){history.back();return}$(k).classList.remove('on');render()}
+function closeM(k){const target=k==='m3'?'report':'m';if(history.state&&history.state.v===target){history.back();return}$(k).classList.remove('on');if(k!=='m3')render()}
 document.querySelectorAll('.mask').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeM(m.id)}));
 
 /* ====== バックアップ管理モーダル ====== */
